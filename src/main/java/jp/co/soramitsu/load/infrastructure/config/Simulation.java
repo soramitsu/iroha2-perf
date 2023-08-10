@@ -14,47 +14,23 @@ import org.aeonbits.owner.Config.Sources;
 public interface Simulation extends Config {
 
     @Key("rampDuration")
-    Long rampDuration();
+    int rampDuration();
 
-    @Key("stageDuration")
-    int stageDuration();
+    @Key("rampUp")
+    int rampUp();
 
-    @Key("intensity")
-    Integer intensity();
+    @Key("during")
+    int during();
 
-    @Key("stagesNumber")
-    Integer stagesNumber();
+    @Key("stepDuration")
+    int stepDuration();
 
-    @Key("database.host")
-    String databaseHost();
+    @Key("maximumSearchRumpUp")
+    int maximumSearchRumpUp();
 
-    @Key("database.user")
-    String databaseUser();
+    @Key("stressPeakRampUp")
+    int stressPeakRampUp();
 
-    @Key("database.password")
-    String databasePassword();
-
-    @Key("database.table")
-    String databaseTable();
-
-    @Key("bank1.alias")
-    String bank1Alias();
-
-    @Key("bank2.alias")
-    String bank2Alias();
-
-    @Key("list.banks.aliases")
-    String listBanksAliases();
-
-    @Key("soap.username")
-    String soapUsername();
-
-    @Key("soap.password")
-    String soapPassword();
-
-    @Key("wsdl.path")
-    String wsdlPath();
-
-    @Key("bank.csv")
-    String bankCsv();
+    @Key("stressPeakDuration")
+    int stressPeakDuration();
 }

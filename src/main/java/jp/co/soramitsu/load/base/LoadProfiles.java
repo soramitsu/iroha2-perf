@@ -1,34 +1,41 @@
 package jp.co.soramitsu.load.base;
 
 import io.gatling.javaapi.core.ClosedInjectionStep;
-import static io.gatling.javaapi.core.CoreDsl.constantConcurrentUsers;
-import static io.gatling.javaapi.core.CoreDsl.constantUsersPerSec;
-import static io.gatling.javaapi.core.CoreDsl.incrementConcurrentUsers;
-import static io.gatling.javaapi.core.CoreDsl.rampConcurrentUsers;
-import static io.gatling.javaapi.core.CoreDsl.rampUsersPerSec;
 import io.gatling.javaapi.core.OpenInjectionStep;
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig;
 
-public class LoadProfiles {
-    public static ClosedInjectionStep getMaxPerformanceClosedProfile() {
-        return incrementConcurrentUsers(SimulationConfig.simulation.intensity())
-            .times(SimulationConfig.simulation.stagesNumber())
-            .eachLevelLasting(SimulationConfig.simulation.stageDuration())
-            .separatedByRampsLasting(SimulationConfig.simulation.rampDuration())
-            .startingFrom(0);
-    }
+import static io.gatling.javaapi.core.CoreDsl.*;
 
-    public static OpenInjectionStep[] getStabilityOpenProfile() {
+public class LoadProfiles {
+
+    public static OpenInjectionStep[] loadModel(){
         return new OpenInjectionStep[]{
-            rampUsersPerSec(0).to(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.rampDuration()),
-            constantUsersPerSec(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration())
+                rampUsers(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.during()),
+                constantUsersPerSec(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.stepDuration()),
+                rampUsers(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.during()),
+                constantUsersPerSec(SimulationConfig.simulation.rampUp() * 2).during(SimulationConfig.simulation.stepDuration()),
+                rampUsers(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.during()),
+                constantUsersPerSec(SimulationConfig.simulation.rampUp() * 3).during(SimulationConfig.simulation.stepDuration()),
+                rampUsers(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.during()),
+                constantUsersPerSec(SimulationConfig.simulation.rampUp() * 4).during(SimulationConfig.simulation.stepDuration()),
+                rampUsers(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.during()),
+                constantUsersPerSec(SimulationConfig.simulation.rampUp() * 5).during(SimulationConfig.simulation.stepDuration())
         };
     }
 
-    public static ClosedInjectionStep[] getStabilityClosedProfile() {
-        return new ClosedInjectionStep[]{
-            rampConcurrentUsers(0).to(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.rampDuration()),
-            constantConcurrentUsers(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration())
+    public static OpenInjectionStep[] maximumSearchModel(){
+        return new OpenInjectionStep[]{
+                constantUsersPerSec(SimulationConfig.simulation.maximumSearchRumpUp()).during(SimulationConfig.simulation.during())
+        };
+    }
+
+    public static OpenInjectionStep[] stressModel(){
+        return new OpenInjectionStep[]{
+                rampUsers(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.during()),
+                constantUsersPerSec(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.stepDuration()),
+                stressPeakUsers(SimulationConfig.simulation.stressPeakRampUp()).during(SimulationConfig.simulation.stressPeakDuration()),
+                constantUsersPerSec(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.stepDuration()),
+                stressPeakUsers(SimulationConfig.simulation.stressPeakRampUp()).during(SimulationConfig.simulation.stressPeakDuration()),
         };
     }
 }
