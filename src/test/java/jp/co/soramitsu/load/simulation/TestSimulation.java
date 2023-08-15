@@ -7,14 +7,13 @@ import jp.co.soramitsu.load.ScenarioSelector;
 
 import static io.gatling.javaapi.core.OpenInjectionStep.atOnceUsers;
 
-
-public class StressSimulation extends Simulation {
+public class TestSimulation extends Simulation {
     {
         setUp(
                 ScenarioSelector.getScenario()
                         .injectOpen(atOnceUsers(1))
                         .andThen(
-                                ScenarioSelector.getScenario().injectOpen(LoadProfiles.stressModel())
+                                ScenarioSelector.getScenario().injectOpen(LoadProfiles.loadModel())
                         )
         ).protocols(Protocols.httpProtocol).maxDuration(120);
     }

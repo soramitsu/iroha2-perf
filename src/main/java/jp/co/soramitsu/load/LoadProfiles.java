@@ -1,6 +1,5 @@
-package jp.co.soramitsu.load.base;
+package jp.co.soramitsu.load;
 
-import io.gatling.javaapi.core.ClosedInjectionStep;
 import io.gatling.javaapi.core.OpenInjectionStep;
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig;
 
@@ -11,7 +10,7 @@ public class LoadProfiles {
     public static OpenInjectionStep[] loadModel(){
         return new OpenInjectionStep[]{
                 rampUsers(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.during()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.stepDuration()),
+                /*constantUsersPerSec(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.stepDuration()),
                 rampUsers(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.during()),
                 constantUsersPerSec(SimulationConfig.simulation.rampUp() * 2).during(SimulationConfig.simulation.stepDuration()),
                 rampUsers(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.during()),
@@ -19,7 +18,7 @@ public class LoadProfiles {
                 rampUsers(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.during()),
                 constantUsersPerSec(SimulationConfig.simulation.rampUp() * 4).during(SimulationConfig.simulation.stepDuration()),
                 rampUsers(SimulationConfig.simulation.rampUp()).during(SimulationConfig.simulation.during()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUp() * 5).during(SimulationConfig.simulation.stepDuration())
+                constantUsersPerSec(SimulationConfig.simulation.rampUp() * 5).during(SimulationConfig.simulation.stepDuration())*/
         };
     }
 

@@ -1,11 +1,13 @@
-package jp.co.soramitsu.load.base;
+package jp.co.soramitsu.load;
 
 
 import com.google.common.net.HttpHeaders;
-import static io.gatling.javaapi.http.HttpDsl.http;
 import io.gatling.javaapi.http.HttpProtocolBuilder;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import static io.gatling.javaapi.http.HttpDsl.http;
 
 public final class Protocols {
 

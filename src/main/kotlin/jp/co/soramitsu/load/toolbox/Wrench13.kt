@@ -10,6 +10,7 @@ import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.keyPairFromHex
 import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.Transaction
+import jp.co.soramitsu.load.toolbox.BlueElectricalTape
 import java.net.URL
 import java.security.KeyPair
 

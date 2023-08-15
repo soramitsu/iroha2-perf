@@ -16,6 +16,24 @@ public interface Simulation extends Config {
     @Key("rampDuration")
     int rampDuration();
 
+    @Key("scenario")
+    String getScn();
+
+    @Key("scenario0")
+    String getScn0();
+
+    @Key("usersForSetUp")
+    int getUsersForSetUp();
+
+    @Key("usersSetUp")
+    int getUsersSetUp();
+
+    @Key("attemptsToTransaction")
+    int getAttemptsToTransaction();
+
+    @Key("attemptsToTransferTransaction")
+    int getAttemptsToTransferTransaction();
+
     @Key("rampUp")
     int rampUp();
 
