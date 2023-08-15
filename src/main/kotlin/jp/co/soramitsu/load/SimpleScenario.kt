@@ -1,4 +1,4 @@
-package jp.co.soramitsu.load.base.scenarious
+package jp.co.soramitsu.load
 
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder

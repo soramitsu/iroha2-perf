@@ -4,7 +4,11 @@ import com.codahale.metrics.MetricFilter;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.graphite.Graphite;
 import com.codahale.metrics.graphite.GraphiteReporter;
+import jp.co.soramitsu.load.objects.Transaction;
+import org.apache.commons.io.input.Tailer;
+import org.apache.commons.io.input.TailerListenerAdapter;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,20 +16,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jp.co.soramitsu.load.objects.Transaction;
-import org.apache.commons.io.input.Tailer;
-import org.apache.commons.io.input.TailerListenerAdapter;
-import java.io.File;
-
 
 public class BlueElectricalTape extends TailerListenerAdapter {
-    private File logFile = new File("logs/gs.log");
+    private File logFile = new File("logs/logFile.log");
     public MetricRegistry metricRegistry;
     public GraphiteReporter reporter;
     private Graphite graphite = new Graphite("localhost", 2003);
     private final String transactionRegExp = "\\w{64}";
     private final String wsRegExp = "REQUEST:\\sws";
-    private final String timeStampTransactionRegExp = "\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2},\\d{3}";
+    private final String timeStampTransactionRegExp = "\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}.\\d{3}";
     private final String sendingRegExp = "Sending";
     private final String validatingRegExp = "validating";
     private final String committedRegExp = "committed";
@@ -39,11 +38,12 @@ public class BlueElectricalTape extends TailerListenerAdapter {
     private long events;
     private long closeEvents;
     private Tailer tailer;
-    private Thread tailerListener;
+    public Thread tailerListener;
     private Pattern timeStampEventPattern;
     private Pattern timeStampCloseEventPattern;
     private Matcher timeStampEventMatcher;
     private Matcher timeStampCloseEventMatcher;
+
     public Transaction transaction = new Transaction();
 
     public BlueElectricalTape(){
@@ -113,7 +113,7 @@ public class BlueElectricalTape extends TailerListenerAdapter {
                     events = transferToUnixTime(timeStampEventMatcher);
                     closeEvents = transferToUnixTime(timeStampCloseEventMatcher);
                     create = closeEvents;
-                    //transaction.setCreate(true);
+                    transaction.setCreate(true);
                     long creatSubscriptioneResponseTime = closeEvents - events;
                     metricRegistry.histogram("create_subscription_transaction_response_time").update(creatSubscriptioneResponseTime);
                 }
@@ -147,7 +147,9 @@ public class BlueElectricalTape extends TailerListenerAdapter {
         reporter.stop();
     }
     private Long transferToUnixTime(Matcher timeStampPattern) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d H:m:s,S");
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d H:m:s.S");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        //SimpleDateFormat sdf = new SimpleDateFormat("H:m:s.S");
         Date date = sdf.parse(timeStampPattern.group());
         return date.getTime();
     }

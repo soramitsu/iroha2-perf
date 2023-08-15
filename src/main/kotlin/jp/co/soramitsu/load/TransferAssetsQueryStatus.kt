@@ -1,9 +1,10 @@
-package jp.co.soramitsu.load.base.scenarious
+package jp.co.soramitsu.load
 
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.CoreDsl.exec
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.query.QueryBuilder
+import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.toolbox.BlueElectricalTape
 import jp.co.soramitsu.load.toolbox.Wrench13
@@ -30,7 +31,7 @@ class TransferAssetsQueryStatus: Wrench13() {
             listener = BlueElectricalTape()
             Session
         }
-        .repeat(userRequestCounter)
+        .repeat(10)
         .on(
             exec { Session ->
                 var currentDevIndex: Int = Random.nextInt(0, AnotherDevs.list.size - 1)
@@ -59,7 +60,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                         }
                     }
                 )
-                Thread.sleep(5000)
+                Thread.sleep(queryWaiter)
                 Session
             }
             .exec { Session ->
@@ -79,7 +80,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                 )
                 Thread.sleep(queryWaiter)
                 attempt++
-                if(attempt % attemptsPersentage == 0){
+                if(attempt % 5 == 0){
                     val newSession = Session.set("condition", true)
                     newSession
                 } else {
@@ -107,9 +108,9 @@ class TransferAssetsQueryStatus: Wrench13() {
                                 }
                             }
                         )
-                        runBlocking {
+                        /*runBlocking {
                             pliers.getLastDomain()
-                        }
+                        }*/
                         val newSession = Session.set("condition", false)
                         newSession
                     }

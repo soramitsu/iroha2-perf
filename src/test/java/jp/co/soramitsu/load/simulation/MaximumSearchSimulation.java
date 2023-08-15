@@ -1,20 +1,20 @@
 package jp.co.soramitsu.load.simulation;
 
 import io.gatling.javaapi.core.Simulation;
-import jp.co.soramitsu.load.base.LoadProfiles;
-import jp.co.soramitsu.load.base.ScenarioSelector;
+import jp.co.soramitsu.load.LoadProfiles;
+import jp.co.soramitsu.load.Protocols;
+import jp.co.soramitsu.load.ScenarioSelector;
 
 import static io.gatling.javaapi.core.OpenInjectionStep.atOnceUsers;
-import static jp.co.soramitsu.load.base.Protocols.httpProtocol;
 
 public class MaximumSearchSimulation extends Simulation {
     {
             setUp(
-                    ScenarioSelector.getScenario("Iroha2SetUp")
+                    ScenarioSelector.getScenario()
                             .injectOpen(atOnceUsers(1))
                             .andThen(
-                                    ScenarioSelector.getScenario("TransferAssetsQueryStatus").injectOpen(LoadProfiles.maximumSearchModel())
+                                    ScenarioSelector.getScenario().injectOpen(LoadProfiles.maximumSearchModel())
                             )
-            ).protocols(httpProtocol).maxDuration(120);
+            ).protocols(Protocols.httpProtocol).maxDuration(120);
         }
 }
