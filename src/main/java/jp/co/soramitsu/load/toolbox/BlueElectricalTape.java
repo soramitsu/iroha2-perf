@@ -1,10 +1,9 @@
 package jp.co.soramitsu.load.toolbox;
 
-import com.codahale.metrics.MetricFilter;
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.graphite.Graphite;
-import com.codahale.metrics.graphite.GraphiteReporter;
-import jp.co.soramitsu.load.objects.Transaction;
+import io.prometheus.client.Histogram;
+import io.prometheus.client.exporter.PushGateway;
+import jp.co.soramitsu.load.Iroha2SetUp;
+import jp.co.soramitsu.load.objects.CustomHistogram;
 import org.apache.commons.io.input.Tailer;
 import org.apache.commons.io.input.TailerListenerAdapter;
 
@@ -12,16 +11,11 @@ import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 public class BlueElectricalTape extends TailerListenerAdapter {
     private File logFile = new File("logs/logFile.log");
-    public MetricRegistry metricRegistry;
-    public GraphiteReporter reporter;
-    private Graphite graphite = new Graphite("localhost", 2003);
     private final String transactionRegExp = "\\w{64}";
     private final String wsRegExp = "REQUEST:\\sws";
     private final String timeStampTransactionRegExp = "\\d{4}-\\d{2}-\\d{2}\\s\\d{2}:\\d{2}:\\d{2}.\\d{3}";
@@ -43,19 +37,11 @@ public class BlueElectricalTape extends TailerListenerAdapter {
     private Pattern timeStampCloseEventPattern;
     private Matcher timeStampEventMatcher;
     private Matcher timeStampCloseEventMatcher;
+    private PushGateway pushGateway;
+    public BlueElectricalTape()  {
+        pushGateway = new PushGateway("127.0.0.1:9091");
+        new CustomHistogram();
 
-    public Transaction transaction = new Transaction();
-
-    public BlueElectricalTape(){
-        metricRegistry = new MetricRegistry();
-        reporter = GraphiteReporter.forRegistry(metricRegistry)
-                .prefixedWith("gatling.testsimulation.users.allUsers")
-                .convertRatesTo(TimeUnit.SECONDS)
-                .convertDurationsTo(TimeUnit.MILLISECONDS)
-                .filter(MetricFilter.ALL)
-                .build(graphite);
-
-        reporter.start(1, TimeUnit.SECONDS);
         tailer = Tailer.create(logFile, listener);
         tailerListener = new Thread(tailer);
     }
@@ -82,24 +68,36 @@ public class BlueElectricalTape extends TailerListenerAdapter {
                     if (timeStampMatcher.find()) {
                         if (sendingMatcher.find()) {
                             send = transferToUnixTime(timeStampMatcher);
-                            transaction.setSend(true);
-                            long sendResponseTime = send - create;
-                            metricRegistry.histogram("send_transaction_response_time").update(sendResponseTime);
+                            double sendResponseTime = send - create;
+
+                            CustomHistogram.sendTransactionResponseTime.labels("gatling"
+                                    , System.getProperty("user.dir").substring(System.getProperty("user.dir").lastIndexOf('/') + 1)
+                                    , Iroha2SetUp.class.getSimpleName()).observe(sendResponseTime);
+                            sendMetricsToPrometheus(CustomHistogram.sendTransactionResponseTime, "histogram");
                         } else if (validatingMatcher.find()) {
                             validate = transferToUnixTime(timeStampMatcher);
-                            transaction.setValidate(true);
-                            long validateResponseTime = validate - send;
-                            metricRegistry.histogram("validate_transaction_response_time").update(validateResponseTime);
+                            double validateResponseTime = validate - send;
+
+                            CustomHistogram.validatingTransactionResponseTime.labels("gatling"
+                                    , System.getProperty("user.dir").substring(System.getProperty("user.dir").lastIndexOf('/') + 1)
+                                    , Iroha2SetUp.class.getSimpleName()).observe(validateResponseTime);
+                            sendMetricsToPrometheus(CustomHistogram.validatingTransactionResponseTime, "histogram");
                         } else if (committedMatcher.find()) {
                             commit = transferToUnixTime(timeStampMatcher);
-                            transaction.setCommit(true);
-                            long commitResponseTime = commit - validate;
-                            metricRegistry.histogram("commit_transaction_response_time").update(commitResponseTime);
+                            double commitResponseTime = commit - validate;
+
+                            CustomHistogram.commitTransactionResponseTime.labels("gatling"
+                                    , System.getProperty("user.dir").substring(System.getProperty("user.dir").lastIndexOf('/') + 1)
+                                    , Iroha2SetUp.class.getSimpleName()).observe(commitResponseTime);
+                            sendMetricsToPrometheus(CustomHistogram.commitTransactionResponseTime, "histogram");
                         } else if (rejectedMatcher.find()) {
                             reject = transferToUnixTime(timeStampMatcher);
-                            transaction.setReject(true);
-                            long rejectResponseTime = reject - send;
-                            metricRegistry.histogram("reject_transaction_response_time").update(rejectResponseTime);
+                            double rejectResponseTime = reject - send;
+
+                            CustomHistogram.rejectTransactionResponseTime.labels("gatling"
+                                    , System.getProperty("user.dir").substring(System.getProperty("user.dir").lastIndexOf('/') + 1)
+                                    , Iroha2SetUp.class.getSimpleName()).observe(rejectResponseTime);
+                            sendMetricsToPrometheus(CustomHistogram.rejectTransactionResponseTime, "histogram");
                         }
                     }
                 } else if (patternExist(line, wsRegExp)){
@@ -113,20 +111,29 @@ public class BlueElectricalTape extends TailerListenerAdapter {
                     events = transferToUnixTime(timeStampEventMatcher);
                     closeEvents = transferToUnixTime(timeStampCloseEventMatcher);
                     create = closeEvents;
-                    transaction.setCreate(true);
-                    long creatSubscriptioneResponseTime = closeEvents - events;
-                    metricRegistry.histogram("create_subscription_transaction_response_time").update(creatSubscriptioneResponseTime);
+                    long createSubscriptionResponseTime = closeEvents - events;
+
+                    CustomHistogram.createSubscriptionTransactionResponseTime.labels("gatling"
+                            , System.getProperty("user.dir").substring(System.getProperty("user.dir").lastIndexOf('/') + 1)
+                            , Iroha2SetUp.class.getSimpleName())
+                    .observe(createSubscriptionResponseTime);
+
+                    sendMetricsToPrometheus(CustomHistogram.createSubscriptionTransactionResponseTime, "histogram");
                 }
             } catch (ParseException e) {
+                throw new RuntimeException(e);
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
     };
-    public void run() {
-        tailerListener.start();
-    }
-    public void stop() {
-        tailerListener.stop();
+
+    private void sendMetricsToPrometheus(Histogram histogram, String job){
+        try{
+            pushGateway.pushAdd(histogram, job);
+        } catch (Exception ex){
+            ex.getMessage();
+        }
     }
     private Boolean patternExist(String line, String pattern) {
         Matcher transactionMatcher = getMatch(Pattern.compile(pattern), line);
@@ -143,13 +150,9 @@ public class BlueElectricalTape extends TailerListenerAdapter {
         Matcher match = pattern.matcher(line);
         return match;
     }
-    public void stopReporter() {
-        reporter.stop();
-    }
+
     private Long transferToUnixTime(Matcher timeStampPattern) throws ParseException {
-        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d H:m:s.S");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        //SimpleDateFormat sdf = new SimpleDateFormat("H:m:s.S");
         Date date = sdf.parse(timeStampPattern.group());
         return date.getTime();
     }

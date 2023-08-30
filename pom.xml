@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>iroha2-per</artifactId>
+    <groupId>jp.co.soramitsu</groupId>
+    <artifactId>iroha2-perf</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -191,6 +191,56 @@
             <artifactId>guava</artifactId>
             <version>29.0-android</version>
         </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient</artifactId>
+            <version>0.10.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_hotspot</artifactId>
+            <version>0.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_common</artifactId>
+            <version>0.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_servlet</artifactId>
+            <version>0.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_pushgateway</artifactId>
+            <version>0.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_dropwizard</artifactId>
+            <version>0.16.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-core</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.codahale.metrics</groupId>
+            <artifactId>metrics-servlet</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dropwizard.metrics</groupId>
+            <artifactId>metrics-servlet</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_pushgateway</artifactId>
+            <version>0.11.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -236,10 +286,6 @@
                         <id>default-testCompile</id>
                         <phase>none</phase>
                     </execution>
-                    <!--<execution>
-                        <id>default-testCompile</id>
-                        <phase>compile</phase>
-                    </execution>-->
                     <execution>
                         <id>java-compile</id>
                         <phase>compile</phase>
@@ -247,19 +293,6 @@
                             <goal>compile</goal>
                         </goals>
                     </execution>
-                    <!--<execution>
-                        <id>java-compile</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <compileSourceRoots>
-                                <compileSourceRoot>${project.basedir}/src/main/java</compileSourceRoot>
-                                <compileSourceRoot>${project.basedir}/src/main/kotlin</compileSourceRoot>
-                            </compileSourceRoots>
-                        </configuration>
-                    </execution>-->
                     <execution>
                         <id>java-test-compile</id>
                         <phase>test-compile</phase>
