@@ -2,10 +2,8 @@ package jp.co.soramitsu.load.objects;
 
 public class Transaction {
     private Boolean send = false;
-
     private Boolean validate = false;
-
-    private Boolean commit = false;
+    public Boolean commit = false;
     private Boolean reject = false;
     private Boolean create = false;
     private String tx;

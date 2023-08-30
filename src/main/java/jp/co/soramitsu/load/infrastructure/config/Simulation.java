@@ -13,8 +13,29 @@ import org.aeonbits.owner.Config.Sources;
 })
 public interface Simulation extends Config {
 
-    @Key("rampDuration")
-    int rampDuration();
+    //SetUp section
+    @Key("domainSetUpRumpUp")
+    int domainSetUpRumpUp();
+
+    @Key("duringSetUp")
+    int duringSetUp();
+
+    //Load model
+    @Key("rampUpTest")
+    int rampUpTest();
+
+    @Key("duringTest")
+    int duringTest();
+
+    @Key("stepDurationTest")
+    int stepDurationTest();
+
+    //TransferAssetsQueryStatus
+    @Key("attemptsToTransaction")
+    int getAttemptsToTransaction();
+
+    @Key("attemptsToTransferTransaction")
+    int getAttemptsToTransferTransaction();
 
     @Key("scenario")
     String getScn();
@@ -22,26 +43,8 @@ public interface Simulation extends Config {
     @Key("scenario0")
     String getScn0();
 
-    @Key("usersForSetUp")
-    int getUsersForSetUp();
-
-    @Key("usersSetUp")
-    int getUsersSetUp();
-
-    @Key("attemptsToTransaction")
-    int getAttemptsToTransaction();
-
-    @Key("attemptsToTransferTransaction")
-    int getAttemptsToTransferTransaction();
-
-    @Key("rampUp")
-    int rampUp();
-
-    @Key("during")
-    int during();
-
-    @Key("stepDuration")
-    int stepDuration();
+    @Key("setUpUsersOnEachDomain")
+    int getSetUpUsersOnEachDomain();
 
     @Key("maximumSearchRumpUp")
     int maximumSearchRumpUp();

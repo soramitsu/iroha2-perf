@@ -13,9 +13,7 @@ public class AnotherDev {
     private DomainId anotherDevDomainId;
     private AssetDefinitionId assetDefinitionId;
     private AssetId anotherDevAssetId;
-
     private AssetValue assetValue;
-    public  List<AnotherDev> anotherDevList = new ArrayList<>();
 
     public AssetValue getAssetValue() {
         return assetValue;
@@ -24,7 +22,6 @@ public class AnotherDev {
     public void setAssetValue(AssetValue assetValue) {
         this.assetValue = assetValue;
     }
-
     public AccountId getAnotherDevAccountId() {
         return anotherDevAccountId;
     }

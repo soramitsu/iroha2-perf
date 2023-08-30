@@ -11,10 +11,11 @@ public class LoadSimulation extends Simulation {
     {
         setUp(
                 Iroha2SetUp.Companion.apply()
-                        .injectOpen(atOnceUsers(SimulationConfig.simulation.rampUp()))
+                        .injectOpen(LoadProfiles.setupModel())
                                 .andThen(
-                                        TransferAssetsQueryStatus.Companion.apply().injectOpen(LoadProfiles.loadModel())
+                                        TransferAssetsQueryStatus.Companion.apply()
+                                                .injectOpen(LoadProfiles.loadModel())
                                 )
-        ).protocols(Protocols.httpProtocol).maxDuration(80);
+        ).protocols(Protocols.httpProtocol);
     }
 }

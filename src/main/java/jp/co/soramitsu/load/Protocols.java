@@ -19,10 +19,4 @@ public final class Protocols {
             .disableCaching()
             .disableWarmUp()
             .disableFollowRedirect();
-
-    private static Map<String, Boolean> priorKnowledge() {
-        Map<String, Boolean> priorKnowledge = new HashMap<>();
-        priorKnowledge.put("${url}", true); //Define the remote hosts that are known to support or not support HTTP
-        return priorKnowledge;
-    }
 }

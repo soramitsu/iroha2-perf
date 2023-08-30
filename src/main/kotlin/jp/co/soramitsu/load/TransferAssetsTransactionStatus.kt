@@ -1,3 +1,4 @@
+
 package jp.co.soramitsu.load
 
 import io.gatling.javaapi.core.CoreDsl
@@ -5,7 +6,7 @@ import io.gatling.javaapi.core.CoreDsl.exec
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.load.objects.AnotherDevs
-import jp.co.soramitsu.load.toolbox.BlueElectricalTape
+import jp.co.soramitsu.load.objects.CustomHistogram
 import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeout
@@ -25,10 +26,6 @@ class TransferAssetsTransactionStatus: Wrench13() {
     }
 
     val transferAssetsScn = CoreDsl.scenario("TransferAssets")
-        .exec { Session ->
-            listener = BlueElectricalTape()
-            Session
-        }
         .repeat(userRequestCounter)
         .on(
             exec { Session ->
@@ -43,8 +40,12 @@ class TransferAssetsTransactionStatus: Wrench13() {
                 Session
             }
             .exec { Session ->
-            listener.metricRegistry.timer("query_find_asset_by_account_id").time(
-                Runnable {
+                timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
+                    "gatling"
+                    , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
+                    , Iroha2SetUp::class.simpleName
+                ).startTimer()
+                try {
                     runBlocking {
                         QueryBuilder.findAssetsByAccountId(accountId = currentDevAccountId)
                             .account(currentDevAccountId)
@@ -55,8 +56,10 @@ class TransferAssetsTransactionStatus: Wrench13() {
                                 currentDevAssetId = it.get(0).id
                             }
                     }
+                } finally {
+                    timer.observeDuration()
+                    sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
                 }
-            )
             Thread.sleep(5000)
             attempt++
             if(attempt % attemptsPersentage == 0){
@@ -69,35 +72,40 @@ class TransferAssetsTransactionStatus: Wrench13() {
             }.doIf{ Session -> Session.getBoolean("condition") }
                 .then(
                     exec { Session ->
-                        listener.metricRegistry.timer("subscription_to_block_stream").time(
-                            Runnable {
-                                pliers.getSubscribetionToBlockStream(Iroha2Client, 1, 2)
-                            }
-                        )
-                        listener.metricRegistry.timer("transaction_transfer_asset").time(
-                            Runnable {
-                                runBlocking {
-                                    Iroha2Client.sendTransaction {
-                                        account(currentDevAccountId)
-                                        transferAsset(currentDevAssetId, 10, targetDevAccountId)
-                                        buildSigned(currentDevKeyPair)
-                                    }.also { d ->
-                                        withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
-                                    }
+                        timer = CustomHistogram.subscriptionToBlockStream.labels(
+                            "gatling"
+                            , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
+                            , Iroha2SetUp::class.simpleName
+                        ).startTimer()
+                        try {
+                            pliers.getSubscribetionToBlockStream(Iroha2Client, 1, 2)
+                        } finally {
+                            timer.observeDuration()
+                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStream, "subscription")
+                        }
+                        timer = CustomHistogram.transferAssetTransactionTimer.labels(
+                            "gatling"
+                            , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
+                            , Iroha2SetUp::class.simpleName
+                        ).startTimer()
+                        try {
+                            runBlocking {
+                                Iroha2Client.sendTransaction {
+                                    account(currentDevAccountId)
+                                    transferAsset(currentDevAssetId, 10, targetDevAccountId)
+                                    buildSigned(currentDevKeyPair)
+                                }.also { d ->
+                                    withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
                                 }
                             }
-                        )
-                        /*runBlocking {
-                            pliers.getLastDomain()
-                        }*/
+                        } finally {
+                            timer.observeDuration()
+                            sendMetricsToPrometheus(CustomHistogram.transferAssetTransactionTimer, "transaction")
+                        }
                         val newSession = Session.set("condition", false)
                         newSession
                     }
                 )
         )
-        .exec{ Session ->
-            listener.stop()
-            listener.stopReporter()
-            Session
-        }
 }
+
