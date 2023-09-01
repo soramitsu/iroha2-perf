@@ -69,6 +69,7 @@ class Iroha2SetUp : Wrench13() {
             Session
         }
         .foreach(anotherDevDomainIdList, "domainId").on(
+                //accounts on each domain = num of threads * setUpUsersOnEachDomain
                 repeat(SimulationConfig.simulation.setUpUsersOnEachDomain).on(
                     exec { Session ->
                         timer = CustomHistogram.subscriptionToBlockStream.labels(
