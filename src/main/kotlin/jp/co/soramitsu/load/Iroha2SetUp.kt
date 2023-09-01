@@ -83,7 +83,7 @@ class Iroha2SetUp : Wrench13() {
                             timer.observeDuration()
                             sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStream, "subscription")
                         }
-                        var anotherDev = AnotherDev()
+                        val anotherDev = AnotherDev()
                         anotherDev.anotherDevDomainId = Session.get<DomainId>("domainId")!!
                         anotherDev.anotherDevAccountId = AccountId(
                             Name("anotherDev${UUID.randomUUID()}_${UUID.randomUUID()}"),

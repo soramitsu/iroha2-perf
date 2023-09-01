@@ -2,13 +2,12 @@ package jp.co.soramitsu.load.objects;
 
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Histogram;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class CustomHistogram {
-    private CollectorRegistry registry;
-    private ArrayList<Histogram> histograms = new ArrayList<>();
+    private final CollectorRegistry registry;
+    private final ArrayList<Histogram> histograms = new ArrayList<>();
     public static Histogram subscriptionToBlockStream;
     public static Histogram domainRegisterTransactionTimer;
     public static Histogram accountRegisterTransactionTimer;
