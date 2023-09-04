@@ -6,8 +6,8 @@ import io.prometheus.client.Histogram;
 import java.util.ArrayList;
 
 public class CustomHistogram {
-    private CollectorRegistry registry;
-    private ArrayList<Histogram> histograms = new ArrayList<>();
+    private final CollectorRegistry registry;
+    private final ArrayList<Histogram> histograms = new ArrayList<>();
     public static Histogram subscriptionToBlockStream;
     public static Histogram domainRegisterTransactionTimer;
     public static Histogram accountRegisterTransactionTimer;
@@ -99,7 +99,7 @@ public class CustomHistogram {
                 .name(name)
                 .help(help)
                 .labelNames(label0, label1, label2)
-                .buckets(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+                .buckets(0.2, 0.5, 0.8, 1.0, 1.3, 1.6, 2.0)
                 .create();
     }
 }

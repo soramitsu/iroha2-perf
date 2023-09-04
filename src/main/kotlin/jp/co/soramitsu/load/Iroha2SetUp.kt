@@ -2,12 +2,17 @@ package jp.co.soramitsu.load
 
 import io.gatling.javaapi.core.CoreDsl.*
 import io.gatling.javaapi.core.ScenarioBuilder
-import jp.co.soramitsu.iroha2.*
+import jp.co.soramitsu.iroha2.asDomainId
+import jp.co.soramitsu.iroha2.asName
+import jp.co.soramitsu.iroha2.generateKeyPair
 import jp.co.soramitsu.iroha2.generated.*
+import jp.co.soramitsu.iroha2.toIrohaPublicKey
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.AnotherDev
 import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.CustomHistogram
+import jp.co.soramitsu.load.toolbox.BlueElectricalTape
+import jp.co.soramitsu.load.toolbox.Grinder
 import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeout
@@ -69,6 +74,7 @@ class Iroha2SetUp : Wrench13() {
             Session
         }
         .foreach(anotherDevDomainIdList, "domainId").on(
+                //accounts on each domain = num of threads * setUpUsersOnEachDomain
                 repeat(SimulationConfig.simulation.setUpUsersOnEachDomain).on(
                     exec { Session ->
                         timer = CustomHistogram.subscriptionToBlockStream.labels(
@@ -82,7 +88,7 @@ class Iroha2SetUp : Wrench13() {
                             timer.observeDuration()
                             sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStream, "subscription")
                         }
-                        var anotherDev = AnotherDev()
+                        val anotherDev = AnotherDev()
                         anotherDev.anotherDevDomainId = Session.get<DomainId>("domainId")!!
                         anotherDev.anotherDevAccountId = AccountId(
                             Name("anotherDev${UUID.randomUUID()}_${UUID.randomUUID()}"),
@@ -175,7 +181,7 @@ class Iroha2SetUp : Wrench13() {
                             runBlocking {
                                 Iroha2Client.sendTransaction {
                                     account(anotherDev.anotherDevAccountId)
-                                    mintAsset(anotherDev.anotherDevAssetId, 100)
+                                    mintAsset(anotherDev.anotherDevAssetId, 10000)
                                     buildSigned(anotherDev.anotherDevKeyPair)
                                 }.also { d ->
                                     withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }

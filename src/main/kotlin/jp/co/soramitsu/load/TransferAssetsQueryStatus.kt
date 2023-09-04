@@ -7,6 +7,7 @@ import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.CustomHistogram
+import jp.co.soramitsu.load.toolbox.Grinder
 import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeout

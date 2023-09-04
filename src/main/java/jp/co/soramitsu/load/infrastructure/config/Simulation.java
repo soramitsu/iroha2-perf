@@ -13,6 +13,18 @@ import org.aeonbits.owner.Config.Sources;
 })
 public interface Simulation extends Config {
 
+    @Key("debugSimulation")
+    String debugSimulation();
+
+    @Key("loadSimulation")
+    String loadSimulation();
+
+    @Key("maximumSearchSimulation")
+    String maximumSearchSimulation();
+
+    @Key("stressSimulation")
+    String stressSimulation();
+
     //SetUp section
     @Key("domainSetUpRumpUp")
     int domainSetUpRumpUp();
@@ -40,17 +52,11 @@ public interface Simulation extends Config {
     @Key("scenario")
     String getScn();
 
-    @Key("scenario0")
-    String getScn0();
-
     @Key("setUpUsersOnEachDomain")
     int getSetUpUsersOnEachDomain();
 
     @Key("maximumSearchRumpUp")
     int maximumSearchRumpUp();
-
-    @Key("stressPeakRampUp")
-    int stressPeakRampUp();
 
     @Key("stressPeakDuration")
     int stressPeakDuration();
