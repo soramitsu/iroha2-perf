@@ -99,7 +99,7 @@ public class CustomHistogram {
                 .name(name)
                 .help(help)
                 .labelNames(label0, label1, label2)
-                .buckets(0.2, 0.5, 0.8, 1.0, 1.3, 1.6, 2.0, 2.3, 2.6, 3.0, 3.3, 3.6, 4.0, 5.3, 5.6, 6.0)
+                .buckets(0.2, 0.5, 0.8, 1.0, 1.3, 1.6, 2.0)
                 .create();
     }
 }
