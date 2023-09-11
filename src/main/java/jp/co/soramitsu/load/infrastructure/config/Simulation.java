@@ -13,6 +13,15 @@ import org.aeonbits.owner.Config.Sources;
 })
 public interface Simulation extends Config {
 
+    @Key("targetURL")
+    String targetURL();
+
+    @Key("remoteLogin")
+    String remoteLogin();
+
+    @Key("remotePass")
+    String remotePass();
+
     @Key("debugSimulation")
     String debugSimulation();
 

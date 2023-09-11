@@ -8,8 +8,14 @@ params -> gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulatio
 mvn gatling:test -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation -DusersSetUp=2 -DrampUp=1 -DstepDuration=60
 
 # Debug simulation
-mvn gatling:test -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation -DusersSetUp=2 -DrampUp=1 -Dduring=1 -DstepDuration=60  -DattemptsToTransaction=10 -DattemptsToTransferTransaction=2
+mvn gatling:test -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.StressSimulation -DusersSetUp=2 -DrampUp=1 -Dduring=1 -DstepDuration=60  -DattemptsToTransaction=10 -DattemptsToTransferTransaction=2
 
-mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation -Dintensity=(num)intensity(ISimulation)
--DstagesNumber=${params.stagesNumber} -DstageDuration=${params.stageDuration} -DrampDuration=${params.rampDuration}
+mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation
+-DtargetURL=${targetURL}
+-DremoteLogin=${remoteLogin}
+-DremotePass=${remotePass}
+-Dintensity=(num)intensity(ISimulation)
+-DstagesNumber=${params.stagesNumber} 
+-DstageDuration=${params.stageDuration} 
+-DrampDuration=${params.rampDuration}
 -Dscenario=${params.scenario}

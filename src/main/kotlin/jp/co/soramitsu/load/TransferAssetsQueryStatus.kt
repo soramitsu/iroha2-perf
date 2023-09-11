@@ -7,7 +7,6 @@ import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.CustomHistogram
-import jp.co.soramitsu.load.toolbox.Grinder
 import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeout
@@ -57,7 +56,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                                 Iroha2Client.sendQuery(query)
                             }.let {
                                 currentDevAssetId = it.get(0).id
-                                currentDevAssetIdBeforTransferring = it.get(0).value
+                                currentDevAssetIdBeforeTransferring = it.get(0).value
                             }
                     }
                 } finally {
@@ -159,7 +158,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                         }
 
                         Thread.sleep(queryWaiter)
-                        Assert.assertNotEquals(currentDevAssetIdBeforTransferring, currentDevAssetIdAfterTransferring
+                        Assert.assertNotEquals(currentDevAssetIdBeforeTransferring, currentDevAssetIdAfterTransferring
                             , "transaction \'transfer_asset\' from ${currentDevAccountId} to ${targetDevAccountId} failed")
                         Session
                     }
