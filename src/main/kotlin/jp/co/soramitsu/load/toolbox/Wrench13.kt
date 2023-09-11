@@ -11,8 +11,7 @@ import jp.co.soramitsu.iroha2.generated.AssetId
 import jp.co.soramitsu.iroha2.generated.AssetValue
 import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.keyPairFromHex
-import jp.co.soramitsu.load.objects.AnotherDevs
-import jp.co.soramitsu.load.objects.Transaction
+import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import java.net.URL
 import java.security.KeyPair
 
@@ -27,20 +26,21 @@ open class Wrench13 {
     val Iroha2Client: Iroha2Client = Iroha2Client(URL("http://127.0.0.1:8080"), true, null)
 
     //remote connect
-    //val Iroha2Client: Iroha2Client = Iroha2Client(URL("https://iroha2.dev.tachi.soramitsu.co.jp:8080"), true, "iroha2-dev:psfFzyjGRzCbE0ELUzRw4GZyFQprM4D5", 10000)
+    /*val Iroha2Client: Iroha2Client = Iroha2Client(URL(SimulationConfig.simulation.targetURL())
+        , true
+        , SimulationConfig.simulation.remoteLogin() + ":" + SimulationConfig.simulation.remotePass()
+        , 10000)*/
 
     var pliers: Pliers = Pliers()
-    //val transaction: Transaction = Transaction()
     var pushGateway = PushGateway("127.0.0.1:9091");
 
-    lateinit var listener: BlueElectricalTape
     lateinit var anotherDevDomainId: DomainId
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair
     lateinit var currentDevAssetId: AssetId
     lateinit var targetDevAccountId: AccountId
     lateinit var targetDevKeyPair: KeyPair
-    lateinit var currentDevAssetIdBeforTransferring: AssetValue
+    lateinit var currentDevAssetIdBeforeTransferring: AssetValue
     lateinit var currentDevAssetIdAfterTransferring: AssetValue
     lateinit var targetDevAssetIdAfterTransferring: AssetValue
     lateinit var timer: Timer
