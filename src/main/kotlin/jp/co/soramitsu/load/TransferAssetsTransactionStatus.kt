@@ -9,8 +9,6 @@ import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.CustomHistogram
 import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.time.withTimeout
-import java.time.Duration
 import kotlin.random.Random
 
 class TransferAssetsTransactionStatus: Wrench13() {
@@ -40,11 +38,11 @@ class TransferAssetsTransactionStatus: Wrench13() {
                 Session
             }
             .exec { Session ->
-                timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
+                counter = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                     , Iroha2SetUp::class.simpleName
-                ).startTimer()
+                )
                 try {
                     runBlocking {
                         QueryBuilder.findAssetsByAccountId(accountId = currentDevAccountId)
@@ -57,7 +55,7 @@ class TransferAssetsTransactionStatus: Wrench13() {
                             }
                     }
                 } finally {
-                    timer.observeDuration()
+                    counter.inc()
                     sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
                 }
             Thread.sleep(5000)
@@ -72,34 +70,34 @@ class TransferAssetsTransactionStatus: Wrench13() {
             }.doIf{ Session -> Session.getBoolean("condition") }
                 .then(
                     exec { Session ->
-                        timer = CustomHistogram.subscriptionToBlockStream.labels(
+                        counter = CustomHistogram.subscriptionToBlockStream.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
-                        ).startTimer()
+                        )
                         try {
-                            pliers.getSubscribetionToBlockStream(Iroha2Client, 1, 2)
+                            Iroha2Client.subscribeToBlockStream(1,2,true)
                         } finally {
-                            timer.observeDuration()
+                            counter.inc()
                             sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStream, "subscription")
                         }
-                        timer = CustomHistogram.transferAssetTransactionTimer.labels(
+                        counter = CustomHistogram.transferAssetTransactionTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
-                        ).startTimer()
+                        )
                         try {
                             runBlocking {
                                 Iroha2Client.sendTransaction {
                                     account(currentDevAccountId)
                                     transferAsset(currentDevAssetId, 10, targetDevAccountId)
                                     buildSigned(currentDevKeyPair)
-                                }.also { d ->
-                                    withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
-                                }
+                                }/*.also { d ->
+                        withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
+                    }*/
                             }
                         } finally {
-                            timer.observeDuration()
+                            counter.inc()
                             sendMetricsToPrometheus(CustomHistogram.transferAssetTransactionTimer, "transaction")
                         }
                         val newSession = Session.set("condition", false)

@@ -1,21 +1,33 @@
+/*
 package jp.co.soramitsu.load.toolbox
 
 import jp.co.soramitsu.iroha2.*
 import jp.co.soramitsu.iroha2.client.Iroha2Client
+import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
+import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.iroha2.generated.*
-import kotlinx.coroutines.flow.Flow
+import java.math.BigInteger
 
 class Pliers {
-    lateinit var blocksResult: Flow<VersionedBlockMessage>
+    //lateinit var blocksResult: Flow<VersionedBlockMessage>
+    lateinit var blocksResult: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription>
     lateinit var registerDomain : String
     lateinit var registerAccount : String
     lateinit var assetDefinition : String
     lateinit var assetId : String
     lateinit var blocks : MutableList<VersionedBlockMessage>
     lateinit var instructions : List<InstructionBox>
+    val repeatTimes = 5
 
-    fun getSubscribetionToBlockStream(iroha2Client: Iroha2Client, from: Long, count: Int){
-        blocksResult = iroha2Client.subscribeToBlockStream(from,count)
+    fun getSubscriptionToBlockStream(iroha2Client: Iroha2Client, from: Long, count: Long){
+        blocksResult = iroha2Client.subscribeToBlockStream(from,count, true)
+    }
+
+    fun getSubscriptionToBlockStream0(iroha2Client: Iroha2Client, from: Long, count: Long){
+        blocksResult = iroha2Client.subscribeToBlockStream(
+            onBlock = { block -> block.extractBlock().height() },
+            cancelIf = { block -> block.extractBlock().height() == BigInteger.valueOf(repeatTimes.toLong()) },
+        )
     }
     suspend fun getLastDomain(): String{
         blocks = mutableListOf()
@@ -79,4 +91,4 @@ class Pliers {
     fun equals(actual: String, expected: String): Boolean {
         return actual.equals(expected)
     }
-}
+}*/
