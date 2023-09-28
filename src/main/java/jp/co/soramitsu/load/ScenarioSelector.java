@@ -12,8 +12,8 @@ public class ScenarioSelector {
         switch (ScenarioEnum.findByValue(SimulationConfig.simulation.getScn())) {
             case IROHA_2_SET_UP:
                 return Iroha2SetUp.Companion.apply();
-            case TRANSFER_ASSETS_TRANSACTION_STATUS:
-                return TransferAssetsTransactionStatus.apply();
+            /*case TRANSFER_ASSETS_TRANSACTION_STATUS:
+                return TransferAssetsTransactionStatus.apply();*/
             case TRANSFER_ASSETS_QUERY_STATUS:
                 return TransferAssetsQueryStatus.apply();
             case SIMPLE_SCN:

@@ -2,6 +2,9 @@ package jp.co.soramitsu.load
 
 import io.gatling.javaapi.core.CoreDsl.*
 import io.gatling.javaapi.core.ScenarioBuilder
+import io.prometheus.client.Counter
+import kotlinx.coroutines.time.withTimeout
+import java.time.Duration
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
 import jp.co.soramitsu.iroha2.generateKeyPair
@@ -11,12 +14,8 @@ import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.AnotherDev
 import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.CustomHistogram
-import jp.co.soramitsu.load.toolbox.BlueElectricalTape
-import jp.co.soramitsu.load.toolbox.Grinder
 import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.time.withTimeout
-import java.time.Duration
 import java.util.*
 
 class Iroha2SetUp : Wrench13() {
@@ -33,28 +32,28 @@ class Iroha2SetUp : Wrench13() {
 
     val iroha2SetUpScn = scenario("Iroha2SetUp")
         .exec { Session ->
-            timer = CustomHistogram.subscriptionToBlockStream.labels(
+            /*counter = CustomHistogram.subscriptionToBlockStream.labels(
                 "gatling"
                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                 , Iroha2SetUp::class.simpleName
-            ).startTimer()
+            )*/
             try {
-                pliers.getSubscribetionToBlockStream(Iroha2Client, 1, 2)
+                Iroha2Client.subscribeToBlockStream(1,2,true)
             } finally {
-                timer.observeDuration()
+                CustomHistogram.subscriptionToBlockStream.inc()
                 sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStream, "subscription")
             }
 
             anotherDevDomainId = "bulb_${UUID.randomUUID()}_${UUID.randomUUID()}".asDomainId()
             anotherDevDomainIdList.add(anotherDevDomainId)
-
-            timer = CustomHistogram.domainRegisterTransactionTimer.labels(
+            /*counter = CustomHistogram.domainRegisterTransactionTimer.labels(
                 "gatling"
                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                 , Iroha2SetUp::class.simpleName
-            ).startTimer()
+            )*/
             try {
                 runBlocking {
+                    println("SEND_TRANSACTION: DOMAIN REGISTER")
                     Iroha2Client.sendTransaction {
                         account(admin)
                         registerDomain(anotherDevDomainId)
@@ -64,7 +63,7 @@ class Iroha2SetUp : Wrench13() {
                     }
                 }
             } finally {
-                timer.observeDuration()
+                CustomHistogram.domainRegisterTransactionTimer.inc()
                 sendMetricsToPrometheus(CustomHistogram.domainRegisterTransactionTimer, "transaction")
             }
 
@@ -74,18 +73,18 @@ class Iroha2SetUp : Wrench13() {
             Session
         }
         .foreach(anotherDevDomainIdList, "domainId").on(
-                //accounts on each domain = num of threads * setUpUsersOnEachDomain
+                //accounts on each domain = threads * anotherDevDomainIdList.size * setUpUsersOnEachDomain
                 repeat(SimulationConfig.simulation.setUpUsersOnEachDomain).on(
                     exec { Session ->
-                        timer = CustomHistogram.subscriptionToBlockStream.labels(
+                        /*counter = CustomHistogram.subscriptionToBlockStream.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
-                        ).startTimer()
+                        )*/
                         try {
-                            pliers.getSubscribetionToBlockStream(Iroha2Client, 1, 2)
+                            Iroha2Client.subscribeToBlockStream(1,2,true)
                         } finally {
-                            timer.observeDuration()
+                            CustomHistogram.subscriptionToBlockStream.inc()
                             sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStream, "subscription")
                         }
                         val anotherDev = AnotherDev()
@@ -95,13 +94,14 @@ class Iroha2SetUp : Wrench13() {
                             anotherDev.anotherDevDomainId
                         )
                         anotherDev.anotherDevKeyPair = generateKeyPair()
-                        timer = CustomHistogram.accountRegisterTransactionTimer
+                        /*counter = CustomHistogram.accountRegisterTransactionTimer
                             .labels(
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName
-                            ).startTimer()
+                            )*/
                         try {
+                            println("SEND_TRANSACTION: ACCOUNT REGISTER")
                             runBlocking {
                                 Iroha2Client.sendTransaction {
                                     account(admin)
@@ -115,34 +115,35 @@ class Iroha2SetUp : Wrench13() {
                                 }
                             }
                         } finally {
-                            timer.observeDuration()
+                            CustomHistogram.accountRegisterTransactionTimer.inc()
                             sendMetricsToPrometheus(CustomHistogram.accountRegisterTransactionTimer, "transaction")
                         }
                         Thread.sleep(4000)
                         /*runBlocking {
                             pliers.getLastDomain()
                         }*/
-                        timer = CustomHistogram.subscriptionToBlockStream.labels(
+                        /*counter = CustomHistogram.subscriptionToBlockStream.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
-                        ).startTimer()
+                        )*/
                         try {
-                            pliers.getSubscribetionToBlockStream(Iroha2Client, 1, 2)
+                            Iroha2Client.subscribeToBlockStream(1,2,true)
                         } finally {
-                            timer.observeDuration()
+                            CustomHistogram.subscriptionToBlockStream.inc()
                             sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStream, "subscription")
                         }
                         anotherDev.assetDefinitionId = AssetDefinitionId(
                             "xor${UUID.randomUUID()}_${UUID.randomUUID()}".asName(),
                             anotherDev.anotherDevDomainId
                         )
-                        timer = CustomHistogram.assetDefinitionRegisterTransactionTimer.labels(
+                        /*counter = CustomHistogram.assetDefinitionRegisterTransactionTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
-                        ).startTimer()
+                        )*/
                         try {
+                            println("SEND_TRANSACTION: ASSET DEFINITION REGISTER")
                             runBlocking {
                                 Iroha2Client.sendTransaction {
                                     account(anotherDev.anotherDevAccountId)
@@ -153,31 +154,32 @@ class Iroha2SetUp : Wrench13() {
                                 }
                             }
                         } finally {
-                            timer.observeDuration()
+                            CustomHistogram.assetDefinitionRegisterTransactionTimer.inc()
                             sendMetricsToPrometheus(CustomHistogram.assetDefinitionRegisterTransactionTimer, "transaction")
                         }
                         Thread.sleep(4000)
                         /*runBlocking {
                             pliers.getLastDomain()
                         }*/
-                        timer = CustomHistogram.subscriptionToBlockStream.labels(
+                        /*counter = CustomHistogram.subscriptionToBlockStream.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
-                        ).startTimer()
+                        )*/
                         try {
-                            pliers.getSubscribetionToBlockStream(Iroha2Client, 1, 2)
+                            Iroha2Client.subscribeToBlockStream(1,2,true)
                         } finally {
-                            timer.observeDuration()
+                            CustomHistogram.subscriptionToBlockStream.inc()
                             sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStream, "subscription")
                         }
                         anotherDev.anotherDevAssetId = AssetId(anotherDev.assetDefinitionId, anotherDev.anotherDevAccountId)
-                        timer = CustomHistogram.assetMintTransactionTimer.labels(
+                        /*counter = CustomHistogram.subscriptionToBlockStream.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
-                        ).startTimer()
+                        )*/
                         try {
+                            println("SEND_TRANSACTION: MINT ASSET")
                             runBlocking {
                                 Iroha2Client.sendTransaction {
                                     account(anotherDev.anotherDevAccountId)
@@ -188,7 +190,7 @@ class Iroha2SetUp : Wrench13() {
                                 }
                             }
                         } finally {
-                            timer.observeDuration()
+                            CustomHistogram.assetMintTransactionTimer.inc()
                             sendMetricsToPrometheus(CustomHistogram.assetMintTransactionTimer, "transaction")
                         }
                         Thread.sleep(4000)

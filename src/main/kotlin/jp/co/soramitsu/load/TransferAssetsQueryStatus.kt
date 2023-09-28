@@ -9,9 +9,7 @@ import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.CustomHistogram
 import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.time.withTimeout
 import org.testng.Assert
-import java.time.Duration
 import kotlin.random.Random
 
 class TransferAssetsQueryStatus: Wrench13() {
@@ -26,11 +24,12 @@ class TransferAssetsQueryStatus: Wrench13() {
         return transferAssetsQueryStatusScn
     }
 
+    //lateinit var Iroha2Client: Iroha2Client
+
     val transferAssetsQueryStatusScn = CoreDsl.scenario("TransferAssets")
         .repeat(SimulationConfig.simulation.attemptsToTransaction)
         .on(
             exec { Session ->
-
                 var currentDevIndex: Int = Random.nextInt(0, AnotherDevs.list.size - 1)
                 currentDevAccountId = AnotherDevs.list[currentDevIndex].anotherDevAccountId
                 currentDevKeyPair = AnotherDevs.list[currentDevIndex].anotherDevKeyPair
@@ -42,12 +41,13 @@ class TransferAssetsQueryStatus: Wrench13() {
                 Session
             }
             .exec { Session ->
-                timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
+                /*counter = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                     , Iroha2SetUp::class.simpleName
-                ).startTimer()
+                )*/
                 try {
+                    println("SEND QUERY: findAssetsByAccountId_0")
                     runBlocking {
                         QueryBuilder.findAssetsByAccountId(accountId = currentDevAccountId)
                             .account(currentDevAccountId)
@@ -60,19 +60,20 @@ class TransferAssetsQueryStatus: Wrench13() {
                             }
                     }
                 } finally {
-                    timer.observeDuration()
+                    CustomHistogram.findAssetsByAccountIdQueryTimer.inc()
                     sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
                 }
                 Thread.sleep(queryWaiter)
                 Session
             }
             .exec { Session ->
-                timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
+                /*counter = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                     , Iroha2SetUp::class.simpleName
-                ).startTimer()
+                )*/
                 try {
+                    println("SEND QUERY: findAssetsByAccountId_1")
                     runBlocking {
                         QueryBuilder.findAssetsByAccountId(accountId = targetDevAccountId)
                             .account(targetDevAccountId)
@@ -84,7 +85,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                             }
                     }
                 } finally {
-                    timer.observeDuration()
+                    CustomHistogram.findAssetsByAccountIdQueryTimer.inc()
                     sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
                 }
                 Thread.sleep(queryWaiter)
@@ -99,34 +100,36 @@ class TransferAssetsQueryStatus: Wrench13() {
             }.doIf{ Session -> Session.getBoolean("condition") }
                 .then(
                     exec { Session ->
-                        timer = CustomHistogram.subscriptionToBlockStream.labels(
+                        /*counter = CustomHistogram.subscriptionToBlockStream.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
-                        ).startTimer()
+                        )*/
                         try {
-                            pliers.getSubscribetionToBlockStream(Iroha2Client, 1, 2)
+                            //pliers.getSubscriptionToBlockStream(Iroha2Client, 1, 2)
+                            Iroha2Client.subscribeToBlockStream(1,2,true)
                         } finally {
-                            timer.observeDuration()
+                            CustomHistogram.subscriptionToBlockStream.inc()
                             sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStream, "subscription")
                         }
-                        timer = CustomHistogram.transferAssetTransactionTimer.labels(
+                        /*counter = CustomHistogram.transferAssetTransactionTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
-                        ).startTimer()
+                        )*/
                         try {
+                            println("SEND TRANSACTION: TRANSFER ASSET")
                             runBlocking {
                                 Iroha2Client.sendTransaction {
                                     account(currentDevAccountId)
                                     transferAsset(currentDevAssetId, 1, targetDevAccountId)
                                     buildSigned(currentDevKeyPair)
-                                }.also { d ->
-                                    withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
-                                }
+                                }/*.also { d ->
+                        withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
+                    }*/
                             }
                         } finally {
-                            timer.observeDuration()
+                            CustomHistogram.transferAssetTransactionTimer.inc()
                             sendMetricsToPrometheus(CustomHistogram.transferAssetTransactionTimer, "transaction")
                         }
                         /*runBlocking {
@@ -136,12 +139,14 @@ class TransferAssetsQueryStatus: Wrench13() {
                         newSession
                     }
                     .exec { Session ->
-                        timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
+                        /*counter = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
-                        ).startTimer()
+                        )*/
                         try {
+                            println("SEND QUERY: findAssetsByAccountId_2")
+
                             runBlocking {
                                 QueryBuilder.findAssetsByAccountId(accountId = currentDevAccountId)
                                     .account(currentDevAccountId)
@@ -153,7 +158,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                                     }
                             }
                         } finally {
-                            timer.observeDuration()
+                            CustomHistogram.findAssetsByAccountIdQueryTimer.inc()
                             sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
                         }
 
@@ -163,13 +168,15 @@ class TransferAssetsQueryStatus: Wrench13() {
                         Session
                     }
                     .exec { Session ->
-                        timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
+                        /*counter = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
-                        ).startTimer()
+                        )*/
                         try {
                             runBlocking {
+                                println("SEND QUERY: findAssetsByAccountId_3")
+
                                 QueryBuilder.findAssetsByAccountId(accountId = targetDevAccountId)
                                     .account(targetDevAccountId)
                                     .buildSigned(targetDevKeyPair)
@@ -180,7 +187,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                                     }
                             }
                         } finally {
-                            timer.observeDuration()
+                            CustomHistogram.findAssetsByAccountIdQueryTimer.inc()
                             sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
                         }
                         Thread.sleep(queryWaiter)
