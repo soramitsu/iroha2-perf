@@ -65,20 +65,20 @@ open class Wrench13 {
     lateinit var counter: Counter.Child
 
     var queryWaiter: Long = 5000 //ms
-    var transactionWaiter: Long = 30 //s
+    var transactionWaiter: Long = 40 //s
     var userRequestCounter: Int = 10
     var attemptsPersentage: Int = 2
     var attempt: Int = -1
 
     var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
 
-/*    fun sendMetricsToPrometheus(histogram: Histogram, job: String) {
+    fun sendMetricsToPrometheus(histogram: Histogram, job: String) {
         try {
             pushGateway.pushAdd(histogram, job)
         } catch (ex: Exception) {
             ex.message
         }
-    }*/
+    }
     fun sendMetricsToPrometheus(counter: Counter, job: String) {
         try {
             pushGateway.pushAdd(counter, job)
