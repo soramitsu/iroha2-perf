@@ -1,5 +1,6 @@
 package jp.co.soramitsu.load.infrastructure.config;
 
+import com.redis.S;
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.Config.LoadPolicy;
 import org.aeonbits.owner.Config.LoadType;
@@ -13,8 +14,17 @@ import org.aeonbits.owner.Config.Sources;
 })
 public interface Simulation extends Config {
 
+    @Key("targetProtocol")
+    String targetProtocol();
+
     @Key("targetURL")
     String targetURL();
+
+    @Key("targetPort")
+    String targetPort();
+
+    @Key("targetPath")
+    String targetPath();
 
     @Key("remoteLogin")
     String remoteLogin();

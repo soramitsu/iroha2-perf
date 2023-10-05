@@ -3,19 +3,41 @@ Designing a Better World Through Decentralized Technologies
 
 Edit configuration for local
 build and run -> jp.co.soramitsu.load.Engine
-params -> gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation -DrampUp=10 -Dduring=20 -DstepDuration=60
-
-mvn gatling:test -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation -DusersSetUp=2 -DrampUp=1 -DstepDuration=60
 
 # Debug simulation
-mvn gatling:test -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.StressSimulation -DusersSetUp=2 -DrampUp=1 -Dduring=1 -DstepDuration=60  -DattemptsToTransaction=10 -DattemptsToTransferTransaction=2
-
 mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation \
-&& -DtargetURL=${targetURL} \
-&& -DremoteLogin=${remoteLogin} \
-&& -DremotePass=${remotePass}   \
-&& -Dintensity=(num)intensity(ISimulation)  \
-&& -DstagesNumber=${params.stagesNumber}    \
-&& -DstageDuration=${params.stageDuration}  \
-&& -DrampDuration=${params.rampDuration}    \
-&& -Dscenario=${params.scenario}
+-DtargetURL=${targetURL} \
+-DremoteLogin=${remoteLogin} \
+-DremotePass=${remotePass}   \
+-Dintensity=(num)intensity(ISimulation)  \
+-DstagesNumber=${params.stagesNumber}    \
+-DstageDuration=${params.stageDuration}  \
+-DrampDuration=${params.rampDuration}    \
+-Dscenario=${params.scenario}
+
+# MaximumSearchSimulation
+mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation \
+-DtargetProtocol=${protocol} \
+-DtargetURL=${url} \
+-DtargetPath=${path} \
+-DremoteLogin=${login} \
+-DremotePass=${pass} \
+-DdomainSetUpRumpUp=5 \
+-DduringSetUp=4 \
+-DsetUpUsersOnEachDomain=4 \
+-DmaximumSearchRumpUp=1000 \
+-DduringTest=360
+
+# LoadSimulation
+mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation \
+-DtargetProtocol=${protocol} \
+-DtargetURL=${url} \
+-DtargetPath=${path} \
+-DremoteLogin=${login} \
+-DremotePass=${pass} \
+-DdomainSetUpRumpUp=5 \
+-DduringSetUp=4 \
+-DsetUpUsersOnEachDomain=4 \
+-DrampUpTest=20 \
+-DduringTest=10 \
+-DstepDurationTest=1200

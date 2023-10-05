@@ -12,14 +12,13 @@ import jp.co.soramitsu.iroha2.generated.AssetId
 import jp.co.soramitsu.iroha2.generated.AssetValue
 import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.keyPairFromHex
+import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 
 import org.apache.http.client.utils.URIBuilder
 import java.net.URL
 import java.security.KeyPair
 
 open class Wrench13 {
-    //curl -X GET https://iroha2.test.tachi.soramitsu.co.jp/peer-0/telemetry/metrics -u 'iroha2-dev:4H7L&KN25%$2jisV8&NTVtiX'
-    // http://iroha2-peer-0.iroha2-test.svc.cluster.local:8080
     val urls: MutableList<URL> = mutableListOf()
 
     val admin = AccountId("bob".asName(), "wonderland".asDomainId())
@@ -32,10 +31,10 @@ open class Wrench13 {
 
     fun buildIroha2Client(): Iroha2Client{
         val peerUrl = URIBuilder().let {
-            it.scheme = "https"
-            it.host = "iroha2.test.tachi.soramitsu.co.jp"
+            it.scheme = SimulationConfig.simulation.targetProtocol()
+            it.host = SimulationConfig.simulation.targetURL()
             it.port = 0
-            it.path = "peer-0/api"
+            it.path = SimulationConfig.simulation.targetPath()
             it.build().toURL()
         }
         urls.add(peerUrl)
@@ -44,7 +43,7 @@ open class Wrench13 {
             urls[0],
             urls[0],
             log = false,
-            credentials = "iroha2-dev:4H7L&KN25%$2jisV8&NTVtiX",
+            credentials = SimulationConfig.simulation.remoteLogin() + ":" + SimulationConfig.simulation.remotePass(),
             eventReadTimeoutInMills = 10000,
             eventReadMaxAttempts = 20
         )
