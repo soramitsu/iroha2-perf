@@ -15,7 +15,7 @@ public class Grinder {
     public Grinder() throws MalformedURLException {
         cleanUpMetrics();
     }
-    public void cleanUpMetrics(){
+    private void cleanUpMetrics(){
         query.add(transactionUrl);
         query.add(subscriptionUrl);
         query.add(queryUrl);
