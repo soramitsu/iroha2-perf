@@ -49,7 +49,7 @@ open class Wrench13 {
         )
     }
 
-    var pushGateway = PushGateway("127.0.0.1:9091");
+    var pushGateway = PushGateway("localhost:9091");
 
     lateinit var anotherDevDomainId: DomainId
     lateinit var currentDevAccountId: AccountId
@@ -61,7 +61,6 @@ open class Wrench13 {
     lateinit var currentDevAssetIdAfterTransferring: AssetValue
     lateinit var targetDevAssetIdAfterTransferring: AssetValue
     lateinit var timer: Timer
-    lateinit var counter: Counter.Child
 
     var queryWaiter: Long = 5000 //ms
     var transactionWaiter: Long = 40 //s
@@ -78,6 +77,7 @@ open class Wrench13 {
             ex.message
         }
     }
+
     fun sendMetricsToPrometheus(counter: Counter, job: String) {
         try {
             pushGateway.pushAdd(counter, job)
