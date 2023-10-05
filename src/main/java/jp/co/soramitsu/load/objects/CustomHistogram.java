@@ -10,168 +10,100 @@ public class CustomHistogram {
     private final CollectorRegistry registry;
     private final ArrayList<Histogram> histograms = new ArrayList<>();
     private final ArrayList<Counter> counters = new ArrayList<>();
-    /*public static Histogram subscriptionToBlockStream;
-    public static Histogram domainRegisterTransactionTimer;
-    public static Histogram accountRegisterTransactionTimer;
-    public static Histogram assetDefinitionRegisterTransactionTimer;
-    public static Histogram assetMintTransactionTimer;
-    public static Histogram transferAssetTransactionTimer;
-    public static Histogram createSubscriptionTransactionResponseTime;
-    public static Histogram rejectTransactionResponseTime;
-    public static Histogram commitTransactionResponseTime;
-    public static Histogram validatingTransactionResponseTime;
-    public static Histogram sendTransactionResponseTime;
+    public static Histogram subscriptionToBlockStreamTimer;
+    public static Histogram domainRegisterTimer;
+    public static Histogram accountRegisterTimer;
+    public static Histogram assetDefinitionRegisterTimer;
+    public static Histogram assetMintTimer;
+    public static Histogram transferAssetTimer;
     public static Histogram findAssetsByAccountIdQueryTimer;
-    public static Histogram unauthorizedResponseTime;*/
-
-    public static Counter subscriptionToBlockStream;
-    public static Counter domainRegisterTransactionTimer;
-    public static Counter accountRegisterTransactionTimer;
-    public static Counter assetDefinitionRegisterTransactionTimer;
-    public static Counter assetMintTransactionTimer;
-    public static Counter transferAssetTransactionTimer;
-    /*public static Counter createSubscriptionTransactionResponseTime;
-    public static Counter rejectTransactionResponseTime;
-    public static Counter commitTransactionResponseTime;
-    public static Counter validatingTransactionResponseTime;
-    public static Counter sendTransactionResponseTime;*/
-    public static Counter findAssetsByAccountIdQueryTimer;
+    public static Counter subscriptionToBlockStreamCount;
+    public static Counter domainRegisterCount;
+    public static Counter accountRegisterCount;
+    public static Counter assetDefinitionRegisterCount;
+    public static Counter assetMintCount;
+    public static Counter transferAssetCount;
+    public static Counter findAssetsByAccountIdQueryCount;
     public static Counter unauthorizedResponseTime;
 
     public CustomHistogram(){
         registry = CollectorRegistry.defaultRegistry;
 
-        subscriptionToBlockStream = createCounter(
-                "perf_subscription_block_stream"
+        subscriptionToBlockStreamCount = createCounter(
+                "subscription_block_stream_performance"
                 , "Subscription to transaction. Create a subscription to a block stream."
-                /*, "environment", "project","test"*/);
-        /*createSubscriptionTransactionResponseTime = createCounter(
-                "create_subscription_include"
-                , "Include transaction. Create a subscription to a new transaction."
                 , "environment", "project","test");
-        sendTransactionResponseTime = createCounter(
-                "send_include"
-                , "Include transaction. Send transaction."
-                , "environment", "project","test");
-        validatingTransactionResponseTime = createCounter(
-                "validating_include"
-                , "Include transaction. Validating transaction."
-                , "environment", "project","test");
-        commitTransactionResponseTime = createCounter(
-                "commit_include"
-                , "Include transaction. Commit transaction."
-                , "environment", "project","test");
-        rejectTransactionResponseTime = createCounter(
-                "reject_include"
-                , "Include transaction. Reject transaction."
-                , "environment", "project","test");*/
-        domainRegisterTransactionTimer = createCounter(
-                "perf_domain_register"
+        domainRegisterCount = createCounter(
+                "domain_register_performance"
                 , "Transaction. Domain register."
-                /*, "environment", "project","test"*/);
-        accountRegisterTransactionTimer = createCounter(
-                "perf_account_register"
+                , "environment", "project","test");
+        accountRegisterCount = createCounter(
+                "account_register_performance"
                 , "Transaction. Account register."
-                /*, "environment", "project","test"*/);
-        assetDefinitionRegisterTransactionTimer = createCounter(
-                "perf_asset_definition_register"
+                , "environment", "project","test");
+        assetDefinitionRegisterCount = createCounter(
+                "asset_definition_register_performance"
                 , "Transaction. Asset definition register."
-                /*, "environment", "project","test"*/);
-        assetMintTransactionTimer = createCounter(
-                "perf_asset_mint"
+                , "environment", "project","test");
+        assetMintCount = createCounter(
+                "asset_mint_performance"
                 , "Transaction. Asset mint."
-                /*, "environment", "project","test"*/);
-        transferAssetTransactionTimer = createCounter(
-                "perf_transfer_asset"
+                , "environment", "project","test");
+        transferAssetCount = createCounter(
+                "transfer_asset_performance"
                 , "Transaction. Transfer asset."
-                /*, "environment", "project","test"*/);
-        findAssetsByAccountIdQueryTimer = createCounter(
-                "perf_find_assets_account_id_query"
+                , "environment", "project","test");
+        findAssetsByAccountIdQueryCount = createCounter(
+                "find_assets_account_id_query_performance"
                 , "Query. Find assets by accountId."
-                /*, "environment", "project","test"*/);
-/*
-
-        subscriptionToBlockStream = createHistogram(
-                "subscription_block_stream_response_time"
+                , "environment", "project","test");
+        subscriptionToBlockStreamTimer = createHistogram(
+                "subscription_block_stream_perf"
                 , "Subscription to transaction. Create a subscription to a block stream."
                 , "environment", "project","test");
-        createSubscriptionTransactionResponseTime = createHistogram(
-                "create_subscription_include"
-                , "Include transaction. Create a subscription to a new transaction."
-                , "environment", "project","test");
-        sendTransactionResponseTime = createHistogram(
-                "send_include"
-                , "Include transaction. Send transaction."
-                , "environment", "project","test");
-        validatingTransactionResponseTime = createHistogram(
-                "validating_include"
-                , "Include transaction. Validating transaction."
-                , "environment", "project","test");
-        commitTransactionResponseTime = createHistogram(
-                "commit_include"
-                , "Include transaction. Commit transaction."
-                , "environment", "project","test");
-        rejectTransactionResponseTime = createHistogram(
-                "reject_include"
-                , "Include transaction. Reject transaction."
-                , "environment", "project","test");
-        domainRegisterTransactionTimer = createHistogram(
-                "domain_register"
+        domainRegisterTimer = createHistogram(
+                "domain_register_perf"
                 , "Transaction. Domain register."
                 , "environment", "project","test");
-        accountRegisterTransactionTimer = createHistogram(
-                "account_register"
+        accountRegisterTimer = createHistogram(
+                "account_register_perf"
                 , "Transaction. Account register."
                 , "environment", "project","test");
-        assetDefinitionRegisterTransactionTimer = createHistogram(
-                "asset_definition_register"
+        assetDefinitionRegisterTimer = createHistogram(
+                "asset_definition_register_perf"
                 , "Transaction. Asset definition register."
                 , "environment", "project","test");
-        assetMintTransactionTimer = createHistogram(
-                "asset_mint"
+        assetMintTimer = createHistogram(
+                "asset_mint_perf"
                 , "Transaction. Asset mint."
                 , "environment", "project","test");
-        transferAssetTransactionTimer = createHistogram(
-                "transfer_asset"
+        transferAssetTimer = createHistogram(
+                "transfer_asset_perf"
                 , "Transaction. Transfer asset."
                 , "environment", "project","test");
         findAssetsByAccountIdQueryTimer = createHistogram(
-                "find_assets_account_id_query_response_time"
+                "find_assets_account_id_query_perf"
                 , "Query. Find assets by accountId."
                 , "environment", "project","test");
-        unauthorizedResponseTime = createHistogram(
-                "unauthorized_IrohaClientException"
-                , "Error"
-                , "environment", "project","test");
-*/
 
-        /*histograms.add(createSubscriptionTransactionResponseTime);
-        histograms.add(sendTransactionResponseTime);
-        histograms.add(validatingTransactionResponseTime);
-        histograms.add(commitTransactionResponseTime);
-        histograms.add(rejectTransactionResponseTime);
-        histograms.add(domainRegisterTransactionTimer);
-        histograms.add(accountRegisterTransactionTimer);
-        histograms.add(assetDefinitionRegisterTransactionTimer);
-        histograms.add(assetMintTransactionTimer);
-        histograms.add(transferAssetTransactionTimer);
-        histograms.add(findAssetsByAccountIdQueryTimer);
-        histograms.add(unauthorizedResponseTime);*/
-
-        /*counters.add(createSubscriptionTransactionResponseTime);
-        counters.add(sendTransactionResponseTime);
-        counters.add(validatingTransactionResponseTime);
-        counters.add(commitTransactionResponseTime);
-        counters.add(rejectTransactionResponseTime);*/
-        counters.add(domainRegisterTransactionTimer);
-        counters.add(accountRegisterTransactionTimer);
-        counters.add(assetDefinitionRegisterTransactionTimer);
-        counters.add(assetMintTransactionTimer);
-        counters.add(transferAssetTransactionTimer);
-        counters.add(findAssetsByAccountIdQueryTimer);
+        counters.add(domainRegisterCount);
+        counters.add(accountRegisterCount);
+        counters.add(assetDefinitionRegisterCount);
+        counters.add(assetMintCount);
+        counters.add(transferAssetCount);
+        counters.add(findAssetsByAccountIdQueryCount);
         counters.add(unauthorizedResponseTime);
 
+        histograms.add(subscriptionToBlockStreamTimer);
+        histograms.add(domainRegisterTimer);
+        histograms.add(accountRegisterTimer);
+        histograms.add(assetDefinitionRegisterTimer);
+        histograms.add(assetMintTimer);
+        histograms.add(transferAssetTimer);
+        histograms.add(findAssetsByAccountIdQueryTimer);
+
         registerCounter(counters);
+        registerHistograms(histograms);
     }
 
     private void registerHistograms(ArrayList<Histogram> histogramsList){
@@ -195,10 +127,11 @@ public class CustomHistogram {
         }
     }
 
-    private Counter createCounter(String name, String help/*, String label0, String label1, String label2*/){
+    private Counter createCounter(String name, String help, String label0, String label1, String label2){
         return Counter.build()
                 .name(name)
                 .help(help)
+                .labelNames(label0, label1, label2)
                 .create();
     }
 }

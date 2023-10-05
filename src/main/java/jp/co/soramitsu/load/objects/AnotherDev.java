@@ -16,7 +16,7 @@ public class AnotherDev {
     private AssetValue assetValue;
 
     public AssetValue getAssetValue() {
-        return assetValue;
+        return this.assetValue;
     }
 
     public void setAssetValue(AssetValue assetValue) {
