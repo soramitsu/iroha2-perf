@@ -27,6 +27,7 @@ open class Wrench13 {
         "9ac47abf59b356e0bd7dcbbbb4dec080e302156a48ca907e47cb6aea1d32719e",
     )
 
+
     val Iroha2Client: Iroha2Client = buildIroha2Client()
 
     fun buildIroha2Client(): Iroha2Client{
@@ -49,7 +50,9 @@ open class Wrench13 {
         )
     }
 
-    var pushGateway = PushGateway("localhost:9091");
+    
+
+    var pushGateway = PushGateway("0.0.0.0:9091");
 
     lateinit var anotherDevDomainId: DomainId
     lateinit var currentDevAccountId: AccountId
