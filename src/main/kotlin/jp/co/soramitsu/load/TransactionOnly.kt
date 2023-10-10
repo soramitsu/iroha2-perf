@@ -16,7 +16,7 @@ class TransactionOnly: Wrench13() {
     companion object {
         @JvmStatic
         fun apply() = runBlocking {
-            TransferAssetsTransactionStatus().applyScn()
+            TransactionOnly().applyScn()
         }
     }
 
