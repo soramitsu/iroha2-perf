@@ -14,6 +14,7 @@ import org.aeonbits.owner.Config.Sources;
 })
 public interface Simulation extends Config {
 
+    //SetUp model settings
     @Key("targetProtocol")
     String targetProtocol();
 
@@ -31,6 +32,22 @@ public interface Simulation extends Config {
 
     @Key("remotePass")
     String remotePass();
+
+    //Close model settings
+    @Key("concurrentUsers")
+    Integer concurrentUsers();
+
+    @Key("times")
+    Integer times();
+
+    @Key("eachLevelLasting")
+    Long eachLevelLasting();
+
+    @Key("separatedByRampsLasting")
+    Long separatedByRampsLasting();
+
+    @Key("startingFrom")
+    Integer startingFrom();
 
     @Key("debugSimulation")
     String debugSimulation();
