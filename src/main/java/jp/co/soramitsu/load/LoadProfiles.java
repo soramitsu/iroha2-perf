@@ -7,14 +7,6 @@ import jp.co.soramitsu.load.infrastructure.config.SimulationConfig;
 import static io.gatling.javaapi.core.CoreDsl.*;
 
 public class LoadProfiles {
-
-    public static ClosedInjectionStep getMaxPerformanceClosedProfileOld() {
-        return incrementConcurrentUsers(1)
-                .times(200)
-                .eachLevelLasting(30)
-                .separatedByRampsLasting(1)
-                .startingFrom(0);
-    }
     public static ClosedInjectionStep getMaxPerformanceClosedProfile() {
         return incrementConcurrentUsers(SimulationConfig.simulation.concurrentUsers())
                 .times(SimulationConfig.simulation.times())

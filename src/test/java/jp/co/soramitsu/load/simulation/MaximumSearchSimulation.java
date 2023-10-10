@@ -11,22 +11,15 @@ public class MaximumSearchSimulation extends Simulation {
         setUp(
                 jp.co.soramitsu.load.SetUp.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1))
                         .andThen(Iroha2SetUp.Companion.apply().injectOpen(LoadProfiles.setupModel())
-                                .andThen(TransferAssetsQueryStatus.Companion.apply().injectOpen(LoadProfiles.maximumSearchModel()))
+                                .andThen(TransferAssetsQueryStatus.Companion.apply().injectClosed(LoadProfiles.getMaxPerformanceClosedProfile()))
                         ).andThen(CleanUp.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1)))
         ).protocols(Protocols.httpProtocol);
-    }*/
-    /*{
-        setUp(
-                ScenarioSelector.getScenario()
-                        .injectClosed(getMaxPerformanceClosedProfile())
-                        .protocols(httpProtocol))
-                .maxDuration((SimulationConfig.simulation.rampDuration() + SimulationConfig.simulation.stageDuration()) * SimulationConfig.simulation.stagesNumber());
     }*/
     {
         setUp(
                 jp.co.soramitsu.load.SetUp.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1))
                         .andThen(Iroha2SetUp.Companion.apply().injectOpen(LoadProfiles.setupModel())
-                                .andThen(TransferAssetsQueryStatus.Companion.apply().injectClosed(LoadProfiles.getMaxPerformanceClosedProfile()))
+                                .andThen(TransactionOnly.Companion.apply().injectClosed(LoadProfiles.getMaxPerformanceClosedProfile()))
                         ).andThen(CleanUp.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1)))
         ).protocols(Protocols.httpProtocol);
     }
