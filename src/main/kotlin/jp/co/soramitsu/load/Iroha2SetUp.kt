@@ -3,6 +3,7 @@ package jp.co.soramitsu.load
 import io.gatling.javaapi.core.CoreDsl.*
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.*
+import jp.co.soramitsu.iroha2.client.Iroha2Client
 import kotlinx.coroutines.time.withTimeout
 import java.time.Duration
 import jp.co.soramitsu.iroha2.generated.*
@@ -12,6 +13,7 @@ import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.CustomHistogram
 import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
+import org.apache.http.client.utils.URIBuilder
 import java.util.*
 
 class Iroha2SetUp : Wrench13() {
@@ -26,14 +28,41 @@ class Iroha2SetUp : Wrench13() {
         return iroha2SetUpScn
     }
 
+    val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
+
+    fun buildClient(peer : String): Iroha2Client {
+        val peerUrl = URIBuilder().let {
+            it.scheme = SimulationConfig.simulation.targetProtocol()
+            it.host = SimulationConfig.simulation.targetURL()
+            it.port = 0
+            //it.path = SimulationConfig.simulation.targetPath()
+            it.path = peer
+            it.build().toURL()
+        }
+        urls.add(peerUrl)
+
+        return Iroha2Client(
+            urls[0],
+            urls[0],
+            urls[0],
+            log = false,
+            credentials = SimulationConfig.simulation.remoteLogin() + ":" + SimulationConfig.simulation.remotePass(),
+            eventReadTimeoutInMills = 10000,
+            eventReadMaxAttempts = 20
+        )
+    }
+
     val iroha2SetUpScn = scenario("Iroha2SetUp")
         .exec { Session ->
+            val randomIndex = (0 until peers.size).random()
+            val randomPeer = peers[randomIndex]
+            val client: Iroha2Client = buildClient(randomPeer)
             timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                 "gatling"
                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                 , Iroha2SetUp::class.simpleName).startTimer()
             try {
-                Iroha2Client.subscribeToBlockStream(1,2,true)
+                client.subscribeToBlockStream(1,2,true)
             } finally {
                 timer.observeDuration()
                 CustomHistogram.subscriptionToBlockStreamCount.labels(
@@ -52,7 +81,7 @@ class Iroha2SetUp : Wrench13() {
             try {
                 runBlocking {
                     println("SEND_TRANSACTION: DOMAIN REGISTER")
-                    Iroha2Client.sendTransaction {
+                    client.sendTransaction {
                         account(admin)
                         registerDomain(anotherDevDomainId)
                         buildSigned(adminKeyPair)
@@ -75,12 +104,15 @@ class Iroha2SetUp : Wrench13() {
                 //accounts on each domain = threads * anotherDevDomainIdList.size * setUpUsersOnEachDomain
                 repeat(SimulationConfig.simulation.setUpUsersOnEachDomain).on(
                     exec { Session ->
+                        val randomIndex = (0 until peers.size).random()
+                        val randomPeer = peers[randomIndex]
+                        val client: Iroha2Client = buildClient(randomPeer)
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName).startTimer()
                         try {
-                            Iroha2Client.subscribeToBlockStream(1,2,true)
+                            client.subscribeToBlockStream(1,2,true)
                         } finally {
                             timer.observeDuration()
                             CustomHistogram.subscriptionToBlockStreamCount.labels(
@@ -104,7 +136,7 @@ class Iroha2SetUp : Wrench13() {
                         try {
                             println("SEND_TRANSACTION: ACCOUNT REGISTER")
                             runBlocking {
-                                Iroha2Client.sendTransaction {
+                                client.sendTransaction {
                                     account(admin)
                                     registerAccount(
                                         anotherDev.anotherDevAccountId,
@@ -130,7 +162,7 @@ class Iroha2SetUp : Wrench13() {
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName).startTimer()
                         try {
-                            Iroha2Client.subscribeToBlockStream(1,2,true)
+                            client.subscribeToBlockStream(1,2,true)
                         } finally {
                             timer.observeDuration()
                             CustomHistogram.subscriptionToBlockStreamCount.labels(
@@ -151,7 +183,7 @@ class Iroha2SetUp : Wrench13() {
                         try {
                             println("SEND_TRANSACTION: ASSET DEFINITION REGISTER")
                             runBlocking {
-                                Iroha2Client.sendTransaction {
+                                client.sendTransaction {
                                     account(anotherDev.anotherDevAccountId)
                                     registerAssetDefinition(anotherDev.assetDefinitionId, AssetValueType.Quantity())
                                     buildSigned(anotherDev.anotherDevKeyPair)
@@ -174,7 +206,7 @@ class Iroha2SetUp : Wrench13() {
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName).startTimer()
                         try {
-                            Iroha2Client.subscribeToBlockStream(1,2,true)
+                            client.subscribeToBlockStream(1,2,true)
                         } finally {
                             timer.observeDuration()
                             CustomHistogram.subscriptionToBlockStreamCount.labels(
@@ -193,7 +225,7 @@ class Iroha2SetUp : Wrench13() {
                         try {
                             println("SEND_TRANSACTION: MINT ASSET")
                             runBlocking {
-                                Iroha2Client.sendTransaction {
+                                client.sendTransaction {
                                     account(anotherDev.anotherDevAccountId)
                                     mintAsset(anotherDev.anotherDevAssetId, 10000)
                                     buildSigned(anotherDev.anotherDevKeyPair)
