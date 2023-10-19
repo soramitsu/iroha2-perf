@@ -62,7 +62,8 @@ class Iroha2SetUp : Wrench13() {
                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                 , Iroha2SetUp::class.simpleName).startTimer()
             try {
-                client.subscribeToBlockStream(1,2,true)
+                client.subscribeToBlockStream(1, 2, true)
+                                .second.close()
             } finally {
                 timer.observeDuration()
                 CustomHistogram.subscriptionToBlockStreamCount.labels(
@@ -112,7 +113,8 @@ class Iroha2SetUp : Wrench13() {
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName).startTimer()
                         try {
-                            client.subscribeToBlockStream(1,2,true)
+                            client.subscribeToBlockStream(1, 2, true)
+                                .second.close()
                         } finally {
                             timer.observeDuration()
                             CustomHistogram.subscriptionToBlockStreamCount.labels(
@@ -162,7 +164,8 @@ class Iroha2SetUp : Wrench13() {
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName).startTimer()
                         try {
-                            client.subscribeToBlockStream(1,2,true)
+                            client.subscribeToBlockStream(1, 2, true)
+                                .second.close()
                         } finally {
                             timer.observeDuration()
                             CustomHistogram.subscriptionToBlockStreamCount.labels(
@@ -206,7 +209,8 @@ class Iroha2SetUp : Wrench13() {
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName).startTimer()
                         try {
-                            client.subscribeToBlockStream(1,2,true)
+                            client.subscribeToBlockStream(1, 2, true)
+                                .second.close()
                         } finally {
                             timer.observeDuration()
                             CustomHistogram.subscriptionToBlockStreamCount.labels(
