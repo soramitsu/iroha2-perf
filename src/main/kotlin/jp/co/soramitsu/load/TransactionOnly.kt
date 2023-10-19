@@ -3,6 +3,7 @@ package jp.co.soramitsu.load
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.client.Iroha2Client
+import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.AnotherDevs
@@ -74,7 +75,8 @@ class TransactionOnly: Wrench13() {
                             Iroha2SetUp::class.simpleName
                         ).startTimer()
                         try {
-                            Iroha2Client.subscribeToBlockStream(1, 2, true)
+                            client.subscribeToBlockStream(1, 2, true)
+                                .second.close()
                         } finally {
                             timer.observeDuration()
                             CustomHistogram.subscriptionToBlockStreamCount.labels(

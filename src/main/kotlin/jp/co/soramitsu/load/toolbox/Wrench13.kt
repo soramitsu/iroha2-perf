@@ -50,8 +50,6 @@ open class Wrench13 {
         )
     }
 
-    
-
     var pushGateway = PushGateway("0.0.0.0:9091");
 
     lateinit var anotherDevDomainId: DomainId
@@ -66,7 +64,7 @@ open class Wrench13 {
     lateinit var timer: Timer
 
     var queryWaiter: Long = 5000 //ms
-    var transactionWaiter: Long = 40 //s
+    var transactionWaiter: Long = 60 //s
     var userRequestCounter: Int = 10
     var attemptsPersentage: Int = 2
     var attempt: Int = -1
