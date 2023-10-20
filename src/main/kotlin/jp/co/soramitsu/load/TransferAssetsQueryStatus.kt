@@ -3,6 +3,7 @@ package jp.co.soramitsu.load
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.CoreDsl.exec
 import io.gatling.javaapi.core.ScenarioBuilder
+import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.AnotherDevs
@@ -25,6 +26,10 @@ class TransferAssetsQueryStatus: Wrench13() {
         return transferAssetsQueryStatusScn
     }
 
+    val randomIndex = (0 until peers.size).random()
+    val randomPeer = peers[randomIndex]
+    val Iroha2Client: Iroha2Client = buildClient(randomPeer)
+
     val transferAssetsQueryStatusScn = CoreDsl.scenario("TransferAssets")
         .repeat(SimulationConfig.simulation.attemptsToTransaction)
         .on(
@@ -42,6 +47,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                 Session
             }
             .exec { Session ->
+
                 timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
