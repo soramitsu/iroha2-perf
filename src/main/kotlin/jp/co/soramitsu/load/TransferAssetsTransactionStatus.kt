@@ -4,6 +4,7 @@ package jp.co.soramitsu.load
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.CoreDsl.exec
 import io.gatling.javaapi.core.ScenarioBuilder
+import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.CustomHistogram
@@ -24,6 +25,9 @@ class TransferAssetsTransactionStatus: Wrench13() {
     fun applyScn(): ScenarioBuilder {
         return transferAssetsScn
     }
+    val randomIndex = (0 until peers.size).random()
+    val randomPeer = peers[randomIndex]
+    val Iroha2Client: Iroha2Client = buildClient(randomPeer)
 
     val transferAssetsScn = CoreDsl.scenario("TransferAssets")
         .repeat(userRequestCounter)

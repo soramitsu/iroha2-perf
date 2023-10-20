@@ -7,6 +7,7 @@ import io.prometheus.client.exporter.PushGateway
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
 import jp.co.soramitsu.iroha2.client.Iroha2Client
+import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.iroha2.generated.AccountId
 import jp.co.soramitsu.iroha2.generated.AssetId
 import jp.co.soramitsu.iroha2.generated.AssetValue
@@ -19,6 +20,7 @@ import java.net.URL
 import java.security.KeyPair
 
 open class Wrench13 {
+
     val urls: MutableList<URL> = mutableListOf()
 
     val admin = AccountId("bob".asName(), "wonderland".asDomainId())
@@ -26,16 +28,36 @@ open class Wrench13 {
         "7233bfc89dcbd68c19fde6ce6158225298ec1131b6a130d1aeb454c1ab5183c0",
         "9ac47abf59b356e0bd7dcbbbb4dec080e302156a48ca907e47cb6aea1d32719e",
     )
+    var queryWaiter: Long = 5000 //ms
+    var transactionWaiter: Long = 60 //s
+    var userRequestCounter: Int = 10
+    var attemptsPersentage: Int = 2
+    var attempt: Int = -1
+    var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
+
+    lateinit var anotherDevDomainId: DomainId
+    lateinit var currentDevAccountId: AccountId
+    lateinit var currentDevKeyPair: KeyPair
+    lateinit var currentDevAssetId: AssetId
+    lateinit var targetDevAccountId: AccountId
+    lateinit var targetDevKeyPair: KeyPair
+    lateinit var currentDevAssetIdBeforeTransferring: AssetValue
+    lateinit var currentDevAssetIdAfterTransferring: AssetValue
+    lateinit var targetDevAssetIdAfterTransferring: AssetValue
+    lateinit var subscription: BlockStreamSubscription
+    lateinit var timer: Timer
 
 
-    val Iroha2Client: Iroha2Client = buildIroha2Client()
 
-    fun buildIroha2Client(): Iroha2Client{
+    val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
+
+    fun buildClient(peer : String): Iroha2Client {
         val peerUrl = URIBuilder().let {
             it.scheme = SimulationConfig.simulation.targetProtocol()
             it.host = SimulationConfig.simulation.targetURL()
             it.port = 0
-            it.path = SimulationConfig.simulation.targetPath()
+            //it.path = SimulationConfig.simulation.targetPath()
+            it.path = peer
             it.build().toURL()
         }
         urls.add(peerUrl)
@@ -51,25 +73,6 @@ open class Wrench13 {
     }
 
     var pushGateway = PushGateway("0.0.0.0:9091");
-
-    lateinit var anotherDevDomainId: DomainId
-    lateinit var currentDevAccountId: AccountId
-    lateinit var currentDevKeyPair: KeyPair
-    lateinit var currentDevAssetId: AssetId
-    lateinit var targetDevAccountId: AccountId
-    lateinit var targetDevKeyPair: KeyPair
-    lateinit var currentDevAssetIdBeforeTransferring: AssetValue
-    lateinit var currentDevAssetIdAfterTransferring: AssetValue
-    lateinit var targetDevAssetIdAfterTransferring: AssetValue
-    lateinit var timer: Timer
-
-    var queryWaiter: Long = 5000 //ms
-    var transactionWaiter: Long = 60 //s
-    var userRequestCounter: Int = 10
-    var attemptsPersentage: Int = 2
-    var attempt: Int = -1
-
-    var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
 
     fun sendMetricsToPrometheus(histogram: Histogram, job: String) {
         try {
