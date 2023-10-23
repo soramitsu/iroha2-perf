@@ -55,7 +55,7 @@ class Iroha2SetUp : Wrench13() {
                 sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
             }
             anotherDevDomainId = "bulb_${UUID.randomUUID()}_${UUID.randomUUID()}".asDomainId()
-            anotherDevDomainIdList.add(anotherDevDomainId)
+
             timer = CustomHistogram.domainRegisterTimer.labels(
                 "gatling"
                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -70,6 +70,7 @@ class Iroha2SetUp : Wrench13() {
                     }.also { d ->
                         withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
                     }
+                    anotherDevDomainIdList.add(anotherDevDomainId)
                 }
                 subscription.close()
             } catch (ex: RuntimeException) {
