@@ -54,23 +54,25 @@ class Iroha2SetUp : Wrench13() {
                 sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
                 sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
             }
-            anotherDevDomainId = "bulb_${UUID.randomUUID()}_${UUID.randomUUID()}".asDomainId()
-            anotherDevDomainIdList.add(anotherDevDomainId)
+            val anotherDevDomainId = "bulb_${UUID.randomUUID()}_${UUID.randomUUID()}".asDomainId()
+            //anotherDevDomainIdList.add(anotherDevDomainId)
             timer = CustomHistogram.domainRegisterTimer.labels(
                 "gatling"
                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                 , Iroha2SetUp::class.simpleName).startTimer()
             try {
                 runBlocking {
-                    println("SEND_TRANSACTION: DOMAIN REGISTER")
                     Iroha2Client.sendTransaction {
                         account(admin)
                         registerDomain(anotherDevDomainId)
                         buildSigned(adminKeyPair)
                     }.also { d ->
-                        withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
+                        withTimeout(Duration.ofSeconds(transactionWaiter))
+                        { d.await()
+                            println("SEND_TRANSACTION: DOMAIN REGISTER")
+                            anotherDevDomainIdList.add(anotherDevDomainId)
+                        }
                     }
-
                 }
                 subscription.close()
             } catch (ex: RuntimeException) {
@@ -121,7 +123,6 @@ class Iroha2SetUp : Wrench13() {
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).startTimer()
                         try {
-                            println("SEND_TRANSACTION: ACCOUNT REGISTER")
                             runBlocking {
                                 Iroha2Client.sendTransaction {
                                     account(admin)
@@ -131,7 +132,10 @@ class Iroha2SetUp : Wrench13() {
                                     )
                                     buildSigned(adminKeyPair)
                                 }.also { d ->
-                                    withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
+                                    withTimeout(Duration.ofSeconds(transactionWaiter)) {
+                                        d.await()
+                                        println("SEND_TRANSACTION: ACCOUNT REGISTER")
+                                    }
                                 }
                                 subscription.close()
                             }
@@ -172,14 +176,17 @@ class Iroha2SetUp : Wrench13() {
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName).startTimer()
                         try {
-                            println("SEND_TRANSACTION: ASSET DEFINITION REGISTER")
+
                             runBlocking {
                                 Iroha2Client.sendTransaction {
                                     account(anotherDev.anotherDevAccountId)
                                     registerAssetDefinition(anotherDev.assetDefinitionId, AssetValueType.Quantity())
                                     buildSigned(anotherDev.anotherDevKeyPair)
                                 }.also { d ->
-                                    withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
+                                    withTimeout(Duration.ofSeconds(transactionWaiter)) {
+                                        d.await()
+                                        println("SEND_TRANSACTION: ASSET DEFINITION REGISTER")
+                                    }
                                 }
                                 subscription.close()
                             }
@@ -218,14 +225,16 @@ class Iroha2SetUp : Wrench13() {
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName).startTimer()
                         try {
-                            println("SEND_TRANSACTION: MINT ASSET")
                             runBlocking {
                                 Iroha2Client.sendTransaction {
                                     account(anotherDev.anotherDevAccountId)
                                     mintAsset(anotherDev.anotherDevAssetId, 10000)
                                     buildSigned(anotherDev.anotherDevKeyPair)
                                 }.also { d ->
-                                    withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
+                                    withTimeout(Duration.ofSeconds(transactionWaiter)) {
+                                        d.await()
+                                        println("SEND_TRANSACTION: MINT ASSET")
+                                    }
                                 }
                                 subscription.close()
                             }
