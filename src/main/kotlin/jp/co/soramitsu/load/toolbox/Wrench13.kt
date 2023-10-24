@@ -35,7 +35,7 @@ open class Wrench13 {
     var attempt: Int = -1
     var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
 
-    lateinit var anotherDevDomainId: DomainId
+    //lateinit var anotherDevDomainId: DomainId
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair
     lateinit var currentDevAssetId: AssetId
