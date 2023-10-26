@@ -4,6 +4,8 @@ import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.CoreDsl.exec
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.client.Iroha2Client
+import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
+import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.AnotherDevs
@@ -47,7 +49,9 @@ class TransferAssetsQueryStatus: Wrench13() {
                 Session
             }
             .exec { Session ->
-
+                val randomIndex = (0 until peers.size).random()
+                val randomPeer = peers[randomIndex]
+                val Iroha2Client: Iroha2Client = buildClient(randomPeer)
                 timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -118,7 +122,8 @@ class TransferAssetsQueryStatus: Wrench13() {
                             , Iroha2SetUp::class.simpleName
                         ).startTimer()
                         try {
-                            Iroha2Client.subscribeToBlockStream(1,2,true)
+                            val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = Iroha2Client.subscribeToBlockStream(1, 2)
+                            subscription = idToSubscription.component2()
                         } finally {
                             timer.observeDuration()
                             CustomHistogram.subscriptionToBlockStreamCount.labels(
@@ -143,7 +148,10 @@ class TransferAssetsQueryStatus: Wrench13() {
                                 }.also { d ->
                                     withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
                                 }
+                                subscription.close()
                             }
+                        } catch (ex: RuntimeException) {
+                            println(ex.message)
                         } finally {
                             timer.observeDuration()
                             CustomHistogram.transferAssetCount.labels(

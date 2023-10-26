@@ -71,20 +71,19 @@ class Iroha2SetUp : Wrench13() {
                         { d.await()
                             println("SEND_TRANSACTION: DOMAIN REGISTER")
                             anotherDevDomainIdList.add(anotherDevDomainId)
+                            timer.observeDuration()
+                            CustomHistogram.domainRegisterCount.labels(
+                                "gatling"
+                                , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
+                                , Iroha2SetUp::class.simpleName).inc()
+                            sendMetricsToPrometheus(CustomHistogram.domainRegisterCount, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.domainRegisterTimer, "transaction")
                         }
                     }
                 }
                 subscription.close()
             } catch (ex: RuntimeException) {
                 println(ex.message)
-            } finally {
-                timer.observeDuration()
-                CustomHistogram.domainRegisterCount.labels(
-                    "gatling"
-                    , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
-                    , Iroha2SetUp::class.simpleName).inc()
-                sendMetricsToPrometheus(CustomHistogram.domainRegisterCount, "transaction")
-                sendMetricsToPrometheus(CustomHistogram.domainRegisterTimer, "transaction")
             }
             Session
         }
