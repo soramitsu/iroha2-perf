@@ -27,28 +27,6 @@ class TransactionOnly: Wrench13() {
     fun applyScn(): ScenarioBuilder {
         return transferAssetsOnlyScn
     }
-    /*val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
-
-    fun buildClient(peer : String): Iroha2Client {
-        val peerUrl = URIBuilder().let {
-            it.scheme = SimulationConfig.simulation.targetProtocol()
-            it.host = SimulationConfig.simulation.targetURL()
-            it.port = 0
-            //it.path = SimulationConfig.simulation.targetPath()
-            it.path = peer
-            it.build().toURL()
-        }
-        urls.add(peerUrl)
-        return Iroha2Client(
-            urls[0],
-            urls[0],
-            urls[0],
-            log = false,
-            credentials = SimulationConfig.simulation.remoteLogin() + ":" + SimulationConfig.simulation.remotePass(),
-            eventReadTimeoutInMills = 10000,
-            eventReadMaxAttempts = 20
-        )
-    }*/
 
     val transferAssetsOnlyScn = CoreDsl.scenario("TransferAssets")
         .repeat(SimulationConfig.simulation.attemptsToTransaction)
