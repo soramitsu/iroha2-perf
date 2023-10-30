@@ -1,13 +1,11 @@
-FROM openjdk:11-jdk
+FROM maven:3.9.5-eclipse-temurin-11-alpine
 
-RUN apt-get update && apt-get install -y wget unzip openjdk-11-jdk maven
-RUN apt-get install -y wget && \
+RUN apk update && apk add wget && apk add unzip && apk add openjdk11 && apk add maven
+RUN apk add wget && \
     wget https://github.com/JetBrains/kotlin/releases/download/v1.8.0/kotlin-compiler-1.8.0.zip && \
     unzip kotlin-compiler-1.8.0.zip -d /opt && \
     rm kotlin-compiler-1.8.0.zip
 
 WORKDIR /app
 COPY . /app
-RUN mvn clean install
-
-CMD ["java", "-jar", "iroha2-perf-1.0.jar"]
+RUN mvn clean package

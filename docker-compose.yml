@@ -2,7 +2,7 @@ version: '3'
 services:
   gatling:
     build:
-      context: .
+      context: docker-compose
       dockerfile: Dockerfile
     command: >
       mvn gatling:test
