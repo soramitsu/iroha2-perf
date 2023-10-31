@@ -1,27 +1,39 @@
-version: '3'
+version: "3"
+
 services:
   gatling:
+    container_name: iroha2-perf
     build:
-      context: docker-compose
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./Dockerfile
     command: >
-      mvn gatling:test
-      -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.MaximumSearchSimulation
-      -DtargetProtocol=
-      -DtargetURL=
-      -DtargetPath=peer-0/api
-      -DremoteLogin=
-      -DremotePass=
-      -DconcurrentUsers=1
-      -Dtimes=10000
-      -DeachLevelLasting=15
-      -DseparatedByRampsLasting=1
-      -DstartingFrom=0
-      -DdomainSetUpRampUp=5
-      -DduringSetUp=120
-      -DsetUpUsersOnEachDomain=10
+      mvn gatling:test 
+        -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.MaximumSearchSimulation 
+        -DtargetProtocol= 
+        -DtargetURL=
+        -DtargetPath=peer-0/api 
+        -DremoteLogin=
+        -DremotePass=
+        -DconcurrentUsers=1 
+        -Dtimes=10000 
+        -DeachLevelLasting=15 
+        -DseparatedByRampsLasting=1 
+        -DstartingFrom=0 
+        -DdomainSetUpRampUp=5 
+        -DduringSetUp=120  
+        -DsetUpUsersOnEachDomain=10
+    networks:
+      - iroha2-perf-net
+
   pushgateway:
     image: prom/pushgateway:latest
     container_name: pushgateway
     ports:
       - "9091:9091"
+    networks:
+      - iroha2-perf-net
+
+networks:
+  iroha2-perf-net:
+    external:
+      name: iroha2-perf-net
