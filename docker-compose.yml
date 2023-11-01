@@ -1,0 +1,52 @@
+version: "3"
+
+services:
+  gatling:
+    container_name: iroha2-perf
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    working_dir: /app
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /app/target/gatling
+
+    environment:
+      MAVEN_CONFIG: /var/maven/.m2
+    command: >
+      mvn gatling:test
+        -Duser.home=/var/maven
+        -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.MaximumSearchSimulation
+        -DtargetProtocol=https
+        -DtargetURL=
+        -DtargetPath=
+        -DremoteLogin=
+        -DremotePass=
+        -DconcurrentUsers=1
+        -Dtimes=10000
+        -DeachLevelLasting=15
+        -DseparatedByRampsLasting=1
+        -DstartingFrom=0
+        -DdomainSetUpRampUp=5
+        -DduringSetUp=120
+        -DsetUpUsersOnEachDomain=10
+    networks:
+      - iroha2-perf-net
+    volumes:
+      - gatling-volume:/var/maven/.m2
+
+  pushgateway:
+    image: prom/pushgateway:1.6.2
+    container_name: pushgateway
+    ports:
+      - "9091:9091"
+    networks:
+      - iroha2-perf-net
+
+networks:
+  iroha2-perf-net:
+    driver: bridge
+
+volumes:
+  gatling-volume:

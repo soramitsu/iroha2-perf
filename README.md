@@ -41,3 +41,10 @@ mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.Load
 -DrampUpTest=20 \
 -DduringTest=10 \
 -DstepDurationTest=1200
+
+# Image publishing policy
+We use a composite tag naming for `iroha2-perf` image. It's constructed as:
+`iroha2-perf:<semver-version>-<iroha2-release>`
+Bump tag with minor version unless the merge commit message contains #major or #patch.
+For more information, take a look to the [reference](https://github.com/anothrNick/github-tag-action#bumping)
+Chanhe the iroha2 release value for image tag by running workflow within `dispatch` event and set the value in `GITHUB_IROHA2_BRANCH` variable.

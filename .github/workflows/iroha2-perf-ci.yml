@@ -1,0 +1,48 @@
+name: I2-PERF::CI::Publish
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+    inputs:
+      GITHUB_IROHA2_BRANCH:
+        description: "iroha2 repo branch to take the image tag release"
+        required: false
+        default: iroha2-stable
+
+env:
+  IROHA2_RELEASE: ${{ github.event.inputs.GITHUB_IROHA2_BRANCH || 'iroha2-stable' }}
+
+jobs:
+  registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bump version and save the semver tag
+        uses: anothrNick/github-tag-action@1.67.0
+        id: tag_id
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: false
+      - name: Get the release from a branch name
+        run: |
+          RELEASE=$(curl -s https://raw.githubusercontent.com/hyperledger/iroha/${{ ENV.IROHA2_RELEASE }}/Cargo.toml \
+            | sed -n '3p' | sed -e 's/version = "//g' -e 's/"$//' | tr -d '\n')
+          echo "RELEASE=$RELEASE" >>$GITHUB_ENV
+      - name: Login to Soramitsu Harbor
+        uses: docker/login-action@v2
+        with:
+          registry: docker.soramitsu.co.jp
+          username: ${{ secrets.HARBOR_USERNAME }}
+          password: ${{ secrets.HARBOR_PASSWORD }}
+      - name: Build and push iroha2-perf image
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: docker.soramitsu.co.jp/iroha2/iroha2-perf:${{ steps.tag_id.outputs.new_tag }}-${{ env.RELEASE }}
+          file: Dockerfile
+          context: .
