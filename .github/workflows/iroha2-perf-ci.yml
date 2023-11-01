@@ -1,0 +1,26 @@
+name: I2-PERF::CI::Publish
+
+on:
+  push:
+    branches: [master]
+  
+  workflow_dispatch:
+
+jobs:
+  registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login to Soramitsu Harbor
+        uses: docker/login-action@v2
+        with:
+          registry: docker.soramitsu.co.jp
+          username: ${{ secrets.HARBOR_USERNAME }}
+          password: ${{ secrets.HARBOR_PASSWORD }}
+      - name: Build and push iroha2-perf image
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: docker.soramitsu.co.jp/iroha2/iroha2-perf:dev
+          file: Dockerfile
+          context: .
