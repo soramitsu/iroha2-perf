@@ -14,6 +14,6 @@ FROM maven:3.9.5-eclipse-temurin-11-alpine
 
 WORKDIR /opt/app
 COPY --from=builder /opt/app/pom.xml ./
-COPY --from=builder /opt/app/target/ /opt/app/target/
+COPY --from=builder /opt/app/target/ ./target/
 
 ENTRYPOINT ["/usr/local/bin/mvn-entrypoint.sh"]
