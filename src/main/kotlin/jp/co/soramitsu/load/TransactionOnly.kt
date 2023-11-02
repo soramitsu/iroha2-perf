@@ -63,8 +63,8 @@ class TransactionOnly: Wrench13() {
                                 System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
                                 Iroha2SetUp::class.simpleName
                             ).inc()
-                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
-                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
+                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
+                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
                         }
                         timer = CustomHistogram.transferAssetTimer.labels(
                             "gatling",
@@ -92,8 +92,8 @@ class TransactionOnly: Wrench13() {
                                 System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
                                 Iroha2SetUp::class.simpleName
                             ).inc()
-                            sendMetricsToPrometheus(CustomHistogram.transferAssetCount, "transaction")
-                            sendMetricsToPrometheus(CustomHistogram.transferAssetTimer, "transaction")
+                            //sendMetricsToPrometheus(CustomHistogram.transferAssetCount, "transaction")
+                            //sendMetricsToPrometheus(CustomHistogram.transferAssetTimer, "transaction")
                         }
                         val newSession = Session.set("condition", false)
                         newSession

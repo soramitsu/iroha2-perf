@@ -13,9 +13,6 @@ public class Grinder {
     URL histogramUrl = new URL(baseUrl + "histogram/");
     ArrayList<URL> query = new ArrayList<>();
 
-
-
-
     public Grinder() throws MalformedURLException {
         cleanUpMetrics();
     }

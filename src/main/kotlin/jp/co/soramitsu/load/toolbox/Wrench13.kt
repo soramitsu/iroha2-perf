@@ -4,6 +4,7 @@ import io.prometheus.client.Histogram
 import io.prometheus.client.Histogram.Timer
 import io.prometheus.client.Counter
 import io.prometheus.client.exporter.PushGateway
+import io.prometheus.client.exporter.HTTPServer
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
 import jp.co.soramitsu.iroha2.client.Iroha2Client
@@ -14,7 +15,6 @@ import jp.co.soramitsu.iroha2.generated.AssetValue
 import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.keyPairFromHex
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
-
 import org.apache.http.client.utils.URIBuilder
 import java.net.URL
 import java.security.KeyPair
@@ -34,8 +34,9 @@ open class Wrench13 {
     var attemptsPersentage: Int = 2
     var attempt: Int = -1
     var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
+    var pushGateway = PushGateway("0.0.0.0:9091")
+    var server = HTTPServer( 9091, true)
 
-    //lateinit var anotherDevDomainId: DomainId
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair
     lateinit var currentDevAssetId: AssetId
@@ -47,8 +48,6 @@ open class Wrench13 {
     lateinit var subscription: BlockStreamSubscription
     lateinit var timer: Timer
 
-
-
     val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
 
     fun buildClient(peer : String): Iroha2Client {
@@ -56,7 +55,6 @@ open class Wrench13 {
             it.scheme = SimulationConfig.simulation.targetProtocol()
             it.host = SimulationConfig.simulation.targetURL()
             it.port = 0
-            //it.path = SimulationConfig.simulation.targetPath()
             it.path = peer
             it.build().toURL()
         }
@@ -71,7 +69,6 @@ open class Wrench13 {
             eventReadMaxAttempts = 20
         )
     }
-    var pushGateway = PushGateway("pushgateway:9091");
 
     fun sendMetricsToPrometheus(histogram: Histogram, job: String) {
         try {
