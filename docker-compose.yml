@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  gatling:
+    container_name: iroha2-perf
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    working_dir: /opt/app
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /log
+      - /opt/app/target/gatling
+    command: >
+      mvn gatling:test 
+        -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.MaximumSearchSimulation 
+        -DtargetProtocol=https
+        -DtargetURL=
+        -DtargetPath=
+        -DremoteLogin=
+        -DremotePass=
+        -DconcurrentUsers=
+        -Dtimes=
+        -DeachLevelLasting=
+        -DseparatedByRampsLasting=
+        -DstartingFrom=
+        -DdomainSetUpRampUp=
+        -DduringSetUp=
+        -DsetUpUsersOnEachDomain=
+    networks:
+      - iroha2-perf-net
+    volumes:
+      - "${HOME}/.m2:/root/.m2"
+
+  pushgateway:
+    image: prom/pushgateway:latest
+    container_name: pushgateway
+    ports:
+      - "9091:9091"
+    networks:
+      - iroha2-perf-net
+
+networks:
+  iroha2-perf-net:
+    driver: bridge
