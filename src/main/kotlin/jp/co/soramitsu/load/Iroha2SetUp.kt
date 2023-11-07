@@ -112,9 +112,8 @@ class Iroha2SetUp : Wrench13() {
                         }
                         val anotherDev = AnotherDev()
                         anotherDev.anotherDevDomainId = Session.get<DomainId>("domainId")!!
-                        anotherDev.anotherDevAccountId = AccountId(
-                            Name("anotherDev${UUID.randomUUID()}_${UUID.randomUUID()}"),
-                            anotherDev.anotherDevDomainId
+                        anotherDev.anotherDevAccountId = AccountId(anotherDev.anotherDevDomainId,
+                            Name("anotherDev${UUID.randomUUID()}_${UUID.randomUUID()}")
                         )
                         anotherDev.anotherDevKeyPair = generateKeyPair()
                         timer = CustomHistogram.accountRegisterTimer.labels(
