@@ -15,6 +15,7 @@ ENV  USER=iroha
 ENV  UID=1000
 ENV  GID=1000
 ENV  MAVEN_CONFIG=/var/maven/.m2
+USER root
 
 RUN  set -ex && \
      addgroup -g $GID $USER && \
@@ -25,8 +26,8 @@ RUN  set -ex && \
      --ingroup "$USER" \
      --uid "$UID" \
      "$USER" && \
-     mkdir -p $MAVEN_CONFIG && \
-     chown $USER:$USER -R $MAVEN_CONFIG
+    mkdir -p $MAVEN_CONFIG && \
+    chown $USER:$USER -R $MAVEN_CONFIG
 
 WORKDIR /app
 COPY --from=builder /app/pom.xml ./
