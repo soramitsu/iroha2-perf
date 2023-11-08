@@ -19,10 +19,10 @@ services:
         -Duser.home=/var/maven
         -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.MaximumSearchSimulation
         -DtargetProtocol=https
-        -DtargetURL=iroha2.test.tachi.soramitsu.co.jp
-        -DtargetPath=peer-0/api
-        -DremoteLogin=iroha2-dev
-        -DremotePass=4H7L&KN25%$$2jisV8&NTVtiX
+        -DtargetURL=
+        -DtargetPath=
+        -DremoteLogin=
+        -DremotePass=
         -DconcurrentUsers=1
         -Dtimes=10000
         -DeachLevelLasting=15
