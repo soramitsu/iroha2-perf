@@ -21,26 +21,27 @@ jobs:
   registry:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
       - name: Bump version and save the semver tag
-        uses: anothrNick/github-tag-action@1.67.0
+        uses: anothrNick/github-tag-action@a2c70ae13a881faf2b4953baaa9e49731997ab36
         id: tag_id
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: false
+          DEFAULT_BUMP: none
       - name: Get the release from a branch name
         run: |
           RELEASE=$(curl -s https://raw.githubusercontent.com/hyperledger/iroha/${{ ENV.IROHA2_RELEASE }}/Cargo.toml \
             | sed -n '3p' | sed -e 's/version = "//g' -e 's/"$//' | tr -d '\n')
           echo "RELEASE=$RELEASE" >>$GITHUB_ENV
       - name: Login to Soramitsu Harbor
-        uses: docker/login-action@v2
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d
         with:
           registry: docker.soramitsu.co.jp
           username: ${{ secrets.HARBOR_USERNAME }}
           password: ${{ secrets.HARBOR_PASSWORD }}
       - name: Build and push iroha2-perf image
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09
         with:
           push: true
           tags: docker.soramitsu.co.jp/iroha2/iroha2-perf:${{ steps.tag_id.outputs.new_tag }}-${{ env.RELEASE }}

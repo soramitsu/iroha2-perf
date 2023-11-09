@@ -26,8 +26,8 @@ RUN  set -ex && \
      --ingroup "$USER" \
      --uid "$UID" \
      "$USER" && \
-    mkdir -p $MAVEN_CONFIG && \
-    chown $USER:$USER -R $MAVEN_CONFIG
+     mkdir -p $MAVEN_CONFIG && \
+     chown $USER:$USER -R $MAVEN_CONFIG
 
 WORKDIR /app
 COPY --from=builder /app/pom.xml ./

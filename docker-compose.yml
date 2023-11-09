@@ -3,6 +3,9 @@ version: "3"
 services:
   gatling:
     container_name: iroha2-perf
+    restart: unless-stopped
+    mem_limit: 4G
+    cpus: 4
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -11,7 +14,7 @@ services:
     tmpfs:
       - /tmp
       - /app/target/gatling
-
+      - /var/log
     environment:
       MAVEN_CONFIG: /var/maven/.m2
     command: >
@@ -35,14 +38,42 @@ services:
       - iroha2-perf-net
     volumes:
       - gatling-volume:/var/maven/.m2
+    logging:
+      driver: "local"
+      options:
+        max-size: "100m"
+        max-file: "3"
+    labels:
+      - 'filebeat.fields.app=iroha2-perf'
+      - 'filebeat.fields.env=tst'
+      - 'filebeat.fields.project=iroha2-perf'
+      - 'filebeat.fields.logtype=iroha2'
+      - 'filebeat.module=docker'
+    #healthcheck: 
 
   pushgateway:
-    image: prom/pushgateway:1.6.2
+    image: prom/pushgateway:v1.6.2
+    restart: unless-stopped
+    mem_limit: 256M
+    cpus: 1
+    read_only: true
     container_name: pushgateway
     ports:
       - "9091:9091"
     networks:
       - iroha2-perf-net
+    logging:
+      driver: "local"
+      options:
+        max-size: "100m"
+        max-file: "3"
+    labels:
+      - 'filebeat.fields.app=iroha2-push-gw'
+      - 'filebeat.fields.env=tst'
+      - 'filebeat.fields.project=iroha2-perf'
+      - 'filebeat.fields.logtype=iroha2'
+      - 'filebeat.module=docker'
+    #healthcheck: 
 
 networks:
   iroha2-perf-net:
