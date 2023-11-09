@@ -39,7 +39,7 @@ services:
     volumes:
       - gatling-volume:/var/maven/.m2
     logging:
-      driver: "local"
+      driver: "json-file"
       options:
         max-size: "100m"
         max-file: "3"
@@ -63,7 +63,7 @@ services:
     networks:
       - iroha2-perf-net
     logging:
-      driver: "local"
+      driver: "json-file"
       options:
         max-size: "100m"
         max-file: "3"
