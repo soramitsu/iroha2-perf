@@ -71,8 +71,7 @@ open class Wrench13 {
             eventReadMaxAttempts = 20
         )
     }
-
-    var pushGateway = PushGateway("0.0.0.0:9091");
+    var pushGateway = PushGateway("pushgateway:9091");
 
     fun sendMetricsToPrometheus(histogram: Histogram, job: String) {
         try {
