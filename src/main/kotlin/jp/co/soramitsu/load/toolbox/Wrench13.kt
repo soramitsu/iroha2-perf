@@ -34,8 +34,10 @@ open class Wrench13 {
     var attemptsPersentage: Int = 2
     var attempt: Int = -1
     var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
+    lateinit var Iroha2Client: Iroha2Client
 
-    //lateinit var anotherDevDomainId: DomainId
+
+    var pushGateway = PushGateway("0.0.0.0:9091");
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair
     lateinit var currentDevAssetId: AssetId
@@ -46,8 +48,6 @@ open class Wrench13 {
     lateinit var targetDevAssetIdAfterTransferring: AssetValue
     lateinit var subscription: BlockStreamSubscription
     lateinit var timer: Timer
-
-
 
     val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
 
@@ -71,7 +71,6 @@ open class Wrench13 {
             eventReadMaxAttempts = 20
         )
     }
-    var pushGateway = PushGateway("pushgateway:9091");
 
     fun sendMetricsToPrometheus(histogram: Histogram, job: String) {
         try {

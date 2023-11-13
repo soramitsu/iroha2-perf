@@ -30,7 +30,7 @@ class TransferAssetsQueryStatus: Wrench13() {
 
     val randomIndex = (0 until peers.size).random()
     val randomPeer = peers[randomIndex]
-    val Iroha2Client: Iroha2Client = buildClient(randomPeer)
+    //val Iroha2Client: Iroha2Client = buildClient(randomPeer)
 
     val transferAssetsQueryStatusScn = CoreDsl.scenario("TransferAssets")
         .repeat(SimulationConfig.simulation.attemptsToTransaction)
@@ -51,7 +51,7 @@ class TransferAssetsQueryStatus: Wrench13() {
             .exec { Session ->
                 val randomIndex = (0 until peers.size).random()
                 val randomPeer = peers[randomIndex]
-                val Iroha2Client: Iroha2Client = buildClient(randomPeer)
+                Iroha2Client = buildClient(randomPeer)
                 timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")

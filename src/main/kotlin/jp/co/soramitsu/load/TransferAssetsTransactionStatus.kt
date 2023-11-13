@@ -27,7 +27,8 @@ class TransferAssetsTransactionStatus: Wrench13() {
     }
     val randomIndex = (0 until peers.size).random()
     val randomPeer = peers[randomIndex]
-    val Iroha2Client: Iroha2Client = buildClient(randomPeer)
+    //val Iroha2Client: Iroha2Client = buildClient(randomPeer)
+
 
     val transferAssetsScn = CoreDsl.scenario("TransferAssets")
         .repeat(userRequestCounter)
@@ -79,7 +80,11 @@ class TransferAssetsTransactionStatus: Wrench13() {
             }
             }.doIf{ Session -> Session.getBoolean("condition") }
                 .then(
+
                     exec { Session ->
+                        val randomIndex = (0 until peers.size).random()
+                        val randomPeer = peers[randomIndex]
+                        Iroha2Client = buildClient(randomPeer)
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")

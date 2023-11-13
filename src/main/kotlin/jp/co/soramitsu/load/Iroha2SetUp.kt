@@ -37,7 +37,8 @@ class Iroha2SetUp : Wrench13() {
         .exec { Session ->
             val randomIndex = (0 until peers.size).random()
             val randomPeer = peers[randomIndex]
-            val Iroha2Client: Iroha2Client = buildClient(randomPeer)
+            Iroha2Client = buildClient(randomPeer)
+
             timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                 "gatling"
                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -93,7 +94,7 @@ class Iroha2SetUp : Wrench13() {
                     exec { Session ->
                         val randomIndex = (0 until peers.size).random()
                         val randomPeer = peers[randomIndex]
-                        val Iroha2Client: Iroha2Client = buildClient(randomPeer)
+                        Iroha2Client = buildClient(randomPeer)
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")

@@ -6,15 +6,12 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Grinder {
-    String baseUrl = "http://pushgateway:9091/metrics/job/";
+    String baseUrl = "http://0.0.0.0:9091/metrics/job/";
     URL transactionUrl = new URL(baseUrl + "transaction/");
     URL subscriptionUrl = new URL(baseUrl + "subscription/");
     URL queryUrl = new URL(baseUrl + "query/");
     URL histogramUrl = new URL(baseUrl + "histogram/");
     ArrayList<URL> query = new ArrayList<>();
-
-
-
 
     public Grinder() throws MalformedURLException {
         cleanUpMetrics();
