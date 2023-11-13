@@ -34,7 +34,7 @@ open class Wrench13 {
     var attemptsPersentage: Int = 2
     var attempt: Int = -1
     var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
-    lateinit var Iroha2Client: Iroha2Client
+    var Iroha2Client: Iroha2Client = buildClient("peer-0/api")
 
 
     var pushGateway = PushGateway("0.0.0.0:9091");
