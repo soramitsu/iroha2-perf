@@ -23,7 +23,7 @@ open class Wrench13 {
 
     val urls: MutableList<URL> = mutableListOf()
 
-    val admin = AccountId("bob".asName(), "wonderland".asDomainId())
+    val admin = AccountId("wonderland".asDomainId(), "bob".asName())
     val adminKeyPair = keyPairFromHex(
         "7233bfc89dcbd68c19fde6ce6158225298ec1131b6a130d1aeb454c1ab5183c0",
         "9ac47abf59b356e0bd7dcbbbb4dec080e302156a48ca907e47cb6aea1d32719e",
@@ -34,8 +34,10 @@ open class Wrench13 {
     var attemptsPersentage: Int = 2
     var attempt: Int = -1
     var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
-    var pushGateway = PushGateway("0.0.0.0:9091")
-    var server = HTTPServer( 9091, true)
+    var Iroha2Client: Iroha2Client = buildClient("peer-0/api")
+
+
+    var pushGateway = PushGateway("0.0.0.0:9091");
 
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair

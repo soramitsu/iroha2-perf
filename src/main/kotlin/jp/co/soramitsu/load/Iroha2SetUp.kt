@@ -35,9 +35,10 @@ class Iroha2SetUp : Wrench13() {
 
     val iroha2SetUpScn = scenario("Iroha2SetUp")
         .exec { Session ->
-            val randomIndex = (0 until peers.size).random()
+            /*val randomIndex = (0 until peers.size).random()
             val randomPeer = peers[randomIndex]
-            val Iroha2Client: Iroha2Client = buildClient(randomPeer)
+            Iroha2Client = buildClient(randomPeer)*/
+
             timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                 "gatling"
                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -91,9 +92,9 @@ class Iroha2SetUp : Wrench13() {
                 //accounts on each domain = threads * anotherDevDomainIdList.size * setUpUsersOnEachDomain
                 repeat(SimulationConfig.simulation.setUpUsersOnEachDomain).on(
                     exec { Session ->
-                        val randomIndex = (0 until peers.size).random()
+                        /*val randomIndex = (0 until peers.size).random()
                         val randomPeer = peers[randomIndex]
-                        val Iroha2Client: Iroha2Client = buildClient(randomPeer)
+                        Iroha2Client = buildClient(randomPeer)*/
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -113,8 +114,8 @@ class Iroha2SetUp : Wrench13() {
                         val anotherDev = AnotherDev()
                         anotherDev.anotherDevDomainId = Session.get<DomainId>("domainId")!!
                         anotherDev.anotherDevAccountId = AccountId(
-                            Name("anotherDev${UUID.randomUUID()}_${UUID.randomUUID()}"),
-                            anotherDev.anotherDevDomainId
+                            anotherDev.anotherDevDomainId,
+                            Name("anotherDev${UUID.randomUUID()}_${UUID.randomUUID()}")
                         )
                         anotherDev.anotherDevKeyPair = generateKeyPair()
                         timer = CustomHistogram.accountRegisterTimer.labels(

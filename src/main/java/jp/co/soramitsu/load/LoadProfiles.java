@@ -17,7 +17,7 @@ public class LoadProfiles {
 
     public static OpenInjectionStep[] setupModel(){
         return new OpenInjectionStep[]{
-                rampUsers(SimulationConfig.simulation.domainSetUpRumpUp()).during(SimulationConfig.simulation.duringSetUp())
+                atOnceUsers(SimulationConfig.simulation.domainSetUpRumpUp())
         };
     }
 
