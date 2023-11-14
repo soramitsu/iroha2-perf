@@ -3,37 +3,81 @@ version: "3"
 services:
   gatling:
     container_name: iroha2-perf
+    restart: unless-stopped
+    mem_limit: 4G
+    cpus: 4
     build:
       context: .
       dockerfile: ./Dockerfile
+    working_dir: /app
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /app/target/gatling
+      - /var/log
+    environment:
+      MAVEN_CONFIG: /var/maven/.m2
     command: >
-      mvn gatling:test 
-        -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.MaximumSearchSimulation 
-        -DtargetProtocol= 
+      mvn gatling:test
+        -Duser.home=/var/maven
+        -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.MaximumSearchSimulation
+        -DtargetProtocol=https
         -DtargetURL=
-        -DtargetPath=peer-0/api 
+        -DtargetPath=
         -DremoteLogin=
         -DremotePass=
-        -DconcurrentUsers=1 
-        -Dtimes=10000 
-        -DeachLevelLasting=15 
-        -DseparatedByRampsLasting=1 
-        -DstartingFrom=0 
-        -DdomainSetUpRampUp=5 
-        -DduringSetUp=120  
+        -DconcurrentUsers=1
+        -Dtimes=10000
+        -DeachLevelLasting=15
+        -DseparatedByRampsLasting=1
+        -DstartingFrom=0
+        -DdomainSetUpRampUp=5
+        -DduringSetUp=120
         -DsetUpUsersOnEachDomain=10
     networks:
       - iroha2-perf-net
+    volumes:
+      - gatling-volume:/var/maven/.m2
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+    labels:
+      - 'filebeat.fields.app=iroha2-perf'
+      - 'filebeat.fields.env=tst'
+      - 'filebeat.fields.project=iroha2-perf'
+      - 'filebeat.fields.logtype=iroha2'
+      - 'filebeat.module=docker'
+    #healthcheck: 
 
   pushgateway:
-    image: prom/pushgateway:latest
+    image: prom/pushgateway:v1.6.2
+    restart: unless-stopped
+    mem_limit: 256M
+    cpus: 1
+    read_only: true
     container_name: pushgateway
     ports:
       - "9091:9091"
     networks:
       - iroha2-perf-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+    labels:
+      - 'filebeat.fields.app=iroha2-push-gw'
+      - 'filebeat.fields.env=tst'
+      - 'filebeat.fields.project=iroha2-perf'
+      - 'filebeat.fields.logtype=iroha2'
+      - 'filebeat.module=docker'
+    #healthcheck: 
 
 networks:
   iroha2-perf-net:
-    external:
-      name: iroha2-perf-net
+    driver: bridge
+
+volumes:
+  gatling-volume:
