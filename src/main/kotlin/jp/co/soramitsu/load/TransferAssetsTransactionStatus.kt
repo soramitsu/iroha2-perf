@@ -66,8 +66,8 @@ class TransferAssetsTransactionStatus: Wrench13() {
                         "gatling"
                         , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                         , Iroha2SetUp::class.simpleName).inc()
-                    sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryCount, "query")
-                    sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
+                    //sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryCount, "query")
+                    //sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
                 }
             Thread.sleep(5000)
             attempt++
@@ -98,8 +98,8 @@ class TransferAssetsTransactionStatus: Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
-                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
+                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
+                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
                         }
                         timer = CustomHistogram.transferAssetTimer.labels(
                             "gatling"
@@ -122,8 +122,8 @@ class TransferAssetsTransactionStatus: Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            sendMetricsToPrometheus(CustomHistogram.transferAssetCount, "transaction")
-                            sendMetricsToPrometheus(CustomHistogram.transferAssetTimer, "transaction")
+                            //sendMetricsToPrometheus(CustomHistogram.transferAssetCount, "transaction")
+                            //sendMetricsToPrometheus(CustomHistogram.transferAssetTimer, "transaction")
                         }
                         val newSession = Session.set("condition", false)
                         newSession

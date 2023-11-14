@@ -78,7 +78,7 @@ public class BlueElectricalTape extends TailerListenerAdapter {
                             CustomHistogram.sendTransactionResponseTime.labels("gatling"
                                     , System.getProperty("user.dir").substring(System.getProperty("user.dir").lastIndexOf('/') + 1)
                                     , Iroha2SetUp.class.getSimpleName()).observe(sendResponseTime);
-                            sendMetricsToPrometheus(CustomHistogram.sendTransactionResponseTime, "histogram");
+                            //sendMetricsToPrometheus(CustomHistogram.sendTransactionResponseTime, "histogram");
                         } else if (validatingMatcher.find()) {
                             validate = transferToUnixTime(timeStampMatcher);
                             double validateResponseTime = validate - send;
@@ -86,7 +86,7 @@ public class BlueElectricalTape extends TailerListenerAdapter {
                             CustomHistogram.validatingTransactionResponseTime.labels("gatling"
                                     , System.getProperty("user.dir").substring(System.getProperty("user.dir").lastIndexOf('/') + 1)
                                     , Iroha2SetUp.class.getSimpleName()).observe(validateResponseTime);
-                            sendMetricsToPrometheus(CustomHistogram.validatingTransactionResponseTime, "histogram");
+                            //sendMetricsToPrometheus(CustomHistogram.validatingTransactionResponseTime, "histogram");
                         } else if (committedMatcher.find()) {
                             commit = transferToUnixTime(timeStampMatcher);
                             double commitResponseTime = commit - validate;
@@ -94,7 +94,7 @@ public class BlueElectricalTape extends TailerListenerAdapter {
                             CustomHistogram.commitTransactionResponseTime.labels("gatling"
                                     , System.getProperty("user.dir").substring(System.getProperty("user.dir").lastIndexOf('/') + 1)
                                     , Iroha2SetUp.class.getSimpleName()).observe(commitResponseTime);
-                            sendMetricsToPrometheus(CustomHistogram.commitTransactionResponseTime, "histogram");
+                            //sendMetricsToPrometheus(CustomHistogram.commitTransactionResponseTime, "histogram");
                         } else if (rejectedMatcher.find()) {
                             reject = transferToUnixTime(timeStampMatcher);
                             double rejectResponseTime = reject - send;
@@ -102,7 +102,7 @@ public class BlueElectricalTape extends TailerListenerAdapter {
                             CustomHistogram.rejectTransactionResponseTime.labels("gatling"
                                     , System.getProperty("user.dir").substring(System.getProperty("user.dir").lastIndexOf('/') + 1)
                                     , Iroha2SetUp.class.getSimpleName()).observe(rejectResponseTime);
-                            sendMetricsToPrometheus(CustomHistogram.rejectTransactionResponseTime, "histogram");
+                            //sendMetricsToPrometheus(CustomHistogram.rejectTransactionResponseTime, "histogram");
                         } else if (creatingMatcher.find()) {
                             create = transferToUnixTime(timeStampMatcher);
 
@@ -110,7 +110,7 @@ public class BlueElectricalTape extends TailerListenerAdapter {
                                             , System.getProperty("user.dir").substring(System.getProperty("user.dir").lastIndexOf('/') + 1)
                                             , Iroha2SetUp.class.getSimpleName())
                                     .observe(create);
-                            sendMetricsToPrometheus(CustomHistogram.createSubscriptionTransactionResponseTime, "histogram");
+                            //sendMetricsToPrometheus(CustomHistogram.createSubscriptionTransactionResponseTime, "histogram");
                         }
                     }
                 } else if (patternExist(line, unauthorizedRegExp)) {
@@ -124,7 +124,7 @@ public class BlueElectricalTape extends TailerListenerAdapter {
                                         , System.getProperty("user.dir").substring(System.getProperty("user.dir").lastIndexOf('/') + 1)
                                         , Iroha2SetUp.class.getSimpleName())
                                 .observe(create);
-                        sendMetricsToPrometheus(CustomHistogram.unauthorizedResponseTime, "histogram");
+                        //sendMetricsToPrometheus(CustomHistogram.unauthorizedResponseTime, "histogram");
                     }
                 }
             } catch (ParseException e) {

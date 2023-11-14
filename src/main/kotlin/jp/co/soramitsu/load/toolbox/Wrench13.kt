@@ -4,6 +4,7 @@ import io.prometheus.client.Histogram
 import io.prometheus.client.Histogram.Timer
 import io.prometheus.client.Counter
 import io.prometheus.client.exporter.PushGateway
+import io.prometheus.client.exporter.HTTPServer
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
 import jp.co.soramitsu.iroha2.client.Iroha2Client
@@ -14,7 +15,6 @@ import jp.co.soramitsu.iroha2.generated.AssetValue
 import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.keyPairFromHex
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
-
 import org.apache.http.client.utils.URIBuilder
 import java.net.URL
 import java.security.KeyPair
@@ -38,6 +38,7 @@ open class Wrench13 {
 
 
     var pushGateway = PushGateway("0.0.0.0:9091");
+
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair
     lateinit var currentDevAssetId: AssetId
@@ -56,7 +57,6 @@ open class Wrench13 {
             it.scheme = SimulationConfig.simulation.targetProtocol()
             it.host = SimulationConfig.simulation.targetURL()
             it.port = 0
-            //it.path = SimulationConfig.simulation.targetPath()
             it.path = peer
             it.build().toURL()
         }
