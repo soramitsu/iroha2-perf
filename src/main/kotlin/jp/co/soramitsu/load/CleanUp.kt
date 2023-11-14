@@ -20,7 +20,6 @@ class CleanUp : Wrench13(){
     val pushGatWayCleanUpScn = CoreDsl.scenario("pushGatWayCleanUpScn")
         .exec { Session ->
             Grinder()
-            Runtime.getRuntime().addShutdownHook(Thread { server.stop() })
             Session
         }
 }

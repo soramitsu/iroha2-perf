@@ -52,8 +52,8 @@ class Iroha2SetUp : Wrench13() {
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                     , Iroha2SetUp::class.simpleName).inc()
-                //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
-                //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
+                sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
+                sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
             }
             val anotherDevDomainId = "bulb_${UUID.randomUUID()}_${UUID.randomUUID()}".asDomainId()
             //anotherDevDomainIdList.add(anotherDevDomainId)
@@ -77,8 +77,8 @@ class Iroha2SetUp : Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.domainRegisterCount, "transaction")
-                            //sendMetricsToPrometheus(CustomHistogram.domainRegisterTimer, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.domainRegisterCount, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.domainRegisterTimer, "transaction")
                         }
                     }
                 }
@@ -108,8 +108,8 @@ class Iroha2SetUp : Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
-                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
                         }
                         val anotherDev = AnotherDev()
                         anotherDev.anotherDevDomainId = Session.get<DomainId>("domainId")!!
@@ -147,8 +147,8 @@ class Iroha2SetUp : Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.accountRegisterCount, "transaction")
-                            //sendMetricsToPrometheus(CustomHistogram.accountRegisterTimer, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.accountRegisterCount, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.accountRegisterTimer, "transaction")
                         }
                         Thread.sleep(5000)
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
@@ -164,8 +164,8 @@ class Iroha2SetUp : Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
-                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
                         }
                         anotherDev.assetDefinitionId = AssetDefinitionId(
                             "xor${UUID.randomUUID()}_${UUID.randomUUID()}".asName(),
@@ -198,8 +198,8 @@ class Iroha2SetUp : Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.assetDefinitionRegisterCount, "transaction")
-                            //sendMetricsToPrometheus(CustomHistogram.assetDefinitionRegisterTimer, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.assetDefinitionRegisterCount, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.assetDefinitionRegisterTimer, "transaction")
                         }
                         Thread.sleep(5000)
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
@@ -215,8 +215,8 @@ class Iroha2SetUp : Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
-                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
                         }
                         anotherDev.anotherDevAssetId = AssetId(anotherDev.assetDefinitionId, anotherDev.anotherDevAccountId)
                         anotherDev.assetValue = AssetValue.Quantity(10000)
@@ -246,8 +246,8 @@ class Iroha2SetUp : Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.assetMintCount, "transaction")
-                            //sendMetricsToPrometheus(CustomHistogram.assetMintTimer, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.assetMintCount, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.assetMintTimer, "transaction")
                         }
                         Thread.sleep(5000)
                         AnotherDevs.list.add(anotherDev)

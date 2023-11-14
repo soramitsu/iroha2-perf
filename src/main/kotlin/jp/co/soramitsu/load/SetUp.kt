@@ -22,7 +22,6 @@ class SetUp {
         .exec { Session ->
             Grinder()
             CustomHistogram()
-            BlueElectricalTape()
             Session
         }
 }
