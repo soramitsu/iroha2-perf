@@ -32,6 +32,7 @@ services:
         -DseparatedByRampsLasting=1
         -DstartingFrom=0
         -DdomainSetUpRampUp=5
+        -DduringSetUp=120
         -DsetUpUsersOnEachDomain=10
     networks:
       - iroha2-perf-net
