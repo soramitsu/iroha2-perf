@@ -3,8 +3,8 @@ package jp.co.soramitsu.load
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.load.objects.CustomHistogram
-import jp.co.soramitsu.load.toolbox.BlueElectricalTape
 import jp.co.soramitsu.load.toolbox.Grinder
+import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
 
 class SetUp {
