@@ -48,11 +48,9 @@ services:
       - 'filebeat.fields.project=iroha2-perf'
       - 'filebeat.fields.logtype=iroha2'
       - 'filebeat.module=docker'
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8090/actuator/health" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+    ports:
+      - "8090:8090"
+#    healthcheck
 
   pushgateway:
     image: prom/pushgateway:v1.6.2
@@ -76,8 +74,6 @@ services:
       - 'filebeat.fields.project=iroha2-perf'
       - 'filebeat.fields.logtype=iroha2'
       - 'filebeat.module=docker'
-    ports:
-      - "8090:8090"
 #    healthcheck
 
 networks:
