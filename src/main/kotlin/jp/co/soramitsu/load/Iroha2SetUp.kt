@@ -70,7 +70,6 @@ class Iroha2SetUp : Wrench13() {
                         withTimeout(Duration.ofSeconds(transactionWaiter))
                         { d.await()
                             println("SEND_TRANSACTION: DOMAIN REGISTER")
-                            healthcheck.isApplicationHealthy(true)
                             anotherDevDomainIdList.add(anotherDevDomainId)
                             timer.observeDuration()
                             CustomHistogram.domainRegisterCount.labels(
