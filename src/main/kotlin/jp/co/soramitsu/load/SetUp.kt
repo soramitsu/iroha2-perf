@@ -24,6 +24,7 @@ class SetUp {
 
     val pushGatWaySetUpScn = CoreDsl.scenario("pushGatWaySetUpScn")
         .exec { Session ->
+            println("PERFORMANCE WAS START")
             Grinder()
             CustomHistogram()
             Session
