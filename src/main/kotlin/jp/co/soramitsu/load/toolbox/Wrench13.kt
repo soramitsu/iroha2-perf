@@ -1,10 +1,9 @@
 package jp.co.soramitsu.load.toolbox
 
+import io.prometheus.client.Counter
 import io.prometheus.client.Histogram
 import io.prometheus.client.Histogram.Timer
-import io.prometheus.client.Counter
 import io.prometheus.client.exporter.PushGateway
-import io.prometheus.client.exporter.HTTPServer
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
 import jp.co.soramitsu.iroha2.client.Iroha2Client
@@ -14,8 +13,12 @@ import jp.co.soramitsu.iroha2.generated.AssetId
 import jp.co.soramitsu.iroha2.generated.AssetValue
 import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.keyPairFromHex
+import jp.co.soramitsu.load.infrastructure.Healthcheck.HealthController
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import org.apache.http.client.utils.URIBuilder
+import spark.Request
+import spark.Response
+import spark.Spark
 import java.net.URL
 import java.security.KeyPair
 
@@ -48,6 +51,7 @@ open class Wrench13 {
     lateinit var targetDevAssetIdAfterTransferring: AssetValue
     lateinit var subscription: BlockStreamSubscription
     lateinit var timer: Timer
+    lateinit var healthCheck: HealthController
 
     val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
 
@@ -69,6 +73,18 @@ open class Wrench13 {
             eventReadTimeoutInMills = 10000,
             eventReadMaxAttempts = 20
         )
+    }
+
+    fun healthCheck(currentState: Boolean){
+        healthCheck = HealthController(currentState)
+        Spark.get("/health") { req: Request?, res: Response ->
+            if (healthCheck.isHealthy) {
+                return@get "OK"
+            } else {
+                res.status(500)
+                return@get "Error"
+            }
+        }
     }
 
     fun sendMetricsToPrometheus(histogram: Histogram, job: String) {

@@ -4,8 +4,9 @@ import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.load.objects.CustomHistogram
 import jp.co.soramitsu.load.toolbox.Grinder
+import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
-class SetUp {
+class SetUp: Wrench13() {
     companion object {
         @JvmStatic
         fun apply() = runBlocking {
@@ -18,6 +19,7 @@ class SetUp {
 
     val pushGatWaySetUpScn = CoreDsl.scenario("pushGatWaySetUpScn")
         .exec { Session ->
+            healthCheck(true)
             Grinder()
             CustomHistogram()
             Session

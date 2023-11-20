@@ -1,20 +1,17 @@
 package jp.co.soramitsu.load.infrastructure.Healthcheck;
 
-import org.springframework.boot.actuate.health.Health;
-import org.springframework.boot.actuate.health.HealthIndicator;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+public class HealthController {
+    private boolean isHealthy;
 
-@RestController
-public class HealthController implements HealthIndicator {
-
-    @Override
-    public Health health() {
-        return Health.up().build();
+    public HealthController(Boolean state) {
+        this.isHealthy = state;
     }
 
-    @GetMapping("/actuator/health")
-    public String healthCheck() {
-        return "Health Check Passed!";
+    public boolean isHealthy() {
+        return isHealthy;
+    }
+
+    public void setHealthy(boolean healthy) {
+        this.isHealthy = healthy;
     }
 }
