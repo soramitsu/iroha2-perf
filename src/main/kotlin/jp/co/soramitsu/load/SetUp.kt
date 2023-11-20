@@ -6,8 +6,8 @@ import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Get
 import jp.co.soramitsu.load.objects.CustomHistogram
-import jp.co.soramitsu.load.toolbox.BlueElectricalTape
 import jp.co.soramitsu.load.toolbox.Grinder
+import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
 @Controller("/setUp")
 class SetUp {

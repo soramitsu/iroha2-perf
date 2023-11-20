@@ -15,6 +15,7 @@ import jp.co.soramitsu.iroha2.generated.AssetValue
 import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.keyPairFromHex
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
+import jp.co.soramitsu.load.infrastructure.healthcheck.Healthchack
 import org.apache.http.client.utils.URIBuilder
 import java.net.URL
 import java.security.KeyPair
@@ -38,6 +39,7 @@ open class Wrench13 {
     var pushGateway = PushGateway("pushgateway:9091");
 
     //lateinit var Iroha2Client: Iroha2Client
+    lateinit var healthchack: Healthchack
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair
     lateinit var currentDevAssetId: AssetId

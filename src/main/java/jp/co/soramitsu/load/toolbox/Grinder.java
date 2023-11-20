@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Grinder {
+public class Grinder extends Wrench13{
     String baseUrl = "http://pushgateway:9091/metrics/job/";
     URL transactionUrl = new URL(baseUrl + "transaction/");
     URL subscriptionUrl = new URL(baseUrl + "subscription/");

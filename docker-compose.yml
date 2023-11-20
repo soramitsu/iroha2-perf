@@ -48,7 +48,9 @@ services:
       - 'filebeat.fields.project=iroha2-perf'
       - 'filebeat.fields.logtype=iroha2'
       - 'filebeat.module=docker'
-    #healthcheck: 
+    ports:
+      - "8090:8090"
+#    healthcheck
 
   pushgateway:
     image: prom/pushgateway:v1.6.2
@@ -72,7 +74,7 @@ services:
       - 'filebeat.fields.project=iroha2-perf'
       - 'filebeat.fields.logtype=iroha2'
       - 'filebeat.module=docker'
-    #healthcheck: 
+#    healthcheck
 
 networks:
   iroha2-perf-net:
