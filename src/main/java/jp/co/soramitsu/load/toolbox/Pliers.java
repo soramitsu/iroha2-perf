@@ -1,13 +1,10 @@
 package jp.co.soramitsu.load.toolbox;
 import spark.Spark;
 
-
 public class Pliers {
-    private int port = 8090;
     private boolean isHealthy = false;
 
     public Pliers (){
-        Spark.port(this.port);
         Spark.init();
     }
 
@@ -24,7 +21,11 @@ public class Pliers {
     }
 
     private void setHealthy(boolean state, String service){
-        System.out.println(service + " is alive he will live");
+        if (state) {
+            System.out.println(service + " is alive he will live");
+        } else {
+            System.out.println(service + " more dead than alive");
+        }
         isHealthy = state;
     }
 
