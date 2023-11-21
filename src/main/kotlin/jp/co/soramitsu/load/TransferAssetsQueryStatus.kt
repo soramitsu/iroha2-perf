@@ -3,7 +3,6 @@ package jp.co.soramitsu.load
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.CoreDsl.exec
 import io.gatling.javaapi.core.ScenarioBuilder
-import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.iroha2.query.QueryBuilder
@@ -32,7 +31,7 @@ class TransferAssetsQueryStatus: Wrench13() {
     val randomPeer = peers[randomIndex]
     //val Iroha2Client: Iroha2Client = buildClient(randomPeer)
 
-    val transferAssetsQueryStatusScn = CoreDsl.scenario("TransferAssets")
+    val transferAssetsQueryStatusScn = CoreDsl.scenario("TransferAssetsQueryStatus")
         .repeat(SimulationConfig.simulation.attemptsToTransaction)
         .on(
             exec { Session ->
@@ -64,6 +63,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                             .buildSigned(currentDevKeyPair)
                             .let { query ->
                                 Iroha2Client.sendQuery(query)
+                                pliers.healthCheck(true, "TransferAssetsQueryStatus")
                             }
                     }
                 } finally {
@@ -72,8 +72,8 @@ class TransferAssetsQueryStatus: Wrench13() {
                         "gatling"
                         , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                         , Iroha2SetUp::class.simpleName).inc()
-                    //sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryCount, "query")
-                    //sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
+                    sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryCount, "query")
+                    sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
                 }
                 Thread.sleep(queryWaiter)
                 Session
@@ -101,8 +101,8 @@ class TransferAssetsQueryStatus: Wrench13() {
                         "gatling"
                         , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                         , Iroha2SetUp::class.simpleName).inc()
-                    //sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryCount, "query")
-                    //sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
+                    sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryCount, "query")
+                    sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
                 }
                 Thread.sleep(queryWaiter)
                 attempt++
@@ -130,8 +130,8 @@ class TransferAssetsQueryStatus: Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
-                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
                         }
                         timer = CustomHistogram.transferAssetTimer.labels(
                             "gatling"
@@ -158,8 +158,8 @@ class TransferAssetsQueryStatus: Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.transferAssetCount, "transaction")
-                            //sendMetricsToPrometheus(CustomHistogram.transferAssetTimer, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.transferAssetCount, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.transferAssetTimer, "transaction")
                         }
                         val newSession = Session.set("condition", false)
                         newSession
@@ -187,8 +187,8 @@ class TransferAssetsQueryStatus: Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryCount, "query")
-                            //sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
+                            sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryCount, "query")
+                            sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
                         }
                         Thread.sleep(queryWaiter)
                         Session
@@ -216,8 +216,8 @@ class TransferAssetsQueryStatus: Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryCount, "query")
-                            //sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
+                            sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryCount, "query")
+                            sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
                         }
                         Thread.sleep(queryWaiter)
                         Session

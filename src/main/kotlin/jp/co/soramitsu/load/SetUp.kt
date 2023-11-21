@@ -19,9 +19,9 @@ class SetUp: Wrench13() {
 
     val pushGatWaySetUpScn = CoreDsl.scenario("pushGatWaySetUpScn")
         .exec { Session ->
-            healthCheck(true)
             Grinder()
             CustomHistogram()
             Session
         }
+        
 }

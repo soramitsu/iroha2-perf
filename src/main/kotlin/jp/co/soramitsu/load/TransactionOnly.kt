@@ -2,17 +2,14 @@ package jp.co.soramitsu.load
 
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder
-import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
-import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.CustomHistogram
 import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeout
-import org.apache.http.client.utils.URIBuilder
 import java.time.Duration
 import kotlin.random.Random
 
@@ -79,12 +76,17 @@ class TransactionOnly: Wrench13() {
                                     transferAsset(currentDevAssetId, 1, targetDevAccountId)
                                     buildSigned(currentDevKeyPair)
                                 }.also { d ->
-                                    withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
+                                    withTimeout(Duration.ofSeconds(transactionWaiter)) {
+                                        d.await()
+                                        pliers.healthCheck(true, "TransferAssets")
+                                    }
                                 }
                                 subscription.close()
                             }
                         } catch (ex: RuntimeException) {
-                            println(ex.message)
+                            println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.message)
+                            println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.stackTrace)
+                            pliers.healthCheck(false, "TransferAssets")
                         } finally {
                             timer.observeDuration()
                             CustomHistogram.transferAssetCount.labels(

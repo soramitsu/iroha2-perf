@@ -18,7 +18,7 @@ import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import org.apache.http.client.utils.URIBuilder
 import spark.Request
 import spark.Response
-import spark.Spark
+import spark.Spark.*
 import java.net.URL
 import java.security.KeyPair
 
@@ -31,6 +31,7 @@ open class Wrench13 {
         "7233bfc89dcbd68c19fde6ce6158225298ec1131b6a130d1aeb454c1ab5183c0",
         "9ac47abf59b356e0bd7dcbbbb4dec080e302156a48ca907e47cb6aea1d32719e",
     )
+    var pliers: Pliers = Pliers()
     var queryWaiter: Long = 5000 //ms
     var transactionWaiter: Long = 60 //s
     var userRequestCounter: Int = 10
@@ -40,7 +41,6 @@ open class Wrench13 {
     var Iroha2Client: Iroha2Client = buildClient("peer-0/api")
     var pushGateway = PushGateway("pushgateway:9091");
 
-    //lateinit var Iroha2Client: Iroha2Client
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair
     lateinit var currentDevAssetId: AssetId
@@ -51,7 +51,6 @@ open class Wrench13 {
     lateinit var targetDevAssetIdAfterTransferring: AssetValue
     lateinit var subscription: BlockStreamSubscription
     lateinit var timer: Timer
-    lateinit var healthCheck: HealthController
 
     val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
 
@@ -73,18 +72,6 @@ open class Wrench13 {
             eventReadTimeoutInMills = 10000,
             eventReadMaxAttempts = 20
         )
-    }
-
-    fun healthCheck(currentState: Boolean){
-        healthCheck = HealthController(currentState)
-        Spark.get("/health") { req: Request?, res: Response ->
-            if (healthCheck.isHealthy) {
-                return@get "OK"
-            } else {
-                res.status(500)
-                return@get "Error"
-            }
-        }
     }
 
     fun sendMetricsToPrometheus(histogram: Histogram, job: String) {
