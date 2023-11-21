@@ -50,7 +50,7 @@ services:
       - 'filebeat.module=docker'
     #healthcheck:
     ports:
-      - "8090:8090"
+      - "4567:4567"
 
   pushgateway:
     image: prom/pushgateway:v1.6.2
