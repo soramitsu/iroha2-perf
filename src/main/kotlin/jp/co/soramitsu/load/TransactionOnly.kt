@@ -42,7 +42,7 @@ class TransactionOnly: Wrench13() {
                 Session
             }
                 .exec { Session ->
-                    val iroha2Client = buildClient()
+                    val iroha2Client = buildClient("peer-0/api")
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                             "gatling",
                             System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),

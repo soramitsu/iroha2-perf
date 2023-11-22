@@ -40,7 +40,7 @@ class TransferAssetsTransactionStatus: Wrench13() {
                 Session
             }
             .exec { Session ->
-                val iroha2Client = buildClient()
+                val iroha2Client = buildClient("peer-0/api")
                 timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -77,7 +77,7 @@ class TransferAssetsTransactionStatus: Wrench13() {
             }.doIf{ Session -> Session.getBoolean("condition") }
                 .then(
                     exec { Session ->
-                        val iroha2Client = buildClient()
+                        val iroha2Client = buildClient("peer-0/api")
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
