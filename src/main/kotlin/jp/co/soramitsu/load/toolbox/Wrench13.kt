@@ -1,10 +1,9 @@
 package jp.co.soramitsu.load.toolbox
 
+import io.prometheus.client.Counter
 import io.prometheus.client.Histogram
 import io.prometheus.client.Histogram.Timer
-import io.prometheus.client.Counter
 import io.prometheus.client.exporter.PushGateway
-import io.prometheus.client.exporter.HTTPServer
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
 import jp.co.soramitsu.iroha2.client.Iroha2Client
@@ -14,9 +13,13 @@ import jp.co.soramitsu.iroha2.generated.AssetId
 import jp.co.soramitsu.iroha2.generated.AssetValue
 import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.keyPairFromHex
+import jp.co.soramitsu.load.infrastructure.Healthcheck.HealthController
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.infrastructure.healthcheck.Healthchack
 import org.apache.http.client.utils.URIBuilder
+import spark.Request
+import spark.Response
+import spark.Spark.*
 import java.net.URL
 import java.security.KeyPair
 
@@ -29,6 +32,7 @@ open class Wrench13 {
         "7233bfc89dcbd68c19fde6ce6158225298ec1131b6a130d1aeb454c1ab5183c0",
         "9ac47abf59b356e0bd7dcbbbb4dec080e302156a48ca907e47cb6aea1d32719e",
     )
+    var pliers: Pliers = Pliers()
     var queryWaiter: Long = 5000 //ms
     var transactionWaiter: Long = 60 //s
     var userRequestCounter: Int = 10
@@ -38,8 +42,6 @@ open class Wrench13 {
     var Iroha2Client: Iroha2Client = buildClient("peer-0/api")
     var pushGateway = PushGateway("pushgateway:9091");
 
-    //lateinit var Iroha2Client: Iroha2Client
-    lateinit var healthchack: Healthchack
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair
     lateinit var currentDevAssetId: AssetId

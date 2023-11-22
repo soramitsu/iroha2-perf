@@ -5,13 +5,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class Grinder extends Wrench13{
-    String baseUrl = "http://pushgateway:9091/metrics/job/";
-    URL transactionUrl = new URL(baseUrl + "transaction/");
-    URL subscriptionUrl = new URL(baseUrl + "subscription/");
-    URL queryUrl = new URL(baseUrl + "query/");
-    URL histogramUrl = new URL(baseUrl + "histogram/");
-    ArrayList<URL> query = new ArrayList<>();
+public class Grinder extends Wrench13 {
+    private String baseUrl = "http://pushgateway:9091/metrics/job/";
+    private URL transactionUrl = new URL(baseUrl + "transaction/");
+    private URL subscriptionUrl = new URL(baseUrl + "subscription/");
+    private URL queryUrl = new URL(baseUrl + "query/");
+    private URL histogramUrl = new URL(baseUrl + "histogram/");
+    private ArrayList<URL> query = new ArrayList<>();
 
     public Grinder() throws MalformedURLException {
         cleanUpMetrics();
@@ -30,8 +30,10 @@ public class Grinder extends Wrench13{
                 System.out.println("a deletion request has been sent: " + url);
 
                 if (responseCode == HttpURLConnection.HTTP_ACCEPTED) {
+                    getPliers().healthCheck(true, "Grinder");
                     System.out.println("response code: " + HttpURLConnection.HTTP_ACCEPTED + " accepted");
                 } else {
+                    getPliers().healthCheck(false, "Grinder");
                     System.out.println("a deletion request not accepted");
                 }
             } catch (Exception e) {

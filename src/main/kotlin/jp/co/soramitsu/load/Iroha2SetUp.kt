@@ -4,7 +4,6 @@ import io.gatling.javaapi.core.CoreDsl.*
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
-import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.iroha2.generateKeyPair
@@ -70,6 +69,7 @@ class Iroha2SetUp : Wrench13() {
                         withTimeout(Duration.ofSeconds(transactionWaiter))
                         { d.await()
                             println("SEND_TRANSACTION: DOMAIN REGISTER")
+                            pliers.healthCheck(true, "Iroha2SetUp")
                             anotherDevDomainIdList.add(anotherDevDomainId)
                             timer.observeDuration()
                             CustomHistogram.domainRegisterCount.labels(
@@ -83,7 +83,9 @@ class Iroha2SetUp : Wrench13() {
                 }
                 subscription.close()
             } catch (ex: RuntimeException) {
-                println(ex.message)
+                println("Something went wrong on Iroha2SetUp scenario, problem with domain register transaction: " + ex.message)
+                println("Something went wrong on Iroha2SetUp scenario, problem with domain register transaction: " + ex.stackTrace)
+                pliers.healthCheck(false, "Iroha2SetUp")
             }
             Session
         }
