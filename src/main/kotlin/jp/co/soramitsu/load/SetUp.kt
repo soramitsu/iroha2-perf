@@ -5,6 +5,7 @@ import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.load.objects.CustomHistogram
 import jp.co.soramitsu.load.toolbox.Grinder
 import jp.co.soramitsu.load.toolbox.Pliers
+
 import kotlinx.coroutines.runBlocking
 class SetUp {
     companion object {

@@ -15,6 +15,7 @@ import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.keyPairFromHex
 import jp.co.soramitsu.load.infrastructure.Healthcheck.HealthController
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
+import jp.co.soramitsu.load.infrastructure.healthcheck.Healthchack
 import org.apache.http.client.utils.URIBuilder
 import spark.Request
 import spark.Response
