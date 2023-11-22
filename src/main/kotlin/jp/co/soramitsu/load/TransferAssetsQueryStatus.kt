@@ -27,10 +27,6 @@ class TransferAssetsQueryStatus: Wrench13() {
         return transferAssetsQueryStatusScn
     }
 
-    val randomIndex = (0 until peers.size).random()
-    val randomPeer = peers[randomIndex]
-    //val Iroha2Client: Iroha2Client = buildClient(randomPeer)
-
     val transferAssetsQueryStatusScn = CoreDsl.scenario("TransferAssetsQueryStatus")
         .repeat(SimulationConfig.simulation.attemptsToTransaction)
         .on(
@@ -48,9 +44,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                 Session
             }
             .exec { Session ->
-                val randomIndex = (0 until peers.size).random()
-                val randomPeer = peers[randomIndex]
-                Iroha2Client = buildClient(randomPeer)
+                val iroha2Client = buildClient()
                 timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -62,7 +56,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                             .account(currentDevAccountId)
                             .buildSigned(currentDevKeyPair)
                             .let { query ->
-                                Iroha2Client.sendQuery(query)
+                                iroha2Client.sendQuery(query)
                                 pliers.healthCheck(true, "TransferAssetsQueryStatus")
                             }
                     }
@@ -79,6 +73,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                 Session
             }
             .exec { Session ->
+                val iroha2Client = buildClient()
                 timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -90,7 +85,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                             .account(targetDevAccountId)
                             .buildSigned(targetDevKeyPair)
                             .let { query ->
-                                Iroha2Client.sendQuery(query)
+                                iroha2Client.sendQuery(query)
                             }.let {
                                 targetDevAssetIdAfterTransferring = it.get(0).value
                             }
@@ -116,13 +111,14 @@ class TransferAssetsQueryStatus: Wrench13() {
             }.doIf{ Session -> Session.getBoolean("condition") }
                 .then(
                     exec { Session ->
+                        val iroha2Client = buildClient()
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
                         ).startTimer()
                         try {
-                            val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = Iroha2Client.subscribeToBlockStream(1, 2)
+                            val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = iroha2Client.subscribeToBlockStream(1, 2)
                             subscription = idToSubscription.component2()
                         } finally {
                             timer.observeDuration()
@@ -141,7 +137,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                         try {
                             println("SEND_TRANSACTION: TRANSFER ASSET")
                             runBlocking {
-                                Iroha2Client.sendTransaction {
+                                iroha2Client.sendTransaction {
                                     account(currentDevAccountId)
                                     transferAsset(currentDevAssetId, 1, targetDevAccountId)
                                     buildSigned(currentDevKeyPair)
@@ -165,6 +161,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                         newSession
                     }
                     .exec { Session ->
+                        val iroha2Client = buildClient()
                         timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -176,7 +173,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                                     .account(currentDevAccountId)
                                     .buildSigned(currentDevKeyPair)
                                     .let { query ->
-                                        Iroha2Client.sendQuery(query)
+                                        iroha2Client.sendQuery(query)
                                     }.let {
                                         currentDevAssetIdAfterTransferring = it.get(0).value
                                     }
@@ -194,6 +191,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                         Session
                     }
                     .exec { Session ->
+                        val iroha2Client = buildClient()
                         timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -205,7 +203,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                                     .account(targetDevAccountId)
                                     .buildSigned(targetDevKeyPair)
                                     .let { query ->
-                                        Iroha2Client.sendQuery(query)
+                                        iroha2Client.sendQuery(query)
                                     }.let {
                                         targetDevAssetIdAfterTransferring = it.get(0).value
                                     }

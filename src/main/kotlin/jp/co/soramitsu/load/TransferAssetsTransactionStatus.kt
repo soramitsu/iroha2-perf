@@ -4,7 +4,6 @@ package jp.co.soramitsu.load
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.CoreDsl.exec
 import io.gatling.javaapi.core.ScenarioBuilder
-import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.CustomHistogram
@@ -25,10 +24,6 @@ class TransferAssetsTransactionStatus: Wrench13() {
     fun applyScn(): ScenarioBuilder {
         return transferAssetsScn
     }
-    val randomIndex = (0 until peers.size).random()
-    val randomPeer = peers[randomIndex]
-    //val Iroha2Client: Iroha2Client = buildClient(randomPeer)
-
 
     val transferAssetsScn = CoreDsl.scenario("TransferAssets")
         .repeat(userRequestCounter)
@@ -45,6 +40,7 @@ class TransferAssetsTransactionStatus: Wrench13() {
                 Session
             }
             .exec { Session ->
+                val iroha2Client = buildClient()
                 timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -55,7 +51,7 @@ class TransferAssetsTransactionStatus: Wrench13() {
                             .account(currentDevAccountId)
                             .buildSigned(currentDevKeyPair)
                             .let { query ->
-                                Iroha2Client.sendQuery(query)
+                                iroha2Client.sendQuery(query)
                             }.let {
                                 currentDevAssetId = it.get(0).id
                             }
@@ -66,8 +62,8 @@ class TransferAssetsTransactionStatus: Wrench13() {
                         "gatling"
                         , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                         , Iroha2SetUp::class.simpleName).inc()
-                    //sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryCount, "query")
-                    //sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
+                    sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryCount, "query")
+                    sendMetricsToPrometheus(CustomHistogram.findAssetsByAccountIdQueryTimer, "query")
                 }
             Thread.sleep(5000)
             attempt++
@@ -80,26 +76,23 @@ class TransferAssetsTransactionStatus: Wrench13() {
             }
             }.doIf{ Session -> Session.getBoolean("condition") }
                 .then(
-
                     exec { Session ->
-                        val randomIndex = (0 until peers.size).random()
-                        val randomPeer = peers[randomIndex]
-                        Iroha2Client = buildClient(randomPeer)
+                        val iroha2Client = buildClient()
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName
                         ).startTimer()
                         try {
-                            Iroha2Client.subscribeToBlockStream(1,2,true)
+                            iroha2Client.subscribeToBlockStream(1,2,true)
                         } finally {
                             timer.observeDuration()
                             CustomHistogram.subscriptionToBlockStreamCount.labels(
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
-                            //sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamCount, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.subscriptionToBlockStreamTimer, "transaction")
                         }
                         timer = CustomHistogram.transferAssetTimer.labels(
                             "gatling"
@@ -108,7 +101,7 @@ class TransferAssetsTransactionStatus: Wrench13() {
                         ).startTimer()
                         try {
                             runBlocking {
-                                Iroha2Client.sendTransaction {
+                                iroha2Client.sendTransaction {
                                     account(currentDevAccountId)
                                     transferAsset(currentDevAssetId, 10, targetDevAccountId)
                                     buildSigned(currentDevKeyPair)
@@ -122,8 +115,8 @@ class TransferAssetsTransactionStatus: Wrench13() {
                                 "gatling"
                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                                 , Iroha2SetUp::class.simpleName).inc()
-                            //sendMetricsToPrometheus(CustomHistogram.transferAssetCount, "transaction")
-                            //sendMetricsToPrometheus(CustomHistogram.transferAssetTimer, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.transferAssetCount, "transaction")
+                            sendMetricsToPrometheus(CustomHistogram.transferAssetTimer, "transaction")
                         }
                         val newSession = Session.set("condition", false)
                         newSession
