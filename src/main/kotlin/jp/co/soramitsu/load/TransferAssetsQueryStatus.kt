@@ -44,7 +44,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                 Session
             }
             .exec { Session ->
-                val iroha2Client = buildClient("peer-0/api")
+                val iroha2Client = buildClient()
                 timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -73,7 +73,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                 Session
             }
             .exec { Session ->
-                val iroha2Client = buildClient("peer-0/api")
+                val iroha2Client = buildClient()
                 timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -111,7 +111,7 @@ class TransferAssetsQueryStatus: Wrench13() {
             }.doIf{ Session -> Session.getBoolean("condition") }
                 .then(
                     exec { Session ->
-                        val iroha2Client = buildClient("peer-0/api")
+                        val iroha2Client = buildClient()
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -161,7 +161,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                         newSession
                     }
                     .exec { Session ->
-                        val iroha2Client = buildClient("peer-0/api")
+                        val iroha2Client = buildClient()
                         timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -191,7 +191,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                         Session
                     }
                     .exec { Session ->
-                        val iroha2Client = buildClient("peer-0/api")
+                        val iroha2Client = buildClient()
                         timer = CustomHistogram.findAssetsByAccountIdQueryTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")

@@ -34,7 +34,7 @@ class Iroha2SetUp : Wrench13() {
 
     val iroha2SetUpScn = scenario("Iroha2SetUp")
         .exec { Session ->
-            val iroha2Client = buildClient("peer-0/api")
+            val iroha2Client = buildClient()
 
             timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                 "gatling"
@@ -91,7 +91,7 @@ class Iroha2SetUp : Wrench13() {
                 //accounts on each domain = threads * anotherDevDomainIdList.size * setUpUsersOnEachDomain
                 repeat(SimulationConfig.simulation.setUpUsersOnEachDomain).on(
                     exec { Session ->
-                        val iroha2Client = buildClient("peer-0/api")
+                        val iroha2Client = buildClient()
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")

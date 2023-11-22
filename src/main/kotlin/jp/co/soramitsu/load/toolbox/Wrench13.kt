@@ -51,16 +51,16 @@ open class Wrench13 {
     lateinit var timer: Timer
 
 
-    fun buildClient(peer: String): Iroha2Client {
-        /*val randomIndex = (0 until peers.size).random()
+    fun buildClient(): Iroha2Client {
+        val randomIndex = (0 until peers.size).random()
         val randomPeer = peers[randomIndex]
-        println("randomPeer: " + peers[randomIndex])*/
+        println("randomPeer: " + peers[randomIndex])
 
         val peerUrl = URIBuilder().let {
             it.scheme = SimulationConfig.simulation.targetProtocol()
             it.host = SimulationConfig.simulation.targetURL()
             it.port = 0
-            it.path = peer
+            it.path = randomPeer
             it.build().toURL()
         }
         urls.add(peerUrl)
