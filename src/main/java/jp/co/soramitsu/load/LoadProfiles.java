@@ -15,8 +15,39 @@ public class LoadProfiles {
                 .startingFrom(SimulationConfig.simulation.startingFrom());
     }
 
+    public static ClosedInjectionStep closedDomainSetUpModel(){
+        return incrementConcurrentUsers(5)
+                .times(1)
+                .eachLevelLasting(1)
+                .separatedByRampsLasting(1)
+                .startingFrom(0);
+    }
+    public static ClosedInjectionStep closedUserSetUpModel(){
+        return incrementConcurrentUsers(5)
+                .times(10)
+                .eachLevelLasting(1)
+                .separatedByRampsLasting(1)
+                .startingFrom(0);
+    }
+    public static ClosedInjectionStep closedSetUp(){
+        return incrementConcurrentUsers(1)
+                .times(1)
+                .eachLevelLasting(1)
+                .separatedByRampsLasting(1)
+                .startingFrom(0);
+    }
+
+    public static ClosedInjectionStep closedCleanUp(){
+        return incrementConcurrentUsers(1)
+                .times(1)
+                .eachLevelLasting(1)
+                .separatedByRampsLasting(1)
+                .startingFrom(0);
+    }
+
     public static OpenInjectionStep[] setupModel(){
         return new OpenInjectionStep[]{
+
                 atOnceUsers(SimulationConfig.simulation.domainSetUpRumpUp())
         };
     }
