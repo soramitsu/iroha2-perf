@@ -4,6 +4,8 @@ services:
   gatling:
     container_name: iroha2-perf
     restart: unless-stopped
+    mem_limit: 4G
+    cpus: 16
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -53,6 +55,8 @@ services:
   pushgateway:
     image: prom/pushgateway:v1.6.2
     restart: unless-stopped
+    mem_limit: 512M
+    cpus: 1
     read_only: true
     container_name: pushgateway
     ports:
