@@ -4,7 +4,6 @@ import io.gatling.javaapi.core.CoreDsl.*
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
-import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.iroha2.generateKeyPair
@@ -35,16 +34,14 @@ class Iroha2SetUp : Wrench13() {
 
     val iroha2SetUpScn = scenario("Iroha2SetUp")
         .exec { Session ->
-            /*val randomIndex = (0 until peers.size).random()
-            val randomPeer = peers[randomIndex]
-            Iroha2Client = buildClient(randomPeer)*/
+            val iroha2Client = buildClient()
 
             timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                 "gatling"
                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                 , Iroha2SetUp::class.simpleName).startTimer()
             try {
-                val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = Iroha2Client.subscribeToBlockStream(1, 2)
+                val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = iroha2Client.subscribeToBlockStream(1, 2)
                 subscription = idToSubscription.component2()
             } finally {
                 timer.observeDuration()
@@ -62,7 +59,7 @@ class Iroha2SetUp : Wrench13() {
                 , Iroha2SetUp::class.simpleName).startTimer()
             try {
                 runBlocking {
-                    Iroha2Client.sendTransaction {
+                    iroha2Client.sendTransaction {
                         account(admin)
                         registerDomain(anotherDevDomainId)
                         buildSigned(adminKeyPair)
@@ -70,6 +67,7 @@ class Iroha2SetUp : Wrench13() {
                         withTimeout(Duration.ofSeconds(transactionWaiter))
                         { d.await()
                             println("SEND_TRANSACTION: DOMAIN REGISTER")
+                            pliers.healthCheck(true, "Iroha2SetUp")
                             anotherDevDomainIdList.add(anotherDevDomainId)
                             timer.observeDuration()
                             CustomHistogram.domainRegisterCount.labels(
@@ -83,7 +81,9 @@ class Iroha2SetUp : Wrench13() {
                 }
                 subscription.close()
             } catch (ex: RuntimeException) {
-                println(ex.message)
+                println("Something went wrong on Iroha2SetUp scenario, problem with domain register transaction: " + ex.message)
+                println("Something went wrong on Iroha2SetUp scenario, problem with domain register transaction: " + ex.stackTrace)
+                pliers.healthCheck(false, "Iroha2SetUp")
             }
             Session
         }
@@ -91,15 +91,13 @@ class Iroha2SetUp : Wrench13() {
                 //accounts on each domain = threads * anotherDevDomainIdList.size * setUpUsersOnEachDomain
                 repeat(SimulationConfig.simulation.setUpUsersOnEachDomain).on(
                     exec { Session ->
-                        /*val randomIndex = (0 until peers.size).random()
-                        val randomPeer = peers[randomIndex]
-                        Iroha2Client = buildClient(randomPeer)*/
+                        val iroha2Client = buildClient()
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName).startTimer()
                         try {
-                            val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = Iroha2Client.subscribeToBlockStream(1, 2)
+                            val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = iroha2Client.subscribeToBlockStream(1, 2)
                             subscription = idToSubscription.component2()
                         } finally {
                             timer.observeDuration()
@@ -123,7 +121,7 @@ class Iroha2SetUp : Wrench13() {
                                 , Iroha2SetUp::class.simpleName).startTimer()
                         try {
                             runBlocking {
-                                Iroha2Client.sendTransaction {
+                                iroha2Client.sendTransaction {
                                     account(admin)
                                     registerAccount(
                                         anotherDev.anotherDevAccountId,
@@ -155,7 +153,7 @@ class Iroha2SetUp : Wrench13() {
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName).startTimer()
                         try {
-                            val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = Iroha2Client.subscribeToBlockStream(1, 2)
+                            val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = iroha2Client.subscribeToBlockStream(1, 2)
                             subscription = idToSubscription.component2()
                         } finally {
                             timer.observeDuration()
@@ -177,7 +175,7 @@ class Iroha2SetUp : Wrench13() {
                         try {
 
                             runBlocking {
-                                Iroha2Client.sendTransaction {
+                                iroha2Client.sendTransaction {
                                     account(anotherDev.anotherDevAccountId)
                                     registerAssetDefinition(anotherDev.assetDefinitionId, AssetValueType.Quantity())
                                     buildSigned(anotherDev.anotherDevKeyPair)
@@ -206,7 +204,7 @@ class Iroha2SetUp : Wrench13() {
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
                             , Iroha2SetUp::class.simpleName).startTimer()
                         try {
-                            val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = Iroha2Client.subscribeToBlockStream(1, 2)
+                            val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = iroha2Client.subscribeToBlockStream(1, 2)
                             subscription = idToSubscription.component2()
                         } finally {
                             timer.observeDuration()
@@ -225,7 +223,7 @@ class Iroha2SetUp : Wrench13() {
                             , Iroha2SetUp::class.simpleName).startTimer()
                         try {
                             runBlocking {
-                                Iroha2Client.sendTransaction {
+                                iroha2Client.sendTransaction {
                                     account(anotherDev.anotherDevAccountId)
                                     mintAsset(anotherDev.anotherDevAssetId, 10000)
                                     buildSigned(anotherDev.anotherDevKeyPair)

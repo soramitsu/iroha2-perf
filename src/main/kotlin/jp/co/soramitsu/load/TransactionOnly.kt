@@ -2,17 +2,14 @@ package jp.co.soramitsu.load
 
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder
-import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
-import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.CustomHistogram
 import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeout
-import org.apache.http.client.utils.URIBuilder
 import java.time.Duration
 import kotlin.random.Random
 
@@ -45,16 +42,14 @@ class TransactionOnly: Wrench13() {
                 Session
             }
                 .exec { Session ->
-                    /*val randomIndex = (0 until peers.size).random()
-                    val randomPeer = peers[randomIndex]
-                    val Iroha2Client: Iroha2Client = buildClient(randomPeer)*/
+                    val iroha2Client = buildClient()
                         timer = CustomHistogram.subscriptionToBlockStreamTimer.labels(
                             "gatling",
                             System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
                             Iroha2SetUp::class.simpleName
                         ).startTimer()
                         try {
-                            val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = Iroha2Client.subscribeToBlockStream(1, 2)
+                            val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> = iroha2Client.subscribeToBlockStream(1, 2)
                             subscription = idToSubscription.component2()
                         } finally {
                             timer.observeDuration()
@@ -74,17 +69,22 @@ class TransactionOnly: Wrench13() {
                         try {
                             println("SEND_TRANSACTION: TRANSFER ASSET")
                             runBlocking {
-                                Iroha2Client.sendTransaction {
+                                iroha2Client.sendTransaction {
                                     account(currentDevAccountId)
                                     transferAsset(currentDevAssetId, 1, targetDevAccountId)
                                     buildSigned(currentDevKeyPair)
                                 }.also { d ->
-                                    withTimeout(Duration.ofSeconds(transactionWaiter)) { d.await() }
+                                    withTimeout(Duration.ofSeconds(transactionWaiter)) {
+                                        d.await()
+                                        pliers.healthCheck(true, "TransferAssets")
+                                    }
                                 }
                                 subscription.close()
                             }
                         } catch (ex: RuntimeException) {
-                            println(ex.message)
+                            println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.message)
+                            println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.stackTrace)
+                            pliers.healthCheck(false, "TransferAssets")
                         } finally {
                             timer.observeDuration()
                             CustomHistogram.transferAssetCount.labels(

@@ -3,12 +3,12 @@ version: "3"
 services:
   gatling:
     container_name: iroha2-perf
-    restart: unless-stopped
-    mem_limit: 4G
-    cpus: 4
     build:
       context: .
       dockerfile: ./Dockerfile
+    restart: unless-stopped
+    mem_limit: 4G
+    cpus: 16
     working_dir: /app
     read_only: true
     tmpfs:
@@ -47,16 +47,23 @@ services:
       - 'filebeat.fields.env=tst'
       - 'filebeat.fields.project=iroha2-perf'
       - 'filebeat.fields.logtype=iroha2'
-      - 'filebeat.module=docker'
-    #healthcheck: 
+      - 'filebeat.multiline.pattern=^\[\d{2}\.\d{2}\.\d{4}'
+      - 'filebeat.multiline.negate=true'
+      - 'filebeat.multiline.match=after'
+#      - 'filebeat.module=docker'
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://127.0.0.1:4567/health || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 1m
 
   pushgateway:
+    container_name: pushgateway
     image: prom/pushgateway:v1.6.2
     restart: unless-stopped
-    mem_limit: 256M
+    mem_limit: 512M
     cpus: 1
-    read_only: true
-    container_name: pushgateway
     ports:
       - "9091:9091"
     networks:
@@ -71,8 +78,14 @@ services:
       - 'filebeat.fields.env=tst'
       - 'filebeat.fields.project=iroha2-perf'
       - 'filebeat.fields.logtype=iroha2'
-      - 'filebeat.module=docker'
-    #healthcheck: 
+#      - 'filebeat.module=docker'      
+
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://127.0.0.1:9091/-/healthy || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 1m
 
 networks:
   iroha2-perf-net:

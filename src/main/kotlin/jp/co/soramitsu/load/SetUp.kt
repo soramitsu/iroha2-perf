@@ -3,10 +3,10 @@ package jp.co.soramitsu.load
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.load.objects.CustomHistogram
-import jp.co.soramitsu.load.toolbox.BlueElectricalTape
 import jp.co.soramitsu.load.toolbox.Grinder
-import kotlinx.coroutines.runBlocking
+import jp.co.soramitsu.load.toolbox.Pliers
 
+import kotlinx.coroutines.runBlocking
 class SetUp {
     companion object {
         @JvmStatic
@@ -20,8 +20,11 @@ class SetUp {
 
     val pushGatWaySetUpScn = CoreDsl.scenario("pushGatWaySetUpScn")
         .exec { Session ->
+            Pliers()
             Grinder()
             CustomHistogram()
             Session
         }
+
+
 }
