@@ -7,7 +7,7 @@ import jp.co.soramitsu.load.toolbox.Pliers;
 
 import java.util.ArrayList;
 
-public class CustomHistogram {
+public class CustomMetrics {
     private final CollectorRegistry registry;
     private final ArrayList<Histogram> histograms = new ArrayList<>();
     private final ArrayList<Counter> counters = new ArrayList<>();
@@ -26,12 +26,22 @@ public class CustomHistogram {
     public static Counter transferAssetCount;
     public static Counter findAssetsByAccountIdQueryCount;
     public static Counter unauthorizedResponseTime;
+    public static Counter subscriptionToBlockStreamErrorCount;
+    public static Counter transferAssetErrorCount;
+    public static Counter domainRegisterErrorCount;
+    public static Counter accountRegisterErrorCount;
+    public static Counter assetDefinitionRegisterErrorCount;
+    public static Counter assetMintErrorCount;
     private Pliers pliers = new Pliers();
 
-    public CustomHistogram(){
+    public CustomMetrics(){
         registry = CollectorRegistry.defaultRegistry;
         try {
             subscriptionToBlockStreamCount = createCounter(
+                    "subscription_block_stream_performance"
+                    , "Subscription to transaction. Create a subscription to a block stream."
+                    , "environment", "project","test");
+            subscriptionToBlockStreamErrorCount = createCounter(
                     "subscription_block_stream_performance"
                     , "Subscription to transaction. Create a subscription to a block stream."
                     , "environment", "project","test");
@@ -39,7 +49,15 @@ public class CustomHistogram {
                     "domain_register_performance"
                     , "Transaction. Domain register."
                     , "environment", "project","test");
+            domainRegisterErrorCount = createCounter(
+                    "domain_register_performance"
+                    , "Transaction. Domain register."
+                    , "environment", "project","test");
             accountRegisterCount = createCounter(
+                    "account_register_performance"
+                    , "Transaction. Account register."
+                    , "environment", "project","test");
+            accountRegisterErrorCount = createCounter(
                     "account_register_performance"
                     , "Transaction. Account register."
                     , "environment", "project","test");
@@ -47,11 +65,23 @@ public class CustomHistogram {
                     "asset_definition_register_performance"
                     , "Transaction. Asset definition register."
                     , "environment", "project","test");
+            assetDefinitionRegisterErrorCount = createCounter(
+                    "asset_definition_register_performance"
+                    , "Transaction. Asset definition register."
+                    , "environment", "project","test");
             assetMintCount = createCounter(
                     "asset_mint_performance"
                     , "Transaction. Asset mint."
                     , "environment", "project","test");
+            assetMintErrorCount = createCounter(
+                    "asset_mint_performance"
+                    , "Transaction. Asset mint."
+                    , "environment", "project","test");
             transferAssetCount = createCounter(
+                    "transfer_asset_performance"
+                    , "Transaction. Transfer asset."
+                    , "environment", "project","test");
+            transferAssetErrorCount = createCounter(
                     "transfer_asset_performance"
                     , "Transaction. Transfer asset."
                     , "environment", "project","test");
@@ -95,6 +125,12 @@ public class CustomHistogram {
             counters.add(transferAssetCount);
             counters.add(findAssetsByAccountIdQueryCount);
             counters.add(unauthorizedResponseTime);
+            counters.add(subscriptionToBlockStreamErrorCount);
+            counters.add(domainRegisterErrorCount);
+            counters.add(accountRegisterErrorCount);
+            counters.add(assetDefinitionRegisterErrorCount);
+            counters.add(assetMintErrorCount);
+            counters.add(transferAssetErrorCount);
 
             histograms.add(subscriptionToBlockStreamTimer);
             histograms.add(domainRegisterTimer);
@@ -109,7 +145,7 @@ public class CustomHistogram {
             pliers.healthCheck(true, "CustomHistogram");
         } catch (Exception ex) {
             System.out.println("Something went wrong: " + ex.getMessage());
-            System.out.println("Something went wrong: " + ex.getStackTrace());
+            System.out.println("Something went wrong: " + ex.getStackTrace().toString());
             pliers.healthCheck(false, "CustomHistogram");
         }
     }
