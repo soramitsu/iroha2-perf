@@ -42,7 +42,7 @@ public class CustomMetrics {
                     , "Subscription to transaction. Create a subscription to a block stream."
                     , "environment", "project","test");
             subscriptionToBlockStreamErrorCount = createCounter(
-                    "subscription_block_stream_performance"
+                    "subscription_block_stream_KO_performance"
                     , "Subscription to transaction. Create a subscription to a block stream."
                     , "environment", "project","test");
             domainRegisterCount = createCounter(
@@ -50,7 +50,7 @@ public class CustomMetrics {
                     , "Transaction. Domain register."
                     , "environment", "project","test");
             domainRegisterErrorCount = createCounter(
-                    "domain_register_performance"
+                    "domain_register_KO_performance"
                     , "Transaction. Domain register."
                     , "environment", "project","test");
             accountRegisterCount = createCounter(
@@ -58,7 +58,7 @@ public class CustomMetrics {
                     , "Transaction. Account register."
                     , "environment", "project","test");
             accountRegisterErrorCount = createCounter(
-                    "account_register_performance"
+                    "account_register_KO_performance"
                     , "Transaction. Account register."
                     , "environment", "project","test");
             assetDefinitionRegisterCount = createCounter(
@@ -66,7 +66,7 @@ public class CustomMetrics {
                     , "Transaction. Asset definition register."
                     , "environment", "project","test");
             assetDefinitionRegisterErrorCount = createCounter(
-                    "asset_definition_register_performance"
+                    "asset_definition_register_KO_performance"
                     , "Transaction. Asset definition register."
                     , "environment", "project","test");
             assetMintCount = createCounter(
@@ -74,7 +74,7 @@ public class CustomMetrics {
                     , "Transaction. Asset mint."
                     , "environment", "project","test");
             assetMintErrorCount = createCounter(
-                    "asset_mint_performance"
+                    "asset_mint_KO_performance"
                     , "Transaction. Asset mint."
                     , "environment", "project","test");
             transferAssetCount = createCounter(
@@ -82,7 +82,7 @@ public class CustomMetrics {
                     , "Transaction. Transfer asset."
                     , "environment", "project","test");
             transferAssetErrorCount = createCounter(
-                    "transfer_asset_performance"
+                    "transfer_asset_KO_performance"
                     , "Transaction. Transfer asset."
                     , "environment", "project","test");
             findAssetsByAccountIdQueryCount = createCounter(
