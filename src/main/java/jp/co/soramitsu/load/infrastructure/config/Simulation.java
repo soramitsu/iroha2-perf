@@ -69,14 +69,12 @@ public interface Simulation extends Config {
     int duringSetUp();
 
     //Load model
-    @Key("rampUpTest")
-    int rampUpTest();
-
-    @Key("duringTest")
-    int duringTest();
-
-    @Key("stepDurationTest")
-    int stepDurationTest();
+    @Key("intensity")
+    int intensity();
+    @Key("rampDuration")
+    int rampDuration();
+    @Key("stageDuration")
+    int stageDuration();
 
     //TransferAssetsQueryStatus
     @Key("attemptsToTransaction")

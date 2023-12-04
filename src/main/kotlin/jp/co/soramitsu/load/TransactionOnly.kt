@@ -66,7 +66,6 @@ class TransactionOnly: Wrench13() {
                         System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
                         Iroha2SetUp::class.simpleName
                     ).startTimer()
-                    //1 засунуть сюда каунтер который будт отображать попытку отправки транзакции
                     CustomMetrics.transferAssetCount.labels(
                         "gatling",
                         System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
