@@ -32,6 +32,11 @@ class Iroha2SetUp : Wrench13() {
         return iroha2SetUpScn
     }
 
+    //TODO: напили в каунтере теги для каждого счетчика
+    // в теги сложи параметры запуска теста
+    // для дальнейшего отслеживания на макро уровне
+    // нескольких тестов для быстрого получения инфы
+
     val iroha2SetUpScn = scenario("Iroha2SetUp")
         .exec { Session ->
             val iroha2Client = buildClient()

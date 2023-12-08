@@ -60,7 +60,7 @@ open class Wrench13 {
             it.scheme = SimulationConfig.simulation.targetProtocol()
             it.host = SimulationConfig.simulation.targetURL()
             it.port = 0
-            it.path = randomPeer
+            it.path = "peer-0/api"
             it.build().toURL()
         }
         urls.add(peerUrl)
