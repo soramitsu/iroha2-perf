@@ -15,6 +15,8 @@ import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.keyPairFromHex
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import org.apache.http.client.utils.URIBuilder
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.net.URL
 import java.security.KeyPair
 
@@ -36,9 +38,11 @@ open class Wrench13 {
     var attempt: Int = -1
     var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
     //var iroha2Client: Iroha2Client = buildClient("peer-0/api")
-    var pushGateway = PushGateway("pushgateway:9091");
+    var pushGateway = PushGateway("pushgateway:9091")
+    //var logger = buildLogger()
 
     //lateinit var iroha2Client: Iroha2Client
+    lateinit var logger: Logger
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair
     lateinit var currentDevAssetId: AssetId
@@ -50,17 +54,23 @@ open class Wrench13 {
     lateinit var subscription: BlockStreamSubscription
     lateinit var timer: Timer
 
-
-    fun buildClient(): Iroha2Client {
-        val randomIndex = (0 until peers.size).random()
-        val randomPeer = peers[randomIndex]
-        println("randomPeer: " + peers[randomIndex])
-
+    fun buildLogger(className: String): Logger {
+        logger = LoggerFactory.getLogger(className)
+        return logger
+    }
+    fun buildClient(configuration: String): Iroha2Client {
+        lateinit var randomPeer: String
+        if(configuration == "standAlone"){
+            randomPeer = "peer-0/api"
+        } else {
+            val randomIndex = (0 until peers.size).random()
+            randomPeer = peers[randomIndex]
+        }
         val peerUrl = URIBuilder().let {
             it.scheme = SimulationConfig.simulation.targetProtocol()
             it.host = SimulationConfig.simulation.targetURL()
             it.port = 0
-            it.path = "peer-0/api"
+            it.path = randomPeer
             it.build().toURL()
         }
         urls.add(peerUrl)

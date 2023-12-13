@@ -1,7 +1,9 @@
 package jp.co.soramitsu.load.toolbox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import spark.Spark;
 
-public class Pliers {
+public class Pliers extends Wrench13 {
     private boolean isHealthy = false;
 
     public Pliers (){
@@ -21,10 +23,11 @@ public class Pliers {
     }
 
     private void setHealthy(boolean state, String service){
+        buildLogger("Pliers.class");
         if (state) {
-            System.out.println(service + " is alive he will live");
+            logger.info(service + " is alive he will live");
         } else {
-            System.out.println(service + " more dead than alive");
+            logger.info(service + " is alive he will live");
         }
         isHealthy = state;
     }

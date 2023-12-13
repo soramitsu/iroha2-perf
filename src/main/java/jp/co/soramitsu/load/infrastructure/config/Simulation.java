@@ -13,7 +13,6 @@ import org.aeonbits.owner.Config.Sources;
     "classpath:simulation.properties"
 })
 public interface Simulation extends Config {
-
     //SetUp model settings
     @Key("targetProtocol")
     String targetProtocol();
@@ -21,17 +20,17 @@ public interface Simulation extends Config {
     @Key("targetURL")
     String targetURL();
 
-    @Key("targetPort")
-    String targetPort();
-
-    @Key("targetPath")
-    String targetPath();
-
     @Key("remoteLogin")
     String remoteLogin();
 
     @Key("remotePass")
     String remotePass();
+
+    @Key("logLevel")
+    String logLevel();
+
+    @Key("configuration")
+    String configuration();
 
     //Close model settings
     @Key("concurrentUsers")
@@ -49,24 +48,12 @@ public interface Simulation extends Config {
     @Key("startingFrom")
     Integer startingFrom();
 
-    @Key("debugSimulation")
-    String debugSimulation();
-
     @Key("loadSimulation")
     String loadSimulation();
-
-    @Key("maximumSearchSimulation")
-    String maximumSearchSimulation();
-
-    @Key("stressSimulation")
-    String stressSimulation();
 
     //SetUp section
     @Key("domainSetUpRumpUp")
     int domainSetUpRumpUp();
-
-    @Key("duringSetUp")
-    int duringSetUp();
 
     //Load model
     @Key("intensity")
@@ -88,10 +75,4 @@ public interface Simulation extends Config {
 
     @Key("setUpUsersOnEachDomain")
     int getSetUpUsersOnEachDomain();
-
-    @Key("maximumSearchRumpUp")
-    int maximumSearchRumpUp();
-
-    @Key("stressPeakDuration")
-    int stressPeakDuration();
 }

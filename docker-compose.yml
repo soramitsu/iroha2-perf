@@ -26,6 +26,8 @@ services:
         -DtargetPath=
         -DremoteLogin=
         -DremotePass=
+        -DlogLevel=
+        -Dconfiguration=
         -DconcurrentUsers=1
         -Dtimes=10000
         -DeachLevelLasting=15

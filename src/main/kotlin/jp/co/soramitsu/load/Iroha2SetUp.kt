@@ -39,7 +39,7 @@ class Iroha2SetUp : Wrench13() {
 
     val iroha2SetUpScn = scenario("Iroha2SetUp")
         .exec { Session ->
-            val iroha2Client = buildClient()
+            val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
             timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                 "gatling"
                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -77,7 +77,6 @@ class Iroha2SetUp : Wrench13() {
                     }.also { d ->
                         withTimeout(Duration.ofSeconds(transactionWaiter))
                         { d.await()
-                            println("SEND_TRANSACTION: DOMAIN REGISTER")
                             pliers.healthCheck(true, "Iroha2SetUp")
                             anotherDevDomainIdList.add(anotherDevDomainId)
                             timer.observeDuration()
@@ -98,7 +97,6 @@ class Iroha2SetUp : Wrench13() {
                     , Iroha2SetUp::class.simpleName).inc()
                 sendMetricsToPrometheus(CustomMetrics.domainRegisterErrorCount, "transaction")
                 println("Something went wrong on Iroha2SetUp scenario, problem with domain register transaction: " + ex.message)
-                println("Something went wrong on Iroha2SetUp scenario, problem with domain register transaction: " + ex.stackTrace.toString())
                 pliers.healthCheck(false, "Iroha2SetUp")
             }
             Session
@@ -107,7 +105,7 @@ class Iroha2SetUp : Wrench13() {
                 //accounts on each domain = threads * anotherDevDomainIdList.size * setUpUsersOnEachDomain
                 repeat(SimulationConfig.simulation.setUpUsersOnEachDomain).on(
                     exec { Session ->
-                        val iroha2Client = buildClient()
+                        val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                         timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -154,7 +152,6 @@ class Iroha2SetUp : Wrench13() {
                                 }.also { d ->
                                     withTimeout(Duration.ofSeconds(transactionWaiter)) {
                                         d.await()
-                                        println("SEND_TRANSACTION: ACCOUNT REGISTER")
                                         CustomMetrics.accountRegisterCount.labels(
                                             "gatling"
                                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -216,7 +213,6 @@ class Iroha2SetUp : Wrench13() {
                                 }.also { d ->
                                     withTimeout(Duration.ofSeconds(transactionWaiter)) {
                                         d.await()
-                                        println("SEND_TRANSACTION: ASSET DEFINITION REGISTER")
                                         CustomMetrics.assetDefinitionRegisterCount.labels(
                                             "gatling"
                                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -276,7 +272,6 @@ class Iroha2SetUp : Wrench13() {
                                 }.also { d ->
                                     withTimeout(Duration.ofSeconds(transactionWaiter)) {
                                         d.await()
-                                        println("SEND_TRANSACTION: MINT ASSET")
                                         CustomMetrics.assetMintCount.labels(
                                             "gatling"
                                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")

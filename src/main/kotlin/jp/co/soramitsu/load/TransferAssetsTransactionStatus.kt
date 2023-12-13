@@ -5,6 +5,7 @@ import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.CoreDsl.exec
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.query.QueryBuilder
+import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.AnotherDevs
 import jp.co.soramitsu.load.objects.CustomMetrics
 import jp.co.soramitsu.load.toolbox.Wrench13
@@ -40,7 +41,7 @@ class TransferAssetsTransactionStatus: Wrench13() {
                 Session
             }
             .exec { Session ->
-                val iroha2Client = buildClient()
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                 timer = CustomMetrics.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -77,7 +78,7 @@ class TransferAssetsTransactionStatus: Wrench13() {
             }.doIf{ Session -> Session.getBoolean("condition") }
                 .then(
                     exec { Session ->
-                        val iroha2Client = buildClient()
+                        val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                         timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
