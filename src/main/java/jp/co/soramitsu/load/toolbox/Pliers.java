@@ -1,7 +1,7 @@
 package jp.co.soramitsu.load.toolbox;
 import spark.Spark;
 
-public class Pliers extends Wrench13 {
+public class Pliers {
     private boolean isHealthy = false;
 
     public Pliers (){
