@@ -20,12 +20,14 @@ services:
     command: >
       mvn gatling:test
         -Duser.home=/var/maven
-        -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.MaximumSearchSimulation
+        -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation
         -DtargetProtocol=https
         -DtargetURL=
         -DtargetPath=
         -DremoteLogin=
         -DremotePass=
+        -DlogLevel=
+        -Dconfiguration=
         -DconcurrentUsers=1
         -Dtimes=10000
         -DeachLevelLasting=15
@@ -33,6 +35,9 @@ services:
         -DstartingFrom=0
         -DdomainSetUpRampUp=5
         -DsetUpUsersOnEachDomain=10
+        -Dintensity=3
+        -DrampDuration=10
+        -DstageDuration=604800
     networks:
       - iroha2-perf-net
     volumes:

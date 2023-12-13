@@ -42,7 +42,7 @@ class TransactionOnly: Wrench13() {
                 Session
             }
                 .exec { Session ->
-                    val iroha2Client = buildClient()
+                    val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                     timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                         "gatling",
                         System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
@@ -66,7 +66,6 @@ class TransactionOnly: Wrench13() {
                         System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
                         Iroha2SetUp::class.simpleName
                     ).startTimer()
-                    //1 засунуть сюда каунтер который будт отображать попытку отправки транзакции
                     CustomMetrics.transferAssetCount.labels(
                         "gatling",
                         System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
@@ -74,7 +73,6 @@ class TransactionOnly: Wrench13() {
                     ).inc()
                     sendMetricsToPrometheus(CustomMetrics.transferAssetCount, "transaction")
                     try {
-                        println("SEND_TRANSACTION: TRANSFER ASSET")
                         runBlocking {
                             iroha2Client.sendTransaction {
                                 account(currentDevAccountId)
@@ -96,7 +94,6 @@ class TransactionOnly: Wrench13() {
                         ).inc()
                         sendMetricsToPrometheus(CustomMetrics.transferAssetErrorCount, "transaction")
                         println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.message)
-                        println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.stackTrace)
                         pliers.healthCheck(false, "TransferAssets")
                     } finally {
                         timer.observeDuration()

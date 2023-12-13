@@ -36,7 +36,7 @@ open class Wrench13 {
     var attempt: Int = -1
     var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
     //var iroha2Client: Iroha2Client = buildClient("peer-0/api")
-    var pushGateway = PushGateway("pushgateway:9091");
+    var pushGateway = PushGateway("pushgateway:9091")
 
     //lateinit var iroha2Client: Iroha2Client
     lateinit var currentDevAccountId: AccountId
@@ -50,12 +50,14 @@ open class Wrench13 {
     lateinit var subscription: BlockStreamSubscription
     lateinit var timer: Timer
 
-
-    fun buildClient(): Iroha2Client {
-        val randomIndex = (0 until peers.size).random()
-        val randomPeer = peers[randomIndex]
-        println("randomPeer: " + peers[randomIndex])
-
+    fun buildClient(configuration: String): Iroha2Client {
+        lateinit var randomPeer: String
+        if(configuration == "standAlone"){
+            randomPeer = "peer-0/api"
+        } else {
+            val randomIndex = (0 until peers.size).random()
+            randomPeer = peers[randomIndex]
+        }
         val peerUrl = URIBuilder().let {
             it.scheme = SimulationConfig.simulation.targetProtocol()
             it.host = SimulationConfig.simulation.targetURL()
