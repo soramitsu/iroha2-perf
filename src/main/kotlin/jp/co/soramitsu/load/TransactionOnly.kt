@@ -22,7 +22,6 @@ class TransactionOnly: Wrench13() {
     }
 
     fun applyScn(): ScenarioBuilder {
-        buildLogger("TransactionOnly.class")
         return transferAssetsOnlyScn
     }
 
@@ -94,7 +93,7 @@ class TransactionOnly: Wrench13() {
                             Iroha2SetUp::class.simpleName
                         ).inc()
                         sendMetricsToPrometheus(CustomMetrics.transferAssetErrorCount, "transaction")
-                        logger.info("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.message)
+                        println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.message)
                         pliers.healthCheck(false, "TransferAssets")
                     } finally {
                         timer.observeDuration()
