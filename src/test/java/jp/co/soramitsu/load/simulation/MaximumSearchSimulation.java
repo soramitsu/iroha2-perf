@@ -4,11 +4,6 @@ import io.gatling.javaapi.core.OpenInjectionStep;
 import io.gatling.javaapi.core.Simulation;
 import jp.co.soramitsu.load.*;
 
-import java.time.Duration;
-
-import static io.gatling.javaapi.core.OpenInjectionStep.atOnceUsers;
-import static io.gatling.javaapi.core.OpenInjectionStep.nothingFor;
-
 public class MaximumSearchSimulation extends Simulation {
     {
         setUp(
