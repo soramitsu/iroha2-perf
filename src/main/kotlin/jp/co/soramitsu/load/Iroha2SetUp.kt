@@ -4,6 +4,7 @@ import io.gatling.javaapi.core.CoreDsl.*
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
+import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.iroha2.generateKeyPair
@@ -31,11 +32,6 @@ class Iroha2SetUp : Wrench13() {
     fun applyScn(): ScenarioBuilder {
         return iroha2SetUpScn
     }
-
-    //TODO: напили в каунтере теги для каждого счетчика
-    // в теги сложи параметры запуска теста
-    // для дальнейшего отслеживания на макро уровне
-    // нескольких тестов для быстрого получения инфы
 
     val iroha2SetUpScn = scenario("Iroha2SetUp")
         .exec { Session ->
