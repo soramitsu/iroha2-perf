@@ -51,6 +51,9 @@ public interface Simulation extends Config {
     @Key("loadSimulation")
     String loadSimulation();
 
+    @Key("maximumSearchSimulation")
+    String maximumSearchSimulation();
+
     //SetUp section
     @Key("domainSetUpRumpUp")
     int domainSetUpRumpUp();
