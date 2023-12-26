@@ -18,7 +18,6 @@ import java.security.KeyPair
 import java.time.Duration
 
 class TransferAssets : Wrench13() {
-
     lateinit var domainIdSender: DomainId
     lateinit var anotherDevAccountIdSender: AccountId
     lateinit var anotherDevAssetIdSender: AssetId
