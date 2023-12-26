@@ -4,12 +4,12 @@ import io.gatling.javaapi.core.CoreDsl.*
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.asAccountId
 import jp.co.soramitsu.iroha2.asAssetId
-import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.iroha2.generated.*
-import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.iroha2.asDomainId
+import jp.co.soramitsu.load.TechicalScns.Iroha2SetUp
+import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.CustomMetrics
 import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
@@ -17,7 +17,7 @@ import kotlinx.coroutines.time.withTimeout
 import java.security.KeyPair
 import java.time.Duration
 
-class TransactionOnlyFeeder : Wrench13() {
+class TransferAssets : Wrench13() {
 
     lateinit var domainIdSender: DomainId
     lateinit var anotherDevAccountIdSender: AccountId
@@ -28,15 +28,15 @@ class TransactionOnlyFeeder : Wrench13() {
     companion object {
         @JvmStatic
         fun apply() = runBlocking {
-            TransactionOnlyFeeder().applyScn()
+            TransferAssets().applyScn()
         }
     }
 
     fun applyScn(): ScenarioBuilder {
-        return transferAssetsOnlyScn
+        return transferAssetsScn
     }
 
-    val transferAssetsOnlyScn = scenario("TransferAssets")
+    val transferAssetsScn = scenario("TransferAssets")
         .feed(csv("preconditionList.csv").circular())
         .exec { Session ->
             anotherDevKeyPairSender = adminKeyPair
@@ -47,8 +47,7 @@ class TransactionOnlyFeeder : Wrench13() {
             Session
         }
         .exec { Session ->
-            //val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-            val iroha2Client = Iroha2Client("http://0.0.0.0:8080", "http://0.0.0.0:8180", "http://0.0.0.0:1337", true)
+            val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
             timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                 "gatling",
                 System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
@@ -106,7 +105,6 @@ class TransactionOnlyFeeder : Wrench13() {
                 timer.observeDuration()
                 sendMetricsToPrometheus(CustomMetrics.transferAssetTimer, "transaction")
             }
-            val newSession = Session.set("condition", false)
-            newSession
+            Session
         }
 }

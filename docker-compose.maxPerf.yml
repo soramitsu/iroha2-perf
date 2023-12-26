@@ -23,11 +23,10 @@ services:
         -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.MaximumSearchSimulation
         -DtargetProtocol=https
         -DtargetURL=
-        -DtargetPath=
         -DremoteLogin=
         -DremotePass=
-        -DlogLevel=
-        -Dconfiguration=
+        -DlogLevel=INFO
+        -Dconfiguration=standard
         -DconcurrentUsers=1
         -Dtimes=10000
         -DeachLevelLasting=15

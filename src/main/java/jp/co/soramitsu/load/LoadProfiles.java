@@ -22,6 +22,17 @@ public class LoadProfiles {
         };
     }
 
+    public static ClosedInjectionStep[] getStressClosedProfile() {
+        return new ClosedInjectionStep[]{
+                rampConcurrentUsers(0).to(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.rampDuration()),
+                constantConcurrentUsers(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration()),
+                rampConcurrentUsers(SimulationConfig.simulation.intensity()).to(SimulationConfig.simulation.stressIntensity()).during(SimulationConfig.simulation.stressRampDuration()),
+                constantConcurrentUsers(SimulationConfig.simulation.stressIntensity()).during(SimulationConfig.simulation.stressDuration()),
+                rampConcurrentUsers(SimulationConfig.simulation.stressIntensity()).to(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stressRampDuration()),
+                constantConcurrentUsers(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration()),
+        };
+    }
+
     public static OpenInjectionStep[] setupModel(){
         return new OpenInjectionStep[]{
                 atOnceUsers(SimulationConfig.simulation.domainSetUpRumpUp())

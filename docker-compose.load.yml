@@ -23,19 +23,11 @@ services:
         -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation
         -DtargetProtocol=https
         -DtargetURL=
-        -DtargetPath=
         -DremoteLogin=
         -DremotePass=
-        -DlogLevel=
-        -Dconfiguration=
-        -DconcurrentUsers=1
-        -Dtimes=10000
-        -DeachLevelLasting=15
-        -DseparatedByRampsLasting=1
-        -DstartingFrom=0
-        -DdomainSetUpRampUp=5
-        -DsetUpUsersOnEachDomain=10
-        -Dintensity=3
+        -DlogLevel=INFO
+        -Dconfiguration=standard
+        -Dintensity=5
         -DrampDuration=10
         -DstageDuration=604800
     networks:
