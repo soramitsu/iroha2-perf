@@ -26,14 +26,14 @@ services:
         -DtargetPath=
         -DremoteLogin=
         -DremotePass=
-        -DlogLevel=
-        -Dconfiguration=
-        -Dintensity=
-        -DrampDuration=
-        -DstageDuration=
-        -DstressIntensity=
-        -DstressRampDuration=
-        -DstressDuration=
+        -DlogLevel=INFO
+        -Dconfiguration=standard
+        -Dintensity=5
+        -DrampDuration=10
+        -DstageDuration=300
+        -DstressIntensity=20
+        -DstressRampDuration=1
+        -DstressDuration=300
     networks:
       - iroha2-perf-net
     volumes:

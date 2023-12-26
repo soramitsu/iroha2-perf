@@ -1,4 +1,4 @@
-package jp.co.soramitsu.load
+package jp.co.soramitsu.load.TechicalScns
 
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder

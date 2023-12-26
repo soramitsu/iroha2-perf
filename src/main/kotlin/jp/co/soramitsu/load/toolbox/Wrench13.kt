@@ -15,6 +15,8 @@ import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.keyPairFromHex
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import org.apache.http.client.utils.URIBuilder
+import scala.annotation.switch
+import java.lang.IllegalArgumentException
 import java.net.URL
 import java.security.KeyPair
 
@@ -50,12 +52,25 @@ open class Wrench13 {
 
     fun buildClient(configuration: String): Iroha2Client {
         lateinit var randomPeer: String
-        if(configuration == "standAlone"){
-            randomPeer = "peer-0/api"
-        } else {
-            val randomIndex = (0 until peers.size).random()
-            randomPeer = peers[randomIndex]
+        when (configuration){
+            "local" -> {
+                return Iroha2Client("http://0.0.0.0:8080", "http://0.0.0.0:8180", "http://0.0.0.0:1337", true)
+            }
+            "standAlone" -> {
+                randomPeer = "peer-0/api"
+            }
+            "standard" -> {
+                val randomIndex = (0 until peers.size).random()
+                randomPeer = peers[randomIndex]
+            }
+            else -> {
+                throw IllegalArgumentException("Invalid configuration: $configuration. Available value: local, standAlone, standard")
+            }
         }
+        return builder(randomPeer)
+    }
+
+    private fun builder(randomPeer: String): Iroha2Client {
         val peerUrl = URIBuilder().let {
             it.scheme = SimulationConfig.simulation.targetProtocol()
             it.host = SimulationConfig.simulation.targetURL()
