@@ -21,7 +21,7 @@
         <jackson.versaion>2.14.1</jackson.versaion>
         <commons-codec.version>1.15</commons-codec.version>
         <lombok.version>1.18.24</lombok.version>
-        <kotlin.version>1.8.0</kotlin.version>
+        <kotlin.version>1.8.22</kotlin.version>
         <project.basedir>.</project.basedir>
     </properties>
 
@@ -127,6 +127,11 @@
             <artifactId>maven-jar-plugin</artifactId>
             <version>${maven-jar-plugin.version}</version>
             <type>maven-plugin</type>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.7.1</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>

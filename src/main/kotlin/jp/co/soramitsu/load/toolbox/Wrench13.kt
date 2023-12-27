@@ -15,7 +15,6 @@ import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.keyPairFromHex
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import org.apache.http.client.utils.URIBuilder
-import scala.annotation.switch
 import java.lang.IllegalArgumentException
 import java.net.URL
 import java.security.KeyPair
@@ -35,9 +34,9 @@ open class Wrench13 {
     var transactionWaiter: Long = 60 //s
     var userRequestCounter: Int = 10
     var attemptsPersentage: Int = 2
-    var attempt: Int = -1
+    var attempt: Int = 0
     var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
-    var pushGateway = PushGateway("pushgateway:9091")
+    var pushGateway = PushGateway("0.0.0.0:9091")
 
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair

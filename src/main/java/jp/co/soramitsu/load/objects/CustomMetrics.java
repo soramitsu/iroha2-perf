@@ -32,6 +32,7 @@ public class CustomMetrics {
     public static Counter accountRegisterErrorCount;
     public static Counter assetDefinitionRegisterErrorCount;
     public static Counter assetMintErrorCount;
+    public static Counter findAssetsByAccountIdQueryErrorCount;
     private Pliers pliers = new Pliers();
 
     public CustomMetrics(){
@@ -89,6 +90,10 @@ public class CustomMetrics {
                     "find_assets_account_id_query_performance"
                     , "Query. Find assets by accountId."
                     , "environment", "project","test");
+            findAssetsByAccountIdQueryErrorCount = createCounter(
+                    "find_assets_account_id_query_KO_performance"
+                    , "Query. Find assets by accountId."
+                    , "environment", "project","test");
             subscriptionToBlockStreamTimer = createHistogram(
                     "subscription_block_stream_perf"
                     , "Subscription to transaction. Create a subscription to a block stream."
@@ -131,6 +136,7 @@ public class CustomMetrics {
             counters.add(assetDefinitionRegisterErrorCount);
             counters.add(assetMintErrorCount);
             counters.add(transferAssetErrorCount);
+            counters.add(findAssetsByAccountIdQueryErrorCount);
 
             histograms.add(subscriptionToBlockStreamTimer);
             histograms.add(domainRegisterTimer);

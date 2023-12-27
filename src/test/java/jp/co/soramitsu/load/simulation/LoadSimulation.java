@@ -8,7 +8,7 @@ public class LoadSimulation extends Simulation {
     {
         setUp(
                 jp.co.soramitsu.load.SetUp.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1))
-                        .andThen(TransferAssets.Companion.apply().injectClosed(LoadProfiles.getLoadClosedProfile()))
+                        .andThen(TransferAssetsQuery.Companion.apply().injectClosed(LoadProfiles.getLoadClosedProfile()))
                         .andThen(CleanUp.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1)))
         );
     }
