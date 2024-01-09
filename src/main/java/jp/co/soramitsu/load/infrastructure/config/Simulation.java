@@ -39,6 +39,8 @@ public interface Simulation extends Config {
     Long separatedByRampsLasting();
     @Key("startingFrom")
     Integer startingFrom();
+    @Key("loadSimulationTrigger")
+    String loadSimulationTrigger();
     @Key("loadSimulation")
     String loadSimulation();
     @Key("maximumSearchSimulation")

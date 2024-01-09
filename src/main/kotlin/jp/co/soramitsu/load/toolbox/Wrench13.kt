@@ -23,7 +23,8 @@ open class Wrench13 {
 
     val urls: MutableList<URL> = mutableListOf()
     val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
-    val admin = AccountId("wonderland".asDomainId(), "bob".asName())
+    val bobAccountId = AccountId("wonderland".asDomainId(), "bob".asName())
+    val aliceAccountId = AccountId("wonderland".asDomainId(), "alice".asName())
     val adminKeyPair = keyPairFromHex(
         "7233bfc89dcbd68c19fde6ce6158225298ec1131b6a130d1aeb454c1ab5183c0",
         "9ac47abf59b356e0bd7dcbbbb4dec080e302156a48ca907e47cb6aea1d32719e",
