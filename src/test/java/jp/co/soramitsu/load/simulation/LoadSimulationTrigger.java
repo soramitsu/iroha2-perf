@@ -9,7 +9,8 @@ import jp.co.soramitsu.load.triggers.*;
 public class LoadSimulationTrigger extends Simulation {
     {
         setUp(
-                SetUpWasmTrigger.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1))
+                jp.co.soramitsu.load.SetUp.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1))
+                        .andThen(SetUpWasmTrigger.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1)))
                         .andThen(WasmTrigger.Companion.apply().injectClosed(LoadProfiles.getLoadClosedProfile()))
                         .andThen(CleanUp.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1)))
         );
