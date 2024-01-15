@@ -10,7 +10,6 @@ import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.iroha2.generated.AccountId
 import jp.co.soramitsu.iroha2.generated.AssetId
-import jp.co.soramitsu.iroha2.generated.AssetValue
 import jp.co.soramitsu.iroha2.generated.DomainId
 import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
@@ -20,7 +19,6 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeout
 import java.security.KeyPair
 import java.time.Duration
-import org.testng.Assert
 
 class TransferAssetsQuery : Wrench13() {
     lateinit var domainIdSender: DomainId

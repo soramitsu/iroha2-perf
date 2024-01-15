@@ -3,10 +3,7 @@ package jp.co.soramitsu.load.triggers
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.*
-import jp.co.soramitsu.iroha2.generated.AccountId
-import jp.co.soramitsu.iroha2.generated.DomainId
-import jp.co.soramitsu.iroha2.generated.Metadata
-import jp.co.soramitsu.iroha2.generated.Name
+import jp.co.soramitsu.iroha2.generated.*
 import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.load.TechicalScns.Iroha2SetUp
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
@@ -15,8 +12,8 @@ import jp.co.soramitsu.load.objects.CustomMetrics
 import jp.co.soramitsu.load.toolbox.Wrench13
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeout
-import java.security.KeyPair
 import java.time.Duration
+
 import java.util.*
 
 class WasmTrigger: Wrench13() {
@@ -27,16 +24,11 @@ class WasmTrigger: Wrench13() {
         }
     }
 
-    // регистрация пользователя
-    //  пользователь содержит метадату: mintAsset
-    // тригер смотрит на метадату созданного пользователя и ищет mintAsset
-    // если mintAsset есть - триггер минтит
-    // если нет то не минтит
-    val anotherDev = AnotherDev()
-
     fun applyScn(): ScenarioBuilder {
         return wasmTrigger
     }
+
+    val anotherDev = AnotherDev()
 
     val wasmTrigger = CoreDsl.scenario("WasmTrigger")
         .feed(CoreDsl.csv("preconditionList.csv").circular())
@@ -48,10 +40,9 @@ class WasmTrigger: Wrench13() {
                 Name("anotherDev${UUID.randomUUID()}_${UUID.randomUUID()}")
             )
             anotherDev.anotherDevKeyPair = generateKeyPair()
-            //val triggerKey = "trigger".asName()
-            //val triggerValue = "mintAsset".asValue()
+
             val triggerKey = "mintAsset".asName()
-            val triggerValue = "luboe".asValue()
+            val triggerValue = "i_wont_a_cat".asValue()
             val metadata = Metadata(
                 mapOf(
                     Pair(triggerKey, triggerValue),
@@ -64,7 +55,6 @@ class WasmTrigger: Wrench13() {
             try {
                 runBlocking {
                     iroha2Client.sendTransaction {
-                        println("anotherDev.anotherDevAccountId: " + anotherDev.anotherDevAccountId)
                         account(aliceAccountId)
                         registerAccount(
                             anotherDev.anotherDevAccountId,
@@ -82,22 +72,6 @@ class WasmTrigger: Wrench13() {
                             sendMetricsToPrometheus(CustomMetrics.accountRegisterCount, "transaction")
                         }
                     }
-                    /*runBlocking {
-                        iroha2Client.sendTransaction {
-                            account(anotherDev.anotherDevAccountId)
-                            mintAsset(anotherDev.anotherDevAssetId, 10000)
-                            buildSigned(anotherDev.anotherDevKeyPair)
-                        }.also { d ->
-                            withTimeout(Duration.ofSeconds(transactionWaiter)) {
-                                d.await()
-                                CustomMetrics.assetMintCount.labels(
-                                    "gatling"
-                                    , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
-                                    , Iroha2SetUp::class.simpleName).inc()
-                                sendMetricsToPrometheus(CustomMetrics.assetMintCount, "transaction")
-                            }
-                        }
-                    }*/
                     subscription.close()
                 }
             } catch (ex: RuntimeException) {
@@ -128,7 +102,15 @@ class WasmTrigger: Wrench13() {
                         .let { query ->
                             iroha2Client.sendQuery(query)
                         }.also{ assets ->
-                            //TODO: catch error
+                            if(assets.last().id.definitionId.name.string != "cat"){
+                                timer.observeDuration()
+                                CustomMetrics.findAssetsByAccountIdQueryCount.labels(
+                                    "gatling"
+                                    , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
+                                    , WasmTrigger::class.simpleName).inc()
+                                sendMetricsToPrometheus(CustomMetrics.findAssetsByAccountIdQueryErrorCount, "query")
+                            }
+
                         }
                 }
             } finally {
