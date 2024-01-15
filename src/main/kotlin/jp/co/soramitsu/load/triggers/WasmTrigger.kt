@@ -48,8 +48,10 @@ class WasmTrigger: Wrench13() {
                 Name("anotherDev${UUID.randomUUID()}_${UUID.randomUUID()}")
             )
             anotherDev.anotherDevKeyPair = generateKeyPair()
-            val triggerKey = "trigger".asName()
-            val triggerValue = "mintAsset".asValue()
+            //val triggerKey = "trigger".asName()
+            //val triggerValue = "mintAsset".asValue()
+            val triggerKey = "mintAsset".asName()
+            val triggerValue = "luboe".asValue()
             val metadata = Metadata(
                 mapOf(
                     Pair(triggerKey, triggerValue),
@@ -62,6 +64,7 @@ class WasmTrigger: Wrench13() {
             try {
                 runBlocking {
                     iroha2Client.sendTransaction {
+                        println("anotherDev.anotherDevAccountId: " + anotherDev.anotherDevAccountId)
                         account(aliceAccountId)
                         registerAccount(
                             anotherDev.anotherDevAccountId,
@@ -79,7 +82,7 @@ class WasmTrigger: Wrench13() {
                             sendMetricsToPrometheus(CustomMetrics.accountRegisterCount, "transaction")
                         }
                     }
-                    runBlocking {
+                    /*runBlocking {
                         iroha2Client.sendTransaction {
                             account(anotherDev.anotherDevAccountId)
                             mintAsset(anotherDev.anotherDevAssetId, 10000)
@@ -94,7 +97,7 @@ class WasmTrigger: Wrench13() {
                                 sendMetricsToPrometheus(CustomMetrics.assetMintCount, "transaction")
                             }
                         }
-                    }
+                    }*/
                     subscription.close()
                 }
             } catch (ex: RuntimeException) {

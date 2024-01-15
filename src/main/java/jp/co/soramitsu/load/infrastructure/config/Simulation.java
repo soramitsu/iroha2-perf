@@ -41,6 +41,10 @@ public interface Simulation extends Config {
     Integer startingFrom();
     @Key("loadSimulationTrigger")
     String loadSimulationTrigger();
+    @Key("maximumSearchSimulationTrigger")
+    String maximumSearchSimulationTrigger();
+    @Key("stressSimulationTrigger")
+    String stressSimulationTrigger();
     @Key("loadSimulation")
     String loadSimulation();
     @Key("maximumSearchSimulation")

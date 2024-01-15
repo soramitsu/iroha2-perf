@@ -1,4 +1,4 @@
-package jp.co.soramitsu.load.simulation;
+package jp.co.soramitsu.load.simulation.transaction;
 
 import io.gatling.javaapi.core.OpenInjectionStep;
 import io.gatling.javaapi.core.Simulation;
