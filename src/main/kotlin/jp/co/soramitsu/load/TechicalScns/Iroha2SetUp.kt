@@ -66,7 +66,7 @@ class Iroha2SetUp : Wrench13() {
             try {
                 runBlocking {
                     iroha2Client.sendTransaction {
-                        account(admin)
+                        account(bobAccountId)
                         registerDomain(anotherDevDomainId)
                         buildSigned(adminKeyPair)
                     }.also { d ->
@@ -138,7 +138,7 @@ class Iroha2SetUp : Wrench13() {
                         try {
                             runBlocking {
                                 iroha2Client.sendTransaction {
-                                    account(admin)
+                                    account(bobAccountId)
                                     registerAccount(
                                         anotherDev.anotherDevAccountId,
                                         listOf(anotherDev.anotherDevKeyPair.public.toIrohaPublicKey())
