@@ -5,7 +5,7 @@ Edit configuration for local
 build and run -> jp.co.soramitsu.load.Engine
 
 # Debug simulation
-mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.transaction.LoadSimulation \
+mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.transaction.StabilitySimulation \
 -DtargetURL=${targetURL} \
 -DremoteLogin=${remoteLogin} \
 -DremotePass=${remotePass}   \
@@ -16,7 +16,7 @@ mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.tran
 -Dscenario=${params.scenario}
 
 # MaximumSearchSimulation
-mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.transaction.LoadSimulation \
+mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.transaction.StabilitySimulation \
 -DtargetProtocol=${protocol} \
 -DtargetURL=${url} \
 -DtargetPath=${path} \
@@ -29,7 +29,7 @@ mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.tran
 -DduringTest=360
 
 # LoadSimulation
-mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.transaction.LoadSimulation \
+mvn gatling:test -D gatling.simulationClass=jp.co.soramitsu.load.simulation.transaction.StabilitySimulation \
 -DtargetProtocol=${protocol} \
 -DtargetURL=${url} \
 -DtargetPath=${path} \

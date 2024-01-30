@@ -4,16 +4,17 @@ import io.gatling.javaapi.core.OpenInjectionStep;
 import io.gatling.javaapi.core.Simulation;
 import jp.co.soramitsu.load.CleanUp;
 import jp.co.soramitsu.load.LoadProfiles;
-import jp.co.soramitsu.load.triggers.*;
+import jp.co.soramitsu.load.Protocols;
+import jp.co.soramitsu.load.triggers.SetUpWasmTrigger;
+import jp.co.soramitsu.load.triggers.WasmTrigger;
 
-public class LoadSimulation extends Simulation {
+public class PerformanceSimulation extends Simulation {
     {
         setUp(
                 jp.co.soramitsu.load.SetUp.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1))
                         .andThen(SetUpWasmTrigger.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1)))
-                        .andThen(WasmTrigger.Companion.apply().injectClosed(LoadProfiles.getLoadClosedProfile()))
+                        .andThen(WasmTrigger.Companion.apply().injectClosed(LoadProfiles.getMaxPerformanceClosedProfile()))
                         .andThen(CleanUp.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1)))
-        );
+        ).protocols(Protocols.httpProtocol);
     }
-
 }
