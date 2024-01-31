@@ -14,84 +14,33 @@ public class LoadProfiles {
                 .separatedByRampsLasting(SimulationConfig.simulation.separatedByRampsLasting())
                 .startingFrom(SimulationConfig.simulation.startingFrom());
     }
-
+    public static ClosedInjectionStep[] getStabilityClosedProfile() {
+        return new ClosedInjectionStep[]{
+                rampConcurrentUsers(0).to(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.rampDuration()),
+                constantConcurrentUsers(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration())
+        };
+    }
+    public static ClosedInjectionStep[] getStressClosedProfile() {
+        return new ClosedInjectionStep[]{
+                rampConcurrentUsers(0).to(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.rampDuration()),
+                constantConcurrentUsers(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration()),
+                rampConcurrentUsers(SimulationConfig.simulation.intensity()).to(SimulationConfig.simulation.stressIntensity()).during(SimulationConfig.simulation.stressRampDuration()),
+                constantConcurrentUsers(SimulationConfig.simulation.stressIntensity()).during(SimulationConfig.simulation.stressDuration()),
+                rampConcurrentUsers(SimulationConfig.simulation.stressIntensity()).to(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stressRampDuration()),
+                constantConcurrentUsers(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration()),
+                rampConcurrentUsers(SimulationConfig.simulation.intensity()).to(SimulationConfig.simulation.stressIntensity() * 2).during(SimulationConfig.simulation.stressRampDuration()),
+                constantConcurrentUsers(SimulationConfig.simulation.stressIntensity() * 2).during(SimulationConfig.simulation.stressDuration()),
+                rampConcurrentUsers(SimulationConfig.simulation.stressIntensity() * 2).to(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stressRampDuration()),
+                constantConcurrentUsers(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration()),
+                rampConcurrentUsers(SimulationConfig.simulation.intensity()).to(SimulationConfig.simulation.stressIntensity() * 3).during(SimulationConfig.simulation.stressRampDuration()),
+                constantConcurrentUsers(SimulationConfig.simulation.stressIntensity() * 3).during(SimulationConfig.simulation.stressDuration()),
+                rampConcurrentUsers(SimulationConfig.simulation.stressIntensity() * 3).to(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stressRampDuration()),
+                constantConcurrentUsers(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration()),
+        };
+    }
     public static OpenInjectionStep[] setupModel(){
         return new OpenInjectionStep[]{
                 atOnceUsers(SimulationConfig.simulation.domainSetUpRumpUp())
-        };
-    }
-
-    public static OpenInjectionStep[] debugModel() {
-        return new OpenInjectionStep[]{
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest())
-        };
-    }
-
-    public static OpenInjectionStep[] maximumSearchModel(){
-        return new OpenInjectionStep[]{
-                constantUsersPerSec(SimulationConfig.simulation.maximumSearchRumpUp()).during(SimulationConfig.simulation.duringTest())
-        };
-    }
-
-    public static OpenInjectionStep[] loadModel() {
-        return new OpenInjectionStep[]{
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 2).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 3).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 4).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 5).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 6).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 7).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 8).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 9).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 10).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 11).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 12).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 13).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 14).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 15).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 16).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 17).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 18).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 19).during(SimulationConfig.simulation.stepDurationTest()),
-                rampUsers(SimulationConfig.simulation.rampUpTest()).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() * 20).during(SimulationConfig.simulation.stepDurationTest())
-        };
-    }
-
-    public static OpenInjectionStep[] stressModel(){
-        return new OpenInjectionStep[]{
-                rampUsers(SimulationConfig.simulation.rampUpTest() / 4).during(SimulationConfig.simulation.duringTest()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() / 4).during(SimulationConfig.simulation.stepDurationTest()),
-                stressPeakUsers(SimulationConfig.simulation.rampUpTest() * 3).during(SimulationConfig.simulation.stressPeakDuration()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() / 4).during(SimulationConfig.simulation.stepDurationTest()),
-                stressPeakUsers(SimulationConfig.simulation.rampUpTest() * 6).during(SimulationConfig.simulation.stressPeakDuration()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() / 4).during(SimulationConfig.simulation.stepDurationTest()),
-                stressPeakUsers(SimulationConfig.simulation.rampUpTest() * 9).during(SimulationConfig.simulation.stressPeakDuration()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() / 4).during(SimulationConfig.simulation.stepDurationTest()),
-                stressPeakUsers(SimulationConfig.simulation.rampUpTest() * 12).during(SimulationConfig.simulation.stressPeakDuration()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() / 4).during(SimulationConfig.simulation.stepDurationTest()),
-                stressPeakUsers(SimulationConfig.simulation.rampUpTest() * 15).during(SimulationConfig.simulation.stressPeakDuration()),
-                constantUsersPerSec(SimulationConfig.simulation.rampUpTest() / 4).during(SimulationConfig.simulation.stepDurationTest()),
         };
     }
 }

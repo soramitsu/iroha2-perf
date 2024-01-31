@@ -1,0 +1,92 @@
+version: "3"
+
+services:
+  gatling:
+    container_name: iroha2-perf
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    mem_limit: 4G
+    cpus: 16
+    working_dir: /app
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /app/target/gatling
+      - /var/log
+    environment:
+      MAVEN_CONFIG: /var/maven/.m2
+    command: >
+      mvn gatling:test
+        -Duser.home=/var/maven
+        -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation
+        -DtargetProtocol=https
+        -DtargetURL=
+        -DremoteLogin=
+        -DremotePass=
+        -DlogLevel=INFO
+        -Dconfiguration=standard
+        -Dintensity=5
+        -DrampDuration=10
+        -DstageDuration=604800
+    networks:
+      - iroha2-perf-net
+    volumes:
+      - gatling-volume:/var/maven/.m2
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+    labels:
+      - 'filebeat.fields.app=iroha2-perf'
+      - 'filebeat.fields.env=tst'
+      - 'filebeat.fields.project=iroha2-perf'
+      - 'filebeat.fields.logtype=iroha2'
+      - 'filebeat.multiline.pattern=^\[\d{2}\.\d{2}\.\d{4}'
+      - 'filebeat.multiline.negate=true'
+      - 'filebeat.multiline.match=after'
+#      - 'filebeat.module=docker'
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://127.0.0.1:4567/health || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 1m
+
+  pushgateway:
+    container_name: pushgateway
+    image: prom/pushgateway:v1.6.2
+    restart: unless-stopped
+    mem_limit: 512M
+    cpus: 1
+    ports:
+      - "9091:9091"
+    networks:
+      - iroha2-perf-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "3"
+    labels:
+      - 'filebeat.fields.app=iroha2-push-gw'
+      - 'filebeat.fields.env=tst'
+      - 'filebeat.fields.project=iroha2-perf'
+      - 'filebeat.fields.logtype=iroha2'
+#      - 'filebeat.module=docker'      
+
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://127.0.0.1:9091/-/healthy || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
+      start_period: 1m
+
+networks:
+  iroha2-perf-net:
+    driver: bridge
+
+volumes:
+  gatling-volume:

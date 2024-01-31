@@ -1,0 +1,1039 @@
+{
+  "transactions": [
+    [
+      {
+        "Register": {
+          "NewDomain": {
+            "id": "wonderland",
+            "logo": null,
+            "metadata": {
+              "key": {
+                "String": "value"
+              }
+            }
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewDomain": {
+            "id": "garden_of_live_flowers",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewDomain": {
+            "id": "bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewDomain": {
+            "id": "bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "alice@wonderland",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {
+              "key": {
+                "String": "value"
+              }
+            }
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "bob@wonderland",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {
+              "key": {
+                "String": "value"
+              }
+            }
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "carpenter@garden_of_live_flowers",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev360a41ee-cf26-4dd8-a5c7-b270a489acba_869f2cce-9a11-4e2e-9bbb-64d1206b53d4@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev59daeae3-4ab5-4049-b1a6-633ef370b01a_e92bcc94-c194-42a4-a2f2-20d103105172@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev3c8a191f-0e57-44c6-870f-b8ee1fd27219_131f4a20-a0cc-4b6e-bfbc-8da3338a6229@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevea23bfab-8b86-46d0-a91a-2d209a86b304_dc51608b-fd65-4773-96b2-7f9adcc6a67d@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDeve14c9d5a-2fc0-4b0a-8006-79ca61eae97c_9200eb6c-29e4-443a-82e2-eef3b7fcf57d@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev20381969-9f8f-4d75-bcfe-8e604173f3e9_dfe55cc0-2f72-487a-9abd-076e4757e34f@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevaff0d762-5c3c-4efd-9bcb-2327d1506866_3dfb8d7c-ed9c-47b0-b73b-069da26bed80@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev6d3c25fa-f1a0-4a16-a438-d75bfa08e129_9b8c9f96-02be-42ec-a7a1-481046f35d12@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev3b8d763a-b88d-43fa-88b5-2e64f5b3c62e_de509347-0006-4d3a-a467-cd63cb6d4583@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevef49380d-704b-41ac-a424-9f9576909022_8e607487-3bf9-4a99-905b-02c716cfa24f@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev32ff7a49-47d5-4e61-a1ba-cdc4427e05ed_88bd4de2-7a19-4870-8321-2f66c79c260d@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev92d9a4a4-5cba-4ff8-85a0-26901b4027fd_b19785b2-5999-42af-a2ab-649beda972a2@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDeva1f5b770-1d2d-4835-96a7-f3e129847fc2_1a923b20-f689-4c7b-aed9-5f1b4761fbf8@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevfffeb94b-c07e-47b3-bd54-e5ab17f3c4dc_a8d0e5c4-f590-426e-ad43-231ec7fb86b8@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevf54bc60b-d3fc-4db3-90ed-dd63369acc1d_e838b7b2-52f5-48bf-9a7a-b076d24dd35f@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevd2e62dee-030c-4b5c-bf81-b9ad4f599617_fab116e2-2e66-4d99-b0a4-7c3e99531c82@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevb61932b0-76a2-4556-abe0-d74906e27f7d_074c22b8-669e-46ac-920b-ce224ada2887@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevad2bd609-d7a0-4a8c-91b2-f23c07e08f6c_f72c23d1-9a54-4424-9be8-1764958a49a7@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev88a1dacf-463f-40b5-95f5-f9e4ad65c8d4_d19bccd0-1a90-4165-8812-0b7d70e0139c@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev2829197e-1687-4a6c-9383-7699e36cccfb_9c971b70-bb68-4b74-b55b-755fdedcde3c@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDeva1535daa-694c-4fc9-94dc-ff75bd91afdc_2e79fcb4-f824-4326-bf6e-3f25578a695f@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDeve1a73a40-e10c-42cf-83dd-b9d50c8ee402_0e8adaef-af5d-4c26-b615-c6a9f5572d10@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev41876a52-13d1-4bd5-9baf-24d54ee3beea_7caa8ccc-4f4d-44a9-bcde-ca55821eabd4@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevbb90bee7-9037-413c-9ada-143784c6221e_a0fa79a4-7002-48c5-9e9b-f3ecd0d39c0d@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevde858da1-d04e-490b-b97e-630077732029_71c6b444-09fc-4f0f-954e-d52568e762c0@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev0cd3216d-665b-41dd-8c7d-b4e7d172e999_7d76b964-d0f0-46e8-9240-da261e4e9c6f@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev0de85aa3-66b6-4bd9-bf37-32c31a9c7690_28402d5d-d542-4259-8136-08a976b9a20d@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev4412e380-b991-498f-addc-f75c707e8167_16656deb-10b3-4521-9e95-ca1e06a4ab52@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDeve725ce1e-5222-48fe-a254-c1955b873f1d_3cd97e38-775f-43c5-b03e-f5e39aee29d7@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev6b46b89e-0bc3-4f84-a627-b5af4eb4c67c_3c1ecc9b-f985-43f9-b19c-b31ee66f4f99@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev968c9de2-d6df-45bb-9631-20a24c15f0b9_fc962a6a-343b-4beb-a6da-89740ff69867@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev994f45c1-84c0-42f7-8e5e-4bbb591eb80c_1b6643c3-70b4-4083-9f46-11a22b583d7f@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev3df9185c-b95d-4328-98ad-237eba5c6739_4c4df7ab-9878-43a3-93a9-e6d39e27e124@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevc455377c-50f5-4f2b-a8f4-72b985d31d3b_e6ea79f2-7e56-4a84-a511-e74452c273f9@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev47f9ac32-f77d-4309-acb4-57cb4ac50369_2f69d575-9634-4496-9106-cc39663daeb8@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev11aabb74-e997-48b3-9400-5a6570a05069_bffcb9b4-555b-4643-832d-01b3722d5685@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevcd32867a-8177-4887-a514-c0f5615e95a3_6dc80dca-5090-47e0-ae55-832670e0b412@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev5fcab47e-1e84-4392-b89e-b85ccaabefa6_9a244ed1-bc43-461f-94f0-9317feb9dfe5@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDev44508da1-47ef-4a73-b53e-a12486c90601_3d3cdf04-c613-4f14-bfec-97b7c81a74f0@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAccount": {
+            "id": "anotherDevcccb965a-4f92-41a8-aafe-bc835fa0f67a_d4babe91-fe91-49f6-b0dc-5d9536372a2d@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "signatories": [
+              "ed01207233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0"
+            ],
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "rose#wonderland",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "cabbage#garden_of_live_flowers",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xorfd2d5bdf-05a1-4745-b9c4-f5de5a513761_b106005a-272a-4efd-ab3d-2f6c86115670#bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xorf38dab34-ae7d-43bb-9ceb-d79a2eb15b3a_bc35186e-9738-480c-8abc-c83d7ac6984b#bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xoraffd8e41-8589-4a76-bf9e-d0dee979ba03_ea93988b-4689-404c-b96f-2bb545393f8f#bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xor044e7c52-dd86-4ff8-b786-4633ece8391f_65463d6c-661b-4ff6-acbb-f01fc72d357b#bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xor07aa80a3-283e-4332-9a9d-bc7c3c41982d_def007c6-7446-4e3c-ba7d-de1483ed5948#bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xor60baef2b-b827-4e24-ac14-76492c532204_2bf6f6bf-0272-4abd-be26-37813df77881#bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xor67a47352-2c92-43c4-8903-bf5fff86c03f_7da731c4-c9ba-4074-a8fa-37474c933224#bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xorceb9b15f-1c84-42d9-9155-cc6b778cbc9b_e8b15d0f-caef-4069-84e2-a3183b4fe4d8#bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xor4ea53878-8427-4285-979e-e3d58082d4c4_5de85e55-7509-4a90-92ec-8b5d2b195d1c#bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xor00d67384-212c-45a5-bb38-c48952f955a0_6b71da40-a86c-4ed8-bd04-bfdacf68edb7#bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xore83a133a-d405-4cc8-a4bd-31e015b2715c_25933bba-04e0-47ed-9028-36d1b872f826#bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xor64d86298-21b2-47fc-b7e9-aa13ad606739_65b6c8f4-0812-47a4-9c90-b36d2aae09b2#bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xor1b78ea79-37c0-4676-8ba8-3f43b3486952_0eba19ec-2015-4e09-b961-898e85266dbd#bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xor9c993554-2295-433e-9edf-10193928f691_500789e1-f6d0-475a-a086-db8fa588ef68#bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xor866de154-639c-47f8-b4ff-7c0bcdc8a0e8_2e9e91da-0e9d-4e30-baa1-93e5eccb0691#bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xore2a3b058-88a0-473e-acc2-39e108be20ea_a65d386c-9291-4dd5-b1f1-b2d597f6c11f#bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xor2faf3fa6-e44d-4a5b-883e-b4407142b45f_1bf106e1-e405-420f-8100-ad251438cce5#bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xore4dbd55e-e8e6-488b-8028-6e5db6dc5467_fe9efd71-c529-4ffb-b347-476ffc82ce1b#bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xor1c93076d-3b2f-4bf1-b247-ca66b65b5046_5ff4c7b9-0cd7-46d7-af71-ba434cee861b#bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Register": {
+          "NewAssetDefinition": {
+            "id": "xorf035cf64-fbb6-4366-a990-1155d099bc9f_682eb45f-6d4a-4c91-8490-5ef7e4aad7bb#bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04",
+            "value_type": "Quantity",
+            "mintable": "Infinitely",
+            "logo": null,
+            "metadata": {}
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "rose##alice@wonderland"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "cabbage#garden_of_live_flowers#alice@wonderland"
+          }
+        }
+      },
+      {
+        "Grant": {
+          "object": {
+            "PermissionToken": {
+              "definition_id": "CanSetParameters",
+              "payload": null
+            }
+          },
+          "destination_id": {
+            "AccountId": "alice@wonderland"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xorfd2d5bdf-05a1-4745-b9c4-f5de5a513761_b106005a-272a-4efd-ab3d-2f6c86115670##anotherDev360a41ee-cf26-4dd8-a5c7-b270a489acba_869f2cce-9a11-4e2e-9bbb-64d1206b53d4@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xorf38dab34-ae7d-43bb-9ceb-d79a2eb15b3a_bc35186e-9738-480c-8abc-c83d7ac6984b##anotherDev3c8a191f-0e57-44c6-870f-b8ee1fd27219_131f4a20-a0cc-4b6e-bfbc-8da3338a6229@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xoraffd8e41-8589-4a76-bf9e-d0dee979ba03_ea93988b-4689-404c-b96f-2bb545393f8f##anotherDeve14c9d5a-2fc0-4b0a-8006-79ca61eae97c_9200eb6c-29e4-443a-82e2-eef3b7fcf57d@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xor044e7c52-dd86-4ff8-b786-4633ece8391f_65463d6c-661b-4ff6-acbb-f01fc72d357b##anotherDevaff0d762-5c3c-4efd-9bcb-2327d1506866_3dfb8d7c-ed9c-47b0-b73b-069da26bed80@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xor07aa80a3-283e-4332-9a9d-bc7c3c41982d_def007c6-7446-4e3c-ba7d-de1483ed5948##anotherDev3b8d763a-b88d-43fa-88b5-2e64f5b3c62e_de509347-0006-4d3a-a467-cd63cb6d4583@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xor60baef2b-b827-4e24-ac14-76492c532204_2bf6f6bf-0272-4abd-be26-37813df77881##anotherDev32ff7a49-47d5-4e61-a1ba-cdc4427e05ed_88bd4de2-7a19-4870-8321-2f66c79c260d@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xor67a47352-2c92-43c4-8903-bf5fff86c03f_7da731c4-c9ba-4074-a8fa-37474c933224##anotherDeva1f5b770-1d2d-4835-96a7-f3e129847fc2_1a923b20-f689-4c7b-aed9-5f1b4761fbf8@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xorceb9b15f-1c84-42d9-9155-cc6b778cbc9b_e8b15d0f-caef-4069-84e2-a3183b4fe4d8##anotherDevf54bc60b-d3fc-4db3-90ed-dd63369acc1d_e838b7b2-52f5-48bf-9a7a-b076d24dd35f@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xor4ea53878-8427-4285-979e-e3d58082d4c4_5de85e55-7509-4a90-92ec-8b5d2b195d1c##anotherDevb61932b0-76a2-4556-abe0-d74906e27f7d_074c22b8-669e-46ac-920b-ce224ada2887@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xor00d67384-212c-45a5-bb38-c48952f955a0_6b71da40-a86c-4ed8-bd04-bfdacf68edb7##anotherDev88a1dacf-463f-40b5-95f5-f9e4ad65c8d4_d19bccd0-1a90-4165-8812-0b7d70e0139c@bulb_597f1cbc-18a5-4612-ad75-a6b8413651c5_2ff640c1-7f1b-46ab-abd6-6a9221f7a768"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xore83a133a-d405-4cc8-a4bd-31e015b2715c_25933bba-04e0-47ed-9028-36d1b872f826##anotherDeva1535daa-694c-4fc9-94dc-ff75bd91afdc_2e79fcb4-f824-4326-bf6e-3f25578a695f@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xor64d86298-21b2-47fc-b7e9-aa13ad606739_65b6c8f4-0812-47a4-9c90-b36d2aae09b2##anotherDev41876a52-13d1-4bd5-9baf-24d54ee3beea_7caa8ccc-4f4d-44a9-bcde-ca55821eabd4@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xor1b78ea79-37c0-4676-8ba8-3f43b3486952_0eba19ec-2015-4e09-b961-898e85266dbd##anotherDevde858da1-d04e-490b-b97e-630077732029_71c6b444-09fc-4f0f-954e-d52568e762c0@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xor9c993554-2295-433e-9edf-10193928f691_500789e1-f6d0-475a-a086-db8fa588ef68##anotherDev0de85aa3-66b6-4bd9-bf37-32c31a9c7690_28402d5d-d542-4259-8136-08a976b9a20d@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xor866de154-639c-47f8-b4ff-7c0bcdc8a0e8_2e9e91da-0e9d-4e30-baa1-93e5eccb0691##anotherDeve725ce1e-5222-48fe-a254-c1955b873f1d_3cd97e38-775f-43c5-b03e-f5e39aee29d7@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xore2a3b058-88a0-473e-acc2-39e108be20ea_a65d386c-9291-4dd5-b1f1-b2d597f6c11f##anotherDev968c9de2-d6df-45bb-9631-20a24c15f0b9_fc962a6a-343b-4beb-a6da-89740ff69867@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xor2faf3fa6-e44d-4a5b-883e-b4407142b45f_1bf106e1-e405-420f-8100-ad251438cce5##anotherDev3df9185c-b95d-4328-98ad-237eba5c6739_4c4df7ab-9878-43a3-93a9-e6d39e27e124@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xore4dbd55e-e8e6-488b-8028-6e5db6dc5467_fe9efd71-c529-4ffb-b347-476ffc82ce1b##anotherDev47f9ac32-f77d-4309-acb4-57cb4ac50369_2f69d575-9634-4496-9106-cc39663daeb8@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xor1c93076d-3b2f-4bf1-b247-ca66b65b5046_5ff4c7b9-0cd7-46d7-af71-ba434cee861b##anotherDevcd32867a-8177-4887-a514-c0f5615e95a3_6dc80dca-5090-47e0-ae55-832670e0b412@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04"
+          }
+        }
+      },
+      {
+        "Mint": {
+          "object": "100000_u32",
+          "destination_id": {
+            "AssetId": "xorf035cf64-fbb6-4366-a990-1155d099bc9f_682eb45f-6d4a-4c91-8490-5ef7e4aad7bb##anotherDev44508da1-47ef-4a73-b53e-a12486c90601_3d3cdf04-c613-4f14-bfec-97b7c81a74f0@bulb_765ec666-2ac8-408c-9658-2b599df8e61d_dccd07c6-1cba-4a66-94ce-f49c74709a04"
+          }
+        }
+      },
+      {
+        "Sequence": [
+          {
+            "NewParameter": {
+              "Parameter": "?MaxTransactionsInBlock=512"
+            }
+          },
+          {
+            "NewParameter": {
+              "Parameter": "?BlockTime=2000"
+            }
+          },
+          {
+            "NewParameter": {
+              "Parameter": "?CommitTimeLimit=4000"
+            }
+          },
+          {
+            "NewParameter": {
+              "Parameter": "?TransactionLimits=4096,4194304_TL"
+            }
+          },
+          {
+            "NewParameter": {
+              "Parameter": "?WSVAssetMetadataLimits=1048576,4096_ML"
+            }
+          },
+          {
+            "NewParameter": {
+              "Parameter": "?WSVAssetDefinitionMetadataLimits=1048576,4096_ML"
+            }
+          },
+          {
+            "NewParameter": {
+              "Parameter": "?WSVAccountMetadataLimits=1048576,4096_ML"
+            }
+          },
+          {
+            "NewParameter": {
+              "Parameter": "?WSVDomainMetadataLimits=1048576,4096_ML"
+            }
+          },
+          {
+            "NewParameter": {
+              "Parameter": "?WSVIdentLengthLimits=1,128_LL"
+            }
+          },
+          {
+            "NewParameter": {
+              "Parameter": "?WASMFuelLimit=23000000"
+            }
+          },
+          {
+            "NewParameter": {
+              "Parameter": "?WASMMaxMemory=524288000"
+            }
+          }
+        ]
+      },
+      {
+        "Register": {
+          "NewRole": {
+            "id": "ALICE_METADATA_ACCESS",
+            "permissions": [
+              {
+                "definition_id": "CanRemoveKeyValueInUserAccount",
+                "payload": {
+                  "account_id": "alice@wonderland"
+                }
+              },
+              {
+                "definition_id": "CanSetKeyValueInUserAccount",
+                "payload": {
+                  "account_id": "alice@wonderland"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  ],
+  "executor": "./executor.wasm"
+}

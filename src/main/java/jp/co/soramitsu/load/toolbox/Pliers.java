@@ -24,7 +24,7 @@ public class Pliers {
         if (state) {
             System.out.println(service + " is alive he will live");
         } else {
-            System.out.println(service + " more dead than alive");
+            System.out.println(service + " is alive he will live");
         }
         isHealthy = state;
     }

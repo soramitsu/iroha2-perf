@@ -2,7 +2,7 @@ package jp.co.soramitsu.load
 
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder
-import jp.co.soramitsu.load.objects.CustomHistogram
+import jp.co.soramitsu.load.objects.CustomMetrics
 import jp.co.soramitsu.load.toolbox.Grinder
 import jp.co.soramitsu.load.toolbox.Pliers
 
@@ -22,7 +22,7 @@ class SetUp {
         .exec { Session ->
             Pliers()
             Grinder()
-            CustomHistogram()
+            CustomMetrics()
             Session
         }
 
