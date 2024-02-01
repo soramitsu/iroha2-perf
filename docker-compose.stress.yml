@@ -20,7 +20,7 @@ services:
     command: >
       mvn gatling:test
         -Duser.home=/var/maven
-        -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.LoadSimulation
+        -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.transaction.StressSimulation
         -DtargetProtocol=https
         -DtargetURL=
         -DtargetPath=
