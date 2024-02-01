@@ -37,7 +37,7 @@ open class Wrench13 {
     var attemptsPersentage: Int = 2
     var attempt: Int = 0
     var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
-    var pushGateway = PushGateway("0.0.0.0:9091")
+    var pushGateway = PushGateway("pushgateway:9091")
 
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair
