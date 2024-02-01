@@ -97,7 +97,7 @@ class TransferAssets : Wrench13() {
                     timer.observeDuration()
                     sendMetricsToPrometheus(CustomMetrics.transferAssetTimer, "transaction")
                 }
-                Session
             }
+            Session
         }
 }

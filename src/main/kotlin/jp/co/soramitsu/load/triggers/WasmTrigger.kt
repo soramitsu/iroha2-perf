@@ -33,57 +33,71 @@ class WasmTrigger: Wrench13() {
     val wasmTrigger = CoreDsl.scenario("WasmTrigger")
         .feed(CoreDsl.csv("preconditionList.csv").circular())
         .exec { Session ->
-            val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-            anotherDev.anotherDevDomainId = Session.get<String>("domainIdSender")!!.asDomainId()
-            anotherDev.anotherDevAccountId = AccountId(
-                anotherDev.anotherDevDomainId,
-                Name("anotherDev${UUID.randomUUID()}_${UUID.randomUUID()}")
-            )
-            anotherDev.anotherDevKeyPair = generateKeyPair()
-
-            val triggerKey = "mintAsset".asName()
-            val triggerValue = "i_wont_a_cat".asValue()
-            val metadata = Metadata(
-                mapOf(
-                    Pair(triggerKey, triggerValue),
-                ),
-            )
-            timer = CustomMetrics.accountRegisterTimer.labels(
-                "gatling"
-                , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
-                , WasmTrigger::class.simpleName).startTimer()
-            try {
-                runBlocking {
-                    iroha2Client.sendTransaction {
-                        account(aliceAccountId)
-                        registerAccount(
-                            anotherDev.anotherDevAccountId,
-                            listOf(anotherDev.anotherDevKeyPair.public.toIrohaPublicKey()),
-                            metadata = metadata
-                        )
-                        buildSigned(adminKeyPair)
-                    }.also { d ->
-                        withTimeout(Duration.ofSeconds(transactionWaiter)) {
-                            d.await()
-                            CustomMetrics.accountRegisterCount.labels(
-                                "gatling"
-                                , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
-                                , WasmTrigger::class.simpleName).inc()
-                            sendMetricsToPrometheus(CustomMetrics.accountRegisterCount, "transaction")
-                        }
-                    }
-                    subscription.close()
-                }
-            } catch (ex: RuntimeException) {
-                CustomMetrics.accountRegisterErrorCount.labels(
+            runBlocking{
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                anotherDev.anotherDevDomainId = Session.get<String>("domainIdSender")!!.asDomainId()
+                anotherDev.anotherDevAccountId = AccountId(
+                    anotherDev.anotherDevDomainId,
+                    Name("anotherDev${UUID.randomUUID()}_${UUID.randomUUID()}")
+                )
+                anotherDev.anotherDevKeyPair = generateKeyPair()
+                val triggerKey = "mintAsset".asName()
+                val triggerValue = "i_wont_a_cat".asValue()
+                val metadata = Metadata(
+                    mapOf(
+                        Pair(triggerKey, triggerValue),
+                    ),
+                )
+                timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
+                    "gatling",
+                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
+                    Iroha2SetUp::class.simpleName
+                ).startTimer()
+                val idToSubscription = iroha2Client.subscribeToBlockStream(1, 2)
+                val subscription = idToSubscription.second
+                timer.observeDuration()
+                CustomMetrics.subscriptionToBlockStreamCount.labels(
+                    "gatling",
+                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
+                    Iroha2SetUp::class.simpleName
+                ).inc()
+                sendMetricsToPrometheus(CustomMetrics.subscriptionToBlockStreamCount, "transaction")
+                sendMetricsToPrometheus(CustomMetrics.subscriptionToBlockStreamTimer, "transaction")
+                timer = CustomMetrics.accountRegisterTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
-                    , WasmTrigger::class.simpleName).inc()
-                sendMetricsToPrometheus(CustomMetrics.accountRegisterErrorCount, "transaction")
-                println(ex.message)
-            } finally {
-                timer.observeDuration()
-                sendMetricsToPrometheus(CustomMetrics.accountRegisterTimer, "transaction")
+                    , WasmTrigger::class.simpleName).startTimer()
+                try {
+                     iroha2Client.sendTransaction {
+                         account(aliceAccountId)
+                         registerAccount(
+                             anotherDev.anotherDevAccountId,
+                             listOf(anotherDev.anotherDevKeyPair.public.toIrohaPublicKey()),
+                             metadata = metadata
+                         )
+                         buildSigned(adminKeyPair)
+                     }.also { d ->
+                         withTimeout(Duration.ofSeconds(transactionWaiter)) {
+                             d.await()
+                             CustomMetrics.accountRegisterCount.labels(
+                                 "gatling"
+                                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
+                                 , WasmTrigger::class.simpleName).inc()
+                             sendMetricsToPrometheus(CustomMetrics.accountRegisterCount, "transaction")
+                         }
+                     }
+                     subscription.stop()
+                } catch (ex: RuntimeException) {
+                    CustomMetrics.accountRegisterErrorCount.labels(
+                        "gatling"
+                        , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
+                        , WasmTrigger::class.simpleName).inc()
+                    sendMetricsToPrometheus(CustomMetrics.accountRegisterErrorCount, "transaction")
+                    println(ex.message)
+                } finally {
+                    timer.observeDuration()
+                    sendMetricsToPrometheus(CustomMetrics.accountRegisterTimer, "transaction")
+                }
             }
             Session
         }
