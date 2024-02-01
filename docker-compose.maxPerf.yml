@@ -20,7 +20,7 @@ services:
     command: >
       mvn gatling:test
         -Duser.home=/var/maven
-        -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.MaximumSearchSimulation
+        -Dgatling.simulationClass=jp.co.soramitsu.load.simulation.transaction.PerformanceSimulation
         -DtargetProtocol=https
         -DtargetURL=
         -DremoteLogin=
