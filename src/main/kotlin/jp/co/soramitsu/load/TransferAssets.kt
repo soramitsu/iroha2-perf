@@ -4,8 +4,6 @@ import io.gatling.javaapi.core.CoreDsl.*
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.asAccountId
 import jp.co.soramitsu.iroha2.asAssetId
-import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
-import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.iroha2.generated.*
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.load.TechicalScns.Iroha2SetUp
@@ -46,17 +44,15 @@ class TransferAssets : Wrench13() {
             Session
         }
         .exec { Session ->
-            val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-            timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
-                "gatling",
-                System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                Iroha2SetUp::class.simpleName
-            ).startTimer()
-            try {
-                val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> =
-                    iroha2Client.subscribeToBlockStream(1, 2)
-                subscription = idToSubscription.component2()
-            } finally {
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
+                    "gatling",
+                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
+                    Iroha2SetUp::class.simpleName
+                ).startTimer()
+                val idToSubscription = iroha2Client.subscribeToBlockStream(1, 2)
+                val subscription = idToSubscription.second
                 timer.observeDuration()
                 CustomMetrics.subscriptionToBlockStreamCount.labels(
                     "gatling",
@@ -65,20 +61,18 @@ class TransferAssets : Wrench13() {
                 ).inc()
                 sendMetricsToPrometheus(CustomMetrics.subscriptionToBlockStreamCount, "transaction")
                 sendMetricsToPrometheus(CustomMetrics.subscriptionToBlockStreamTimer, "transaction")
-            }
-            timer = CustomMetrics.transferAssetTimer.labels(
-                "gatling",
-                System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                Iroha2SetUp::class.simpleName
-            ).startTimer()
-            CustomMetrics.transferAssetCount.labels(
-                "gatling",
-                System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                Iroha2SetUp::class.simpleName
-            ).inc()
-            sendMetricsToPrometheus(CustomMetrics.transferAssetCount, "transaction")
-            try {
-                runBlocking {
+                timer = CustomMetrics.transferAssetTimer.labels(
+                    "gatling",
+                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
+                    Iroha2SetUp::class.simpleName
+                ).startTimer()
+                CustomMetrics.transferAssetCount.labels(
+                    "gatling",
+                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
+                    Iroha2SetUp::class.simpleName
+                ).inc()
+                sendMetricsToPrometheus(CustomMetrics.transferAssetCount, "transaction")
+                try {
                     iroha2Client.sendTransaction {
                         account(anotherDevAccountIdSender)
                         transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
@@ -89,20 +83,20 @@ class TransferAssets : Wrench13() {
                             pliers.healthCheck(true, "TransferAssets")
                         }
                     }
-                    subscription.close()
+                    subscription.stop()
+                } catch (ex: RuntimeException) {
+                    CustomMetrics.transferAssetErrorCount.labels(
+                        "gatling",
+                        System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
+                        Iroha2SetUp::class.simpleName
+                    ).inc()
+                    sendMetricsToPrometheus(CustomMetrics.transferAssetErrorCount, "transaction")
+                    println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.message)
+                    pliers.healthCheck(false, "TransferAssets")
+                } finally {
+                    timer.observeDuration()
+                    sendMetricsToPrometheus(CustomMetrics.transferAssetTimer, "transaction")
                 }
-            } catch (ex: RuntimeException) {
-                CustomMetrics.transferAssetErrorCount.labels(
-                    "gatling",
-                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                    Iroha2SetUp::class.simpleName
-                ).inc()
-                sendMetricsToPrometheus(CustomMetrics.transferAssetErrorCount, "transaction")
-                println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.message)
-                pliers.healthCheck(false, "TransferAssets")
-            } finally {
-                timer.observeDuration()
-                sendMetricsToPrometheus(CustomMetrics.transferAssetTimer, "transaction")
             }
             Session
         }

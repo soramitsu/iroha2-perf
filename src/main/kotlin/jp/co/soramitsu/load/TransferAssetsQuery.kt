@@ -49,46 +49,46 @@ class TransferAssetsQuery : Wrench13() {
             Session
         }
         .exec { Session ->
-            val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-            timer = CustomMetrics.findAssetsByAccountIdQueryTimer.labels(
-                "gatling",
-                System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                TransferAssetsQuery::class.simpleName
-            ).startTimer()
-            CustomMetrics.findAssetsByAccountIdQueryCount.labels(
-                "gatling",
-                System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                TransferAssetsQuery::class.simpleName
-            ).inc()
-            sendMetricsToPrometheus(CustomMetrics.findAssetsByAccountIdQueryCount, "query")
-            try {
-                runBlocking {
-                    QueryBuilder.findAssetsByAccountId(anotherDevAccountIdSender)
-                        .account(anotherDevAccountIdSender)
-                        .buildSigned(anotherDevKeyPair)
-                        .let { query ->
-                            iroha2Client.sendQuery(query)
-                        }
-                }
-            } catch (ex: RuntimeException) {
-                CustomMetrics.findAssetsByAccountIdQueryErrorCount.labels(
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                timer = CustomMetrics.findAssetsByAccountIdQueryTimer.labels(
                     "gatling",
                     System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
                     TransferAssetsQuery::class.simpleName
-                ).inc()
-                sendMetricsToPrometheus(CustomMetrics.findAssetsByAccountIdQueryErrorCount, "query")
-                println("Something went wrong on findAssetsByAccountIdQuery request, problem with find asset query: " + ex.message)
-                pliers.healthCheck(false, "TransferAssets")
-            } finally {
-                timer.observeDuration()
+                ).startTimer()
                 CustomMetrics.findAssetsByAccountIdQueryCount.labels(
                     "gatling",
                     System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
                     TransferAssetsQuery::class.simpleName
                 ).inc()
                 sendMetricsToPrometheus(CustomMetrics.findAssetsByAccountIdQueryCount, "query")
-                sendMetricsToPrometheus(CustomMetrics.findAssetsByAccountIdQueryTimer, "query")
-            }
+                try {
+                    runBlocking {
+                        QueryBuilder.findAssetsByAccountId(anotherDevAccountIdSender)
+                            .account(anotherDevAccountIdSender)
+                            .buildSigned(anotherDevKeyPair)
+                            .let { query ->
+                                iroha2Client.sendQuery(query)
+                            }
+                    }
+                } catch (ex: RuntimeException) {
+                    CustomMetrics.findAssetsByAccountIdQueryErrorCount.labels(
+                        "gatling",
+                        System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
+                        TransferAssetsQuery::class.simpleName
+                    ).inc()
+                    sendMetricsToPrometheus(CustomMetrics.findAssetsByAccountIdQueryErrorCount, "query")
+                    println("Something went wrong on findAssetsByAccountIdQuery request, problem with find asset query: " + ex.message)
+                    pliers.healthCheck(false, "TransferAssets")
+                } finally {
+                    timer.observeDuration()
+                    CustomMetrics.findAssetsByAccountIdQueryCount.labels(
+                        "gatling",
+                        System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
+                        TransferAssetsQuery::class.simpleName
+                    ).inc()
+                    sendMetricsToPrometheus(CustomMetrics.findAssetsByAccountIdQueryCount, "query")
+                    sendMetricsToPrometheus(CustomMetrics.findAssetsByAccountIdQueryTimer, "query")
+                }
             Session
         }
         .exec { Session ->
@@ -143,17 +143,15 @@ class TransferAssetsQuery : Wrench13() {
         }.doIf { Session -> Session.getBoolean("condition") }
         .then(
             exec { Session ->
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
-                    "gatling",
-                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                    TransferAssetsQuery::class.simpleName
-                ).startTimer()
-                try {
-                    val idToSubscription: Pair<Iterable<BlockStreamStorage>, BlockStreamSubscription> =
-                        iroha2Client.subscribeToBlockStream(1, 2)
-                    subscription = idToSubscription.component2()
-                } finally {
+                runBlocking {
+                    val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                    timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
+                        "gatling",
+                        System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
+                        TransferAssetsQuery::class.simpleName
+                    ).startTimer()
+                    val idToSubscription = iroha2Client.subscribeToBlockStream(1, 2)
+                    val subscription = idToSubscription.second
                     timer.observeDuration()
                     CustomMetrics.subscriptionToBlockStreamCount.labels(
                         "gatling",
@@ -162,20 +160,18 @@ class TransferAssetsQuery : Wrench13() {
                     ).inc()
                     sendMetricsToPrometheus(CustomMetrics.subscriptionToBlockStreamCount, "transaction")
                     sendMetricsToPrometheus(CustomMetrics.subscriptionToBlockStreamTimer, "transaction")
-                }
-                timer = CustomMetrics.transferAssetTimer.labels(
-                    "gatling",
-                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                    TransferAssetsQuery::class.simpleName
-                ).startTimer()
-                CustomMetrics.transferAssetCount.labels(
-                    "gatling",
-                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                    TransferAssetsQuery::class.simpleName
-                ).inc()
-                sendMetricsToPrometheus(CustomMetrics.transferAssetCount, "transaction")
-                try {
-                    runBlocking {
+                    timer = CustomMetrics.transferAssetTimer.labels(
+                        "gatling",
+                        System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
+                        TransferAssetsQuery::class.simpleName
+                    ).startTimer()
+                    CustomMetrics.transferAssetCount.labels(
+                        "gatling",
+                        System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
+                        TransferAssetsQuery::class.simpleName
+                    ).inc()
+                    sendMetricsToPrometheus(CustomMetrics.transferAssetCount, "transaction")
+                    try {
                         iroha2Client.sendTransaction {
                             account(anotherDevAccountIdSender)
                             transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
@@ -186,23 +182,23 @@ class TransferAssetsQuery : Wrench13() {
                                 pliers.healthCheck(true, "TransferAssets")
                             }
                         }
-                        subscription.close()
+                        subscription.stop()
+                    } catch (ex: RuntimeException) {
+                        CustomMetrics.transferAssetErrorCount.labels(
+                            "gatling",
+                            System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
+                            TransferAssetsQuery::class.simpleName
+                        ).inc()
+                        sendMetricsToPrometheus(CustomMetrics.transferAssetErrorCount, "transaction")
+                        println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.message)
+                        pliers.healthCheck(false, "TransferAssets")
+                    } finally {
+                        timer.observeDuration()
+                        sendMetricsToPrometheus(CustomMetrics.transferAssetTimer, "transaction")
                     }
-                } catch (ex: RuntimeException) {
-                    CustomMetrics.transferAssetErrorCount.labels(
-                        "gatling",
-                        System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                        TransferAssetsQuery::class.simpleName
-                    ).inc()
-                    sendMetricsToPrometheus(CustomMetrics.transferAssetErrorCount, "transaction")
-                    println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.message)
-                    pliers.healthCheck(false, "TransferAssets")
-                } finally {
-                    timer.observeDuration()
-                    sendMetricsToPrometheus(CustomMetrics.transferAssetTimer, "transaction")
+                    val newSession = Session.set("condition", false)
+                    newSession
                 }
-                val newSession = Session.set("condition", false)
-                newSession
             }
                 .exec { Session ->
                     val iroha2Client = buildClient(SimulationConfig.simulation.configuration())

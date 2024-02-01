@@ -10,7 +10,7 @@ public class Engine {
                 .resourcesDirectory(IDEPathHelper.mavenResourcesDirectory.toString())
                 .resultsDirectory(IDEPathHelper.resultsDirectory.toString())
                 .binariesDirectory(IDEPathHelper.mavenBinariesDirectory.toString())
-                .simulationClass(SimulationConfig.simulation.loadSimulationTrigger());
+                .simulationClass(SimulationConfig.simulation.loadSimulation());
         Gatling.fromMap(props.build());
     }
 }
