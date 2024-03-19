@@ -29,6 +29,13 @@ public class LoadProfiles {
                 constantConcurrentUsers(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration())
         };
     }
+
+    public static OpenInjectionStep[] getStabilityOpenProfile() {
+        return new OpenInjectionStep[]{
+                constantUsersPerSec(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration())
+        };
+    }
+
     public static ClosedInjectionStep[] getStressClosedProfile() {
         return new ClosedInjectionStep[]{
                 rampConcurrentUsers(0).to(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.rampDuration()),
@@ -52,9 +59,5 @@ public class LoadProfiles {
                 atOnceUsers(SimulationConfig.simulation.domainSetUpRumpUp())
         };
     }
-    public static OpenInjectionStep[] getStabilityOpenProfile() {
-        return new OpenInjectionStep[]{
-                constantUsersPerSec(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration())
-        };
-    }
+
 }
