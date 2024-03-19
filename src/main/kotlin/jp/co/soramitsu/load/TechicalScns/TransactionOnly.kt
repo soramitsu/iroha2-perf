@@ -80,12 +80,12 @@ class TransactionOnly: Wrench13() {
                                 account(currentDevAccountId)
                                 transferAsset(currentDevAssetId, 1, targetDevAccountId)
                                 buildSigned(currentDevKeyPair)
-                            }.also { d ->
+                            }/*.also { d ->
                                 withTimeout(Duration.ofSeconds(transactionWaiter)) {
                                     d.await()
                                     pliers.healthCheck(true, "TransferAssets")
                                 }
-                            }
+                            }*/
                             subscription.close()
                         }
                     } catch (ex: RuntimeException) {
