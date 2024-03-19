@@ -2,6 +2,7 @@ package jp.co.soramitsu.load.TechicalScns
 
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder
+import io.prometheus.client.Histogram
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
@@ -42,6 +43,7 @@ class TransactionOnly: Wrench13() {
                 Session
             }
                 .exec { Session ->
+                    var timer: Histogram.Timer
                     val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                     timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                         "gatling",
