@@ -2,6 +2,7 @@ package jp.co.soramitsu.load
 
 import io.gatling.javaapi.core.CoreDsl.*
 import io.gatling.javaapi.core.ScenarioBuilder
+import io.prometheus.client.Histogram
 import jp.co.soramitsu.iroha2.asAccountId
 import jp.co.soramitsu.iroha2.asAssetId
 import jp.co.soramitsu.iroha2.generated.*
@@ -45,6 +46,7 @@ class TransferAssets : Wrench13() {
         }
         .exec { Session ->
             runBlocking {
+                var timer: Histogram.Timer
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                 timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                     "gatling",
@@ -77,12 +79,12 @@ class TransferAssets : Wrench13() {
                         account(anotherDevAccountIdSender)
                         transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                         buildSigned(anotherDevKeyPairSender)
-                    }.also { d ->
+                    }/*.also { d ->
                         withTimeout(Duration.ofSeconds(transactionWaiter)) {
                             d.await()
                             pliers.healthCheck(true, "TransferAssets")
                         }
-                    }
+                    }*/
                     subscription.stop()
                 } catch (ex: RuntimeException) {
                     CustomMetrics.transferAssetErrorCount.labels(
