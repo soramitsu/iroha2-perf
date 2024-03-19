@@ -14,6 +14,15 @@ public class LoadProfiles {
                 .separatedByRampsLasting(SimulationConfig.simulation.separatedByRampsLasting())
                 .startingFrom(SimulationConfig.simulation.startingFrom());
     }
+
+    public static OpenInjectionStep getMaxPerformanceOpenProfile() {
+        return incrementUsersPerSec(SimulationConfig.simulation.concurrentUsers())
+                .times(SimulationConfig.simulation.times())
+                .eachLevelLasting(SimulationConfig.simulation.stageDuration())
+                .separatedByRampsLasting(SimulationConfig.simulation.rampDuration())
+                .startingFrom(0);
+    }
+
     public static ClosedInjectionStep[] getStabilityClosedProfile() {
         return new ClosedInjectionStep[]{
                 rampConcurrentUsers(0).to(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.rampDuration()),
@@ -41,6 +50,11 @@ public class LoadProfiles {
     public static OpenInjectionStep[] setupModel(){
         return new OpenInjectionStep[]{
                 atOnceUsers(SimulationConfig.simulation.domainSetUpRumpUp())
+        };
+    }
+    public static OpenInjectionStep[] getStabilityOpenProfile() {
+        return new OpenInjectionStep[]{
+                constantUsersPerSec(SimulationConfig.simulation.intensity()).during(SimulationConfig.simulation.stageDuration())
         };
     }
 }
