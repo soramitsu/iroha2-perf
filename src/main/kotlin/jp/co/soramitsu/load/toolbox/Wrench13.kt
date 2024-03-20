@@ -79,6 +79,7 @@ open class Wrench13 {
             it.build().toURL()
         }
         urls.add(peerUrl)
+        println("randomPeer: " + randomPeer)
         return Iroha2Client(
             urls[0],
             urls[0],
