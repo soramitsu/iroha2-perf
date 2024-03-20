@@ -104,11 +104,57 @@ class TransferAssets : Wrench13() {
                 //    sendMetricsToPrometheus(CustomMetrics.transferAssetTimer, "transaction")
                 //}
             }
+
             Session
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.sendTransaction {
+                /*iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }*/
+                iroha2Client.fireAndForget {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                iroha2Client.fireAndForget {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                iroha2Client.fireAndForget {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                iroha2Client.fireAndForget {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
@@ -128,7 +174,7 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.sendTransaction {
+                iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
@@ -138,7 +184,7 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.sendTransaction {
+                iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
@@ -148,47 +194,7 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.sendTransaction {
-                    account(anotherDevAccountIdSender)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(anotherDevKeyPairSender)
-                }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.sendTransaction {
-                    account(anotherDevAccountIdSender)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(anotherDevKeyPairSender)
-                }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.sendTransaction {
-                    account(anotherDevAccountIdSender)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(anotherDevKeyPairSender)
-                }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.sendTransaction {
-                    account(anotherDevAccountIdSender)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(anotherDevKeyPairSender)
-                }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.sendTransaction {
+                iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
