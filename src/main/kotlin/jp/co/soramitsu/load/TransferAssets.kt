@@ -79,7 +79,7 @@ class TransferAssets : Wrench13() {
                 //sendMetricsToPrometheus(CustomMetrics.transferAssetCount, "transaction")
                 //try {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.sendTransaction {
+                iroha2Client.fireAndForget {
                         account(anotherDevAccountIdSender)
                         transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                         buildSigned(anotherDevKeyPairSender)
@@ -109,7 +109,7 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                /*iroha2Client.sendTransaction {
+                /*iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
@@ -164,7 +164,7 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.sendTransaction {
+                iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
