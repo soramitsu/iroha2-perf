@@ -7,6 +7,7 @@ import jp.co.soramitsu.iroha2.asAccountId
 import jp.co.soramitsu.iroha2.asAssetId
 import jp.co.soramitsu.iroha2.generated.*
 import jp.co.soramitsu.iroha2.asDomainId
+import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.load.TechicalScns.Iroha2SetUp
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.CustomMetrics
@@ -22,6 +23,7 @@ class TransferAssets : Wrench13() {
     lateinit var anotherDevAssetIdSender: AssetId
     lateinit var targetDevAccountIdReceiver: AccountId
     lateinit var anotherDevKeyPairSender: KeyPair
+    lateinit var iroha2Client: Iroha2Client
 
     companion object {
         @JvmStatic
@@ -37,6 +39,7 @@ class TransferAssets : Wrench13() {
     val transferAssetsScn = scenario("TransferAssets")
         .feed(csv("preconditionList.csv").circular())
         .exec { Session ->
+            iroha2Client = buildClient(SimulationConfig.simulation.configuration())
             anotherDevKeyPairSender = adminKeyPair
             domainIdSender = Session.get<String>("domainIdSender")!!.asDomainId()
             anotherDevAccountIdSender = Session.get<String>("anotherDevAccountIdSender")!!.asAccountId()
@@ -47,7 +50,7 @@ class TransferAssets : Wrench13() {
         .exec { Session ->
             runBlocking {
                 //var timer: Histogram.Timer
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                //
                 //timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                 //    "gatling",
                 //    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
@@ -99,6 +102,87 @@ class TransferAssets : Wrench13() {
                 //    timer.observeDuration()
                 //    sendMetricsToPrometheus(CustomMetrics.transferAssetTimer, "transaction")
                 //}
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
             }
             Session
         }
