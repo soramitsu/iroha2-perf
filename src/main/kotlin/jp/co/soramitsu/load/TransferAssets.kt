@@ -23,7 +23,7 @@ class TransferAssets : Wrench13() {
     lateinit var anotherDevAssetIdSender: AssetId
     lateinit var targetDevAccountIdReceiver: AccountId
     lateinit var anotherDevKeyPairSender: KeyPair
-    lateinit var iroha2Client: Iroha2Client
+    //lateinit var iroha2Client: Iroha2Client
 
     companion object {
         @JvmStatic
@@ -39,7 +39,7 @@ class TransferAssets : Wrench13() {
     val transferAssetsScn = scenario("TransferAssets")
         .feed(csv("preconditionList.csv").circular())
         .exec { Session ->
-            iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+            //iroha2Client = buildClient(SimulationConfig.simulation.configuration())
             anotherDevKeyPairSender = adminKeyPair
             domainIdSender = Session.get<String>("domainIdSender")!!.asDomainId()
             anotherDevAccountIdSender = Session.get<String>("anotherDevAccountIdSender")!!.asAccountId()
@@ -78,7 +78,8 @@ class TransferAssets : Wrench13() {
                 //).inc()
                 //sendMetricsToPrometheus(CustomMetrics.transferAssetCount, "transaction")
                 //try {
-                    iroha2Client.sendTransaction {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                iroha2Client.sendTransaction {
                         account(anotherDevAccountIdSender)
                         transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                         buildSigned(anotherDevKeyPairSender)
@@ -106,6 +107,7 @@ class TransferAssets : Wrench13() {
             Session
         }.exec { Session ->
             runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                 iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
@@ -115,6 +117,7 @@ class TransferAssets : Wrench13() {
             Session
         }.exec { Session ->
             runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                 iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
@@ -124,6 +127,7 @@ class TransferAssets : Wrench13() {
             Session
         }.exec { Session ->
             runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                 iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
@@ -133,6 +137,7 @@ class TransferAssets : Wrench13() {
             Session
         }.exec { Session ->
             runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                 iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
@@ -142,6 +147,7 @@ class TransferAssets : Wrench13() {
             Session
         }.exec { Session ->
             runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                 iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
@@ -151,6 +157,7 @@ class TransferAssets : Wrench13() {
             Session
         }.exec { Session ->
             runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                 iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
@@ -160,6 +167,7 @@ class TransferAssets : Wrench13() {
             Session
         }.exec { Session ->
             runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                 iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
@@ -169,6 +177,7 @@ class TransferAssets : Wrench13() {
             Session
         }.exec { Session ->
             runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                 iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
@@ -178,6 +187,7 @@ class TransferAssets : Wrench13() {
             Session
         }.exec { Session ->
             runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                 iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
