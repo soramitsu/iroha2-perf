@@ -49,71 +49,18 @@ class TransferAssets : Wrench13() {
         }
         .exec { Session ->
             runBlocking {
-                //var timer: Histogram.Timer
-                //
-                //timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
-                //    "gatling",
-                //    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                //    Iroha2SetUp::class.simpleName
-                //).startTimer()
-               /* val idToSubscription = iroha2Client.subscribeToBlockStream(1, 2)
-                val subscription = idToSubscription.second*/
-                //timer.observeDuration()
-                //CustomMetrics.subscriptionToBlockStreamCount.labels(
-                //    "gatling",
-                //    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                //    Iroha2SetUp::class.simpleName
-                //).inc()
-                //sendMetricsToPrometheus(CustomMetrics.subscriptionToBlockStreamCount, "transaction")
-                //sendMetricsToPrometheus(CustomMetrics.subscriptionToBlockStreamTimer, "transaction")
-                //timer = CustomMetrics.transferAssetTimer.labels(
-                //    "gatling",
-                //    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                //    Iroha2SetUp::class.simpleName
-                //).startTimer()
-                //CustomMetrics.transferAssetCount.labels(
-                //    "gatling",
-                //    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                //    Iroha2SetUp::class.simpleName
-                //).inc()
-                //sendMetricsToPrometheus(CustomMetrics.transferAssetCount, "transaction")
-                //try {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
                 iroha2Client.fireAndForget {
-                        account(anotherDevAccountIdSender)
-                        transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                        buildSigned(anotherDevKeyPairSender)
-                    }/*.also { d ->
-                        withTimeout(Duration.ofSeconds(transactionWaiter)) {
-                            d.await()
-                            pliers.healthCheck(true, "TransferAssets")
-                        }
-                    }*/
-                    //subscription.stop()
-                //} catch (ex: RuntimeException) {
-                //    CustomMetrics.transferAssetErrorCount.labels(
-                //        "gatling",
-                //        System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                //        Iroha2SetUp::class.simpleName
-                //    ).inc()
-                //    sendMetricsToPrometheus(CustomMetrics.transferAssetErrorCount, "transaction")
-                //    println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.message)
-                //    pliers.healthCheck(false, "TransferAssets")
-                //} finally {
-                //    timer.observeDuration()
-                //    sendMetricsToPrometheus(CustomMetrics.transferAssetTimer, "transaction")
-                //}
+                    account(anotherDevAccountIdSender)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
             }
 
             Session
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                /*iroha2Client.fireAndForget {
-                    account(anotherDevAccountIdSender)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(anotherDevKeyPairSender)
-                }*/
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
