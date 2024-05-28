@@ -6,7 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Grinder extends Wrench13 {
-    private String baseUrl = "http://pushgateway:9091/metrics/job/";
+    private String baseUrl = "http://0.0.0.0:9091/metrics/job/";
     private URL transactionUrl = new URL(baseUrl + "transaction/");
     private URL subscriptionUrl = new URL(baseUrl + "subscription/");
     private URL queryUrl = new URL(baseUrl + "query/");
