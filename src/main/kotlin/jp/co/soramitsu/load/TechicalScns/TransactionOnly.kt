@@ -1,7 +1,9 @@
+/*
 package jp.co.soramitsu.load.TechicalScns
 
 import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder
+import io.prometheus.client.Histogram
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamStorage
 import jp.co.soramitsu.iroha2.client.blockstream.BlockStreamSubscription
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
@@ -42,7 +44,9 @@ class TransactionOnly: Wrench13() {
                 Session
             }
                 .exec { Session ->
+                    var timer: Histogram.Timer
                     val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                     timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                         "gatling",
                         System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
@@ -78,12 +82,14 @@ class TransactionOnly: Wrench13() {
                                 account(currentDevAccountId)
                                 transferAsset(currentDevAssetId, 1, targetDevAccountId)
                                 buildSigned(currentDevKeyPair)
-                            }.also { d ->
+                            }*/
+/*.also { d ->
                                 withTimeout(Duration.ofSeconds(transactionWaiter)) {
                                     d.await()
                                     pliers.healthCheck(true, "TransferAssets")
                                 }
-                            }
+                            }*//*
+
                             subscription.close()
                         }
                     } catch (ex: RuntimeException) {
@@ -104,4 +110,4 @@ class TransactionOnly: Wrench13() {
                 }
 
         )
-}
+}*/

@@ -17,7 +17,7 @@
         <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
         <owner.version>1.0.12</owner.version>
-        <iroha-java.version>50cb33b</iroha-java.version>
+        <iroha-java.version>103356f241</iroha-java.version>
         <jackson.versaion>2.14.1</jackson.versaion>
         <commons-codec.version>1.15</commons-codec.version>
         <lombok.version>1.18.24</lombok.version>
@@ -102,17 +102,18 @@
             <version>${owner.version}</version>
         </dependency>
         <dependency>
-            <groupId>jp.co.soramitsu.iroha2-java</groupId>
+            <!--groupId>jp.co.soramitsu.iroha2-java</groupId-->
+            <groupId>com.github.hyperledger.iroha-java</groupId>
             <artifactId>admin-client</artifactId>
             <version>${iroha-java.version}</version>
         </dependency>
         <dependency>
-            <groupId>jp.co.soramitsu.iroha2-java</groupId>
+            <groupId>com.github.hyperledger.iroha-java</groupId>
             <artifactId>model</artifactId>
             <version>${iroha-java.version}</version>
         </dependency>
         <dependency>
-            <groupId>jp.co.soramitsu.iroha2-java</groupId>
+            <groupId>com.github.hyperledger.iroha-java</groupId>
             <artifactId>block</artifactId>
             <version>${iroha-java.version}</version>
         </dependency>

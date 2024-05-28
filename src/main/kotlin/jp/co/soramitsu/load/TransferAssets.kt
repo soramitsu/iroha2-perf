@@ -2,10 +2,12 @@ package jp.co.soramitsu.load
 
 import io.gatling.javaapi.core.CoreDsl.*
 import io.gatling.javaapi.core.ScenarioBuilder
+import io.prometheus.client.Histogram
 import jp.co.soramitsu.iroha2.asAccountId
 import jp.co.soramitsu.iroha2.asAssetId
 import jp.co.soramitsu.iroha2.generated.*
 import jp.co.soramitsu.iroha2.asDomainId
+import jp.co.soramitsu.iroha2.client.Iroha2Client
 import jp.co.soramitsu.load.TechicalScns.Iroha2SetUp
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.objects.CustomMetrics
@@ -14,6 +16,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeout
 import java.security.KeyPair
 import java.time.Duration
+import java.util.*
 
 class TransferAssets : Wrench13() {
     lateinit var domainIdSender: DomainId
@@ -21,6 +24,9 @@ class TransferAssets : Wrench13() {
     lateinit var anotherDevAssetIdSender: AssetId
     lateinit var targetDevAccountIdReceiver: AccountId
     lateinit var anotherDevKeyPairSender: KeyPair
+    lateinit var uuid: UUID
+    lateinit var chainId: UUID
+    //lateinit var iroha2Client: Iroha2Client
 
     companion object {
         @JvmStatic
@@ -36,66 +42,133 @@ class TransferAssets : Wrench13() {
     val transferAssetsScn = scenario("TransferAssets")
         .feed(csv("preconditionList.csv").circular())
         .exec { Session ->
+            //iroha2Client = buildClient(SimulationConfig.simulation.configuration())
             anotherDevKeyPairSender = adminKeyPair
             domainIdSender = Session.get<String>("domainIdSender")!!.asDomainId()
             anotherDevAccountIdSender = Session.get<String>("anotherDevAccountIdSender")!!.asAccountId()
             targetDevAccountIdReceiver = Session.get<String>("anotherDevAccountIdReceiver")!!.asAccountId()
             anotherDevAssetIdSender = Session.get<String>("anotherDevAssetIdSender")!!.asAssetId()
+            uuid = UUID(0,0)
             Session
         }
         .exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
-                    "gatling",
-                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                    Iroha2SetUp::class.simpleName
-                ).startTimer()
-                val idToSubscription = iroha2Client.subscribeToBlockStream(1, 2)
-                val subscription = idToSubscription.second
-                timer.observeDuration()
-                CustomMetrics.subscriptionToBlockStreamCount.labels(
-                    "gatling",
-                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                    Iroha2SetUp::class.simpleName
-                ).inc()
-                sendMetricsToPrometheus(CustomMetrics.subscriptionToBlockStreamCount, "transaction")
-                sendMetricsToPrometheus(CustomMetrics.subscriptionToBlockStreamTimer, "transaction")
-                timer = CustomMetrics.transferAssetTimer.labels(
-                    "gatling",
-                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                    Iroha2SetUp::class.simpleName
-                ).startTimer()
-                CustomMetrics.transferAssetCount.labels(
-                    "gatling",
-                    System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                    Iroha2SetUp::class.simpleName
-                ).inc()
-                sendMetricsToPrometheus(CustomMetrics.transferAssetCount, "transaction")
-                try {
-                    iroha2Client.sendTransaction {
-                        account(anotherDevAccountIdSender)
-                        transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                        buildSigned(anotherDevKeyPairSender)
-                    }.also { d ->
-                        withTimeout(Duration.ofSeconds(transactionWaiter)) {
-                            d.await()
-                            pliers.healthCheck(true, "TransferAssets")
-                        }
-                    }
-                    subscription.stop()
-                } catch (ex: RuntimeException) {
-                    CustomMetrics.transferAssetErrorCount.labels(
-                        "gatling",
-                        System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\"),
-                        Iroha2SetUp::class.simpleName
-                    ).inc()
-                    sendMetricsToPrometheus(CustomMetrics.transferAssetErrorCount, "transaction")
-                    println("Something went wrong on TransferAssets scenario, problem with transfer asset transaction: " + ex.message)
-                    pliers.healthCheck(false, "TransferAssets")
-                } finally {
-                    timer.observeDuration()
-                    sendMetricsToPrometheus(CustomMetrics.transferAssetTimer, "transaction")
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
+                }
+            }
+            Session
+        }.exec { Session ->
+            runBlocking {
+                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(anotherDevKeyPairSender)
                 }
             }
             Session

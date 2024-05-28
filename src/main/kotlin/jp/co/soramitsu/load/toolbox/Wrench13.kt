@@ -4,6 +4,7 @@ import io.prometheus.client.Counter
 import io.prometheus.client.Histogram
 import io.prometheus.client.Histogram.Timer
 import io.prometheus.client.exporter.PushGateway
+import jp.co.soramitsu.iroha2.AdminIroha2Client
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
 import jp.co.soramitsu.iroha2.client.Iroha2Client
@@ -37,7 +38,7 @@ open class Wrench13 {
     var attemptsPersentage: Int = 2
     var attempt: Int = 0
     var anotherDevDomainIdList: MutableList<DomainId> = mutableListOf()
-    var pushGateway = PushGateway("pushgateway:9091")
+    var pushGateway = PushGateway("0.0.0.0:9091")
 
     lateinit var currentDevAccountId: AccountId
     lateinit var currentDevKeyPair: KeyPair
@@ -79,14 +80,15 @@ open class Wrench13 {
             it.build().toURL()
         }
         urls.add(peerUrl)
+        println("randomPeer: " + randomPeer)
         return Iroha2Client(
             urls[0],
             urls[0],
             urls[0],
             log = false,
             credentials = SimulationConfig.simulation.remoteLogin() + ":" + SimulationConfig.simulation.remotePass(),
-            eventReadTimeoutInMills = 10000,
-            eventReadMaxAttempts = 20
+            /*eventReadTimeoutInMills = 10000,
+            eventReadMaxAttempts = 20*/
         )
     }
 
