@@ -33,8 +33,9 @@ class Iroha2SetUp : Wrench13() {
     }
 
     val iroha2SetUpScn = scenario("Iroha2SetUp")
-        .exec { Session ->
+        /*.exec { Session ->
             val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
             timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                 "gatling"
                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -101,6 +102,7 @@ class Iroha2SetUp : Wrench13() {
                 repeat(SimulationConfig.simulation.setUpUsersOnEachDomain).on(
                     exec { Session ->
                         val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                         timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -292,5 +294,5 @@ class Iroha2SetUp : Wrench13() {
                         Session
                     }
                 )
-            )
+            )*/
 }

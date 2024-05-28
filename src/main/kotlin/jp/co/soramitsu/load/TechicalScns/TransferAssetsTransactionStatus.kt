@@ -1,3 +1,4 @@
+/*
 
 package jp.co.soramitsu.load.TechicalScns
 
@@ -42,6 +43,7 @@ class TransferAssetsTransactionStatus: Wrench13() {
             }
             .exec { Session ->
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 timer = CustomMetrics.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -79,6 +81,7 @@ class TransferAssetsTransactionStatus: Wrench13() {
                 .then(
                     exec { Session ->
                         val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                         timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -126,3 +129,4 @@ class TransferAssetsTransactionStatus: Wrench13() {
         )
 }
 
+*/

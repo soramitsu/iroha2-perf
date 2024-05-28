@@ -16,6 +16,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.time.withTimeout
 import java.security.KeyPair
 import java.time.Duration
+import java.util.*
 
 class TransferAssets : Wrench13() {
     lateinit var domainIdSender: DomainId
@@ -23,6 +24,8 @@ class TransferAssets : Wrench13() {
     lateinit var anotherDevAssetIdSender: AssetId
     lateinit var targetDevAccountIdReceiver: AccountId
     lateinit var anotherDevKeyPairSender: KeyPair
+    lateinit var uuid: UUID
+    lateinit var chainId: UUID
     //lateinit var iroha2Client: Iroha2Client
 
     companion object {
@@ -45,13 +48,16 @@ class TransferAssets : Wrench13() {
             anotherDevAccountIdSender = Session.get<String>("anotherDevAccountIdSender")!!.asAccountId()
             targetDevAccountIdReceiver = Session.get<String>("anotherDevAccountIdReceiver")!!.asAccountId()
             anotherDevAssetIdSender = Session.get<String>("anotherDevAssetIdSender")!!.asAssetId()
+            uuid = UUID(0,0)
             Session
         }
         .exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.fireAndForget {
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
+                    chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
                 }
@@ -61,8 +67,10 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.fireAndForget {
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
+                    chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
                 }
@@ -71,8 +79,10 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.fireAndForget {
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
+                    chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
                 }
@@ -81,8 +91,10 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.fireAndForget {
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
+                    chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
                 }
@@ -91,8 +103,10 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.fireAndForget {
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
+                    chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
                 }
@@ -101,8 +115,10 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.fireAndForget {
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
+                    chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
                 }
@@ -111,8 +127,10 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.fireAndForget {
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
+                    chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
                 }
@@ -121,8 +139,10 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.fireAndForget {
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
+                    chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
                 }
@@ -131,8 +151,10 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.fireAndForget {
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
+                    chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
                 }
@@ -141,8 +163,10 @@ class TransferAssets : Wrench13() {
         }.exec { Session ->
             runBlocking {
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                iroha2Client.fireAndForget {
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
+                iroha2Client.sendTransaction {
                     account(anotherDevAccountIdSender)
+                    chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(anotherDevKeyPairSender)
                 }

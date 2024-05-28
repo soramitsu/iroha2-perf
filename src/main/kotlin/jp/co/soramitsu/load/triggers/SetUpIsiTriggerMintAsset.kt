@@ -5,6 +5,7 @@ import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
 import jp.co.soramitsu.iroha2.generated.*
+import jp.co.soramitsu.iroha2.numeric
 import jp.co.soramitsu.iroha2.transaction.Instructions
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.toolbox.Wrench13
@@ -27,12 +28,13 @@ class SetUpIsiTriggerMintAsset : Wrench13() {
     val setUp = CoreDsl.scenario("SetUpIsiTrigger")
         .exec { Session ->
             val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
             val triggerId = TriggerId(name = "executable_trigger".asName())
             val devAccountId = AccountId("bulb${UUID.randomUUID()}_${UUID.randomUUID()}".asDomainId(),
                 Name("anotherDev${UUID.randomUUID()}_${UUID.randomUUID()}"))
             val assetDefinitionId = AssetDefinitionId(
-                "xor${UUID.randomUUID()}_${UUID.randomUUID()}".asName(),
-                "wonderland".asDomainId()
+                "wonderland".asDomainId(),
+                "xor${UUID.randomUUID()}_${UUID.randomUUID()}".asName()
             )
             val assetId = AssetId(assetDefinitionId, devAccountId)
             runBlocking {
@@ -43,7 +45,7 @@ class SetUpIsiTriggerMintAsset : Wrench13() {
                         listOf(
                             Instructions.registerAssetDefinition(
                                 assetDefinitionId,
-                                AssetValueType.Quantity()
+                                AssetValueType.numeric()
                             ),
                             Instructions.mintAsset(assetId, 1)
                         ),
