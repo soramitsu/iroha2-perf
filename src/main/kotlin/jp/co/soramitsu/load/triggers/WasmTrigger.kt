@@ -31,10 +31,11 @@ class WasmTrigger: Wrench13() {
     val anotherDev = AnotherDev()
 
     val wasmTrigger = CoreDsl.scenario("WasmTrigger")
-        .feed(CoreDsl.csv("preconditionList.csv").circular())
+        /*.feed(CoreDsl.csv("preconditionList.csv").circular())
         .exec { Session ->
             runBlocking{
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 anotherDev.anotherDevDomainId = Session.get<String>("domainIdSender")!!.asDomainId()
                 anotherDev.anotherDevAccountId = AccountId(
                     anotherDev.anotherDevDomainId,
@@ -42,7 +43,7 @@ class WasmTrigger: Wrench13() {
                 )
                 anotherDev.anotherDevKeyPair = generateKeyPair()
                 val triggerKey = "mintAsset".asName()
-                val triggerValue = "i_wont_a_cat".asValue()
+                val triggerValue = "i_wont_a_cat".asMetadataValueBox()
                 val metadata = Metadata(
                     mapOf(
                         Pair(triggerKey, triggerValue),
@@ -103,6 +104,7 @@ class WasmTrigger: Wrench13() {
         }
         .exec { Session ->
             val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
             timer = CustomMetrics.findAssetsByAccountIdQueryTimer.labels(
                 "gatling"
                 , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -138,5 +140,5 @@ class WasmTrigger: Wrench13() {
             }
             Thread.sleep(queryWaiter)
             Session
-        }
+        }*/
 }

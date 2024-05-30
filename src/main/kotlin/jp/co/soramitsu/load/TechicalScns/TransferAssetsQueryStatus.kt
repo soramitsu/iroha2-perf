@@ -14,6 +14,7 @@ import kotlinx.coroutines.runBlocking
 import kotlin.random.Random
 import kotlinx.coroutines.time.withTimeout
 import java.time.Duration
+import java.util.*
 
 class TransferAssetsQueryStatus: Wrench13() {
     companion object {
@@ -45,6 +46,7 @@ class TransferAssetsQueryStatus: Wrench13() {
             }
             .exec { Session ->
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 timer = CustomMetrics.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -74,6 +76,7 @@ class TransferAssetsQueryStatus: Wrench13() {
             }
             .exec { Session ->
                 val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 timer = CustomMetrics.findAssetsByAccountIdQueryTimer.labels(
                     "gatling"
                     , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -112,6 +115,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                 .then(
                     exec { Session ->
                         val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                         timer = CustomMetrics.subscriptionToBlockStreamTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -161,6 +165,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                     }
                     .exec { Session ->
                         val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                         timer = CustomMetrics.findAssetsByAccountIdQueryTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")
@@ -191,6 +196,7 @@ class TransferAssetsQueryStatus: Wrench13() {
                     }
                     .exec { Session ->
                         val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                         timer = CustomMetrics.findAssetsByAccountIdQueryTimer.labels(
                             "gatling"
                             , System.getProperty("user.dir").substringAfterLast("/").substringAfterLast("\\")

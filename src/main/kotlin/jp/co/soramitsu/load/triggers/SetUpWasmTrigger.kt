@@ -4,7 +4,7 @@ import io.gatling.javaapi.core.CoreDsl
 import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
-import jp.co.soramitsu.iroha2.asValue
+//import jp.co.soramitsu.iroha2.asValue
 import jp.co.soramitsu.iroha2.generated.*
 import jp.co.soramitsu.iroha2.query.QueryBuilder
 import jp.co.soramitsu.iroha2.transaction.EntityFilters
@@ -31,8 +31,9 @@ class SetUpWasmTrigger : Wrench13() {
     }
 
     val setUp = CoreDsl.scenario("SetUpWasmTrigger")
-        .exec { Session ->
+        /*.exec { Session ->
             val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
             val triggerId = TriggerId(name = "wasm_trigger".asName())
 
             val filter = Filters.data(
@@ -63,5 +64,5 @@ class SetUpWasmTrigger : Wrench13() {
                 }
             }
             Session
-        }
+        }*/
 }
