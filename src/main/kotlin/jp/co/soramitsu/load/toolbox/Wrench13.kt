@@ -26,6 +26,7 @@ open class Wrench13 {
     val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
     val bobAccountId = AccountId("wonderland".asDomainId(), "bob".asName())
     val aliceAccountId = AccountId("wonderland".asDomainId(), "alice".asName())
+    val admin = AccountId("wonderland".asDomainId(), "bob".asName())
     val adminKeyPair = keyPairFromHex(
         "7233bfc89dcbd68c19fde6ce6158225298ec1131b6a130d1aeb454c1ab5183c0",
         "9ac47abf59b356e0bd7dcbbbb4dec080e302156a48ca907e47cb6aea1d32719e",
@@ -51,11 +52,11 @@ open class Wrench13 {
     lateinit var subscription: BlockStreamSubscription
     lateinit var timer: Timer
 
-    fun buildClient(configuration: String): Iroha2Client {
+    fun buildClient(configuration: String): AdminIroha2Client {
         lateinit var randomPeer: String
         when (configuration){
             "local" -> {
-                return Iroha2Client("http://0.0.0.0:8080", "http://0.0.0.0:8180", "http://0.0.0.0:1337", true)
+                return AdminIroha2Client("http://127.0.0.1:8080", "http://127.0.0.1:8180", "http://127.0.0.1:1337", true)
             }
             "standAlone" -> {
                 randomPeer = "peer-0/api"
@@ -71,7 +72,7 @@ open class Wrench13 {
         return builder(randomPeer)
     }
 
-    private fun builder(randomPeer: String): Iroha2Client {
+    private fun builder(randomPeer: String): AdminIroha2Client {
         val peerUrl = URIBuilder().let {
             it.scheme = SimulationConfig.simulation.targetProtocol()
             it.host = SimulationConfig.simulation.targetURL()
@@ -81,7 +82,7 @@ open class Wrench13 {
         }
         urls.add(peerUrl)
         println("randomPeer: " + randomPeer)
-        return Iroha2Client(
+        return AdminIroha2Client(
             urls[0],
             urls[0],
             urls[0],

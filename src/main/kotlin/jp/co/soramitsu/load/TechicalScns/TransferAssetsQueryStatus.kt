@@ -1,4 +1,3 @@
-/*
 package jp.co.soramitsu.load.TechicalScns
 
 import io.gatling.javaapi.core.CoreDsl
@@ -15,6 +14,7 @@ import kotlinx.coroutines.runBlocking
 import kotlin.random.Random
 import kotlinx.coroutines.time.withTimeout
 import java.time.Duration
+import java.util.*
 
 class TransferAssetsQueryStatus: Wrench13() {
     companion object {
@@ -228,4 +228,3 @@ class TransferAssetsQueryStatus: Wrench13() {
                 )
         )
 }
-*/

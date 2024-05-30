@@ -17,7 +17,7 @@
         <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
         <owner.version>1.0.12</owner.version>
-        <iroha-java.version>103356f241</iroha-java.version>
+        <iroha-java.version>449dbed6c5</iroha-java.version>
         <jackson.versaion>2.14.1</jackson.versaion>
         <commons-codec.version>1.15</commons-codec.version>
         <lombok.version>1.18.24</lombok.version>
