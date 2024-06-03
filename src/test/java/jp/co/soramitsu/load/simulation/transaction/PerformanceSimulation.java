@@ -8,7 +8,7 @@ public class PerformanceSimulation extends Simulation {
     {
         setUp(
                 //jp.co.soramitsu.load.SetUp.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1))
-                        TransferAssets.Companion.apply().injectClosed(LoadProfiles.getMaxPerformanceClosedProfile())
+                        TransferAssets.Companion.apply().injectOpen(LoadProfiles.getMaxPerformanceOpenProfile())
                         //.andThen(TransferAssets.Companion.apply().injectOpen(LoadProfiles.getStabilityOpenProfile()))
                         .andThen(CleanUp.Companion.apply().injectOpen(OpenInjectionStep.atOnceUsers(1)))
         ).protocols(Protocols.httpProtocol);

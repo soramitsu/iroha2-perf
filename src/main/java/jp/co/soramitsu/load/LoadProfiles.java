@@ -20,7 +20,7 @@ public class LoadProfiles {
                 .times(SimulationConfig.simulation.times())
                 .eachLevelLasting(SimulationConfig.simulation.stageDuration())
                 .separatedByRampsLasting(SimulationConfig.simulation.rampDuration())
-                .startingFrom(0);
+                .startingFrom(SimulationConfig.simulation.startingFrom());
     }
 
     public static ClosedInjectionStep[] getStabilityClosedProfile() {
