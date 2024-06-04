@@ -58938,13 +58938,13 @@
 }
 }
 },{
-"NewParameter": "?MaxTransactionsInBlock=20"
+"NewParameter": "?MaxTransactionsInBlock=60"
 },
 {
 "NewParameter": "?BlockTime=2000"
 },
 {
-"NewParameter": "?CommitTimeLimit=4000"
+"NewParameter": "?CommitTimeLimit=8000"
 },
 {
 "NewParameter": "?TransactionLimits=4096,4194304_TL"
