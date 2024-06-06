@@ -57,6 +57,49 @@ class TransferAssets : Wrench13() {
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
+                Thread.sleep(200)
+                iroha2Client.fireAndForget {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(adminKeyPair)
+                }
+                Thread.sleep(200)
+                iroha2Client.fireAndForget {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(adminKeyPair)
+                }
+                Thread.sleep(200)
+                iroha2Client.fireAndForget {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(adminKeyPair)
+                }
+                Thread.sleep(200)
+                iroha2Client.fireAndForget {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(adminKeyPair)
+                }
+                Thread.sleep(200)
+                iroha2Client.fireAndForget {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(adminKeyPair)
+                }
+                Thread.sleep(200)
+                iroha2Client.fireAndForget {
+                    account(anotherDevAccountIdSender)
+                    chainId(chainId)
+                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
+                    buildSigned(adminKeyPair)
+                }
+                Thread.sleep(200)
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
@@ -69,72 +112,42 @@ class TransferAssets : Wrench13() {
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
+                Thread.sleep(200)
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
+                Thread.sleep(200)
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
+                Thread.sleep(200)
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
+                Thread.sleep(200)
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
+                Thread.sleep(200)
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-                iroha2Client.fireAndForget {
-                    account(anotherDevAccountIdSender)
-                    chainId(chainId)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(adminKeyPair)
-                }
-                iroha2Client.fireAndForget {
-                    account(anotherDevAccountIdSender)
-                    chainId(chainId)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(adminKeyPair)
-                }
-                iroha2Client.fireAndForget {
-                    account(anotherDevAccountIdSender)
-                    chainId(chainId)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(adminKeyPair)
-                }
-                iroha2Client.fireAndForget {
-                    account(anotherDevAccountIdSender)
-                    chainId(chainId)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(adminKeyPair)
-                }
-                iroha2Client.fireAndForget {
-                    account(anotherDevAccountIdSender)
-                    chainId(chainId)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(adminKeyPair)
-                }
-                iroha2Client.fireAndForget {
-                    account(anotherDevAccountIdSender)
-                    chainId(chainId)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(adminKeyPair)
-                }
+                Thread.sleep(200)
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
