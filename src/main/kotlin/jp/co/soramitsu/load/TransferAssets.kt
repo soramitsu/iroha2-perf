@@ -57,216 +57,84 @@ class TransferAssets : Wrench13() {
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
                     transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
                     buildSigned(adminKeyPair)
                 }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
-                iroha2Client.fireAndForget {
-                    account(anotherDevAccountIdSender)
-                    chainId(chainId)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(adminKeyPair)
-                }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
-                iroha2Client.fireAndForget {
-                    account(anotherDevAccountIdSender)
-                    chainId(chainId)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(adminKeyPair)
-                }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
-                iroha2Client.fireAndForget {
-                    account(anotherDevAccountIdSender)
-                    chainId(chainId)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(adminKeyPair)
-                }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
-                iroha2Client.fireAndForget {
-                    account(anotherDevAccountIdSender)
-                    chainId(chainId)
-                    transferAsset(anotherDevAssetIdSender, 1, targetDevAccountIdReceiver)
-                    buildSigned(adminKeyPair)
-                }
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val iroha2Client = buildClient(SimulationConfig.simulation.configuration())
-                val chainId = UUID.fromString(  "00000000-0000-0000-0000-000000000000")
                 iroha2Client.fireAndForget {
                     account(anotherDevAccountIdSender)
                     chainId(chainId)
