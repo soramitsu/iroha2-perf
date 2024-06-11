@@ -1,8 +1,9 @@
 package jp.co.soramitsu.load;
 
 
-import com.google.common.net.HttpHeaders;
+//import com.google.common.net.HttpHeaders;
 import io.gatling.javaapi.http.HttpProtocolBuilder;
+import org.apache.http.HttpHeaders;
 
 import static io.gatling.javaapi.http.HttpDsl.http;
 

@@ -5,7 +5,7 @@ import io.gatling.javaapi.core.ScenarioBuilder
 import jp.co.soramitsu.iroha2.asDomainId
 import jp.co.soramitsu.iroha2.asName
 import jp.co.soramitsu.iroha2.generated.*
-import jp.co.soramitsu.iroha2.numeric
+//import jp.co.soramitsu.iroha2.numeric
 import jp.co.soramitsu.iroha2.transaction.Instructions
 import jp.co.soramitsu.load.infrastructure.config.SimulationConfig
 import jp.co.soramitsu.load.toolbox.Wrench13
@@ -35,12 +35,13 @@ class SetUpIsiTriggerMintAsset : Wrench13() {
             val assetDefinitionId = AssetDefinitionId(
                 "wonderland".asDomainId(),
                 "xor${UUID.randomUUID()}_${UUID.randomUUID()}".asName()
+
             )
             val assetId = AssetId(assetDefinitionId, devAccountId)
             runBlocking {
                 iroha2Client.sendTransaction {
                     accountId = aliceAccountId
-                    registerExecutableTrigger(
+                    /*registerExecutableTrigger(
                         triggerId,
                         listOf(
                             Instructions.registerAssetDefinition(
@@ -51,7 +52,7 @@ class SetUpIsiTriggerMintAsset : Wrench13() {
                         ),
                         Repeats.Indefinitely(),
                         aliceAccountId
-                    )
+                    )*/
                     executeTrigger(triggerId)
                     buildSigned(adminKeyPair)
                 }
