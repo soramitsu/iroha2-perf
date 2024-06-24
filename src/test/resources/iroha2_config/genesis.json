@@ -58938,7 +58938,7 @@
 }
 }
 },{
-"NewParameter": "?MaxTransactionsInBlock=40"
+"NewParameter": "?MaxTransactionsInBlock=2"
 },
 {
 "NewParameter": "?BlockTime=2000"
