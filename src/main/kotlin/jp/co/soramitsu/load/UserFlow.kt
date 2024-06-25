@@ -94,7 +94,7 @@ class UserFlow : Wrench13() {
                     }
             }
             Session
-        }.exec { Session ->
+        }/*.exec { Session ->
             runBlocking {
                 val assetDefinition = "xor_" + UUID.randomUUID() + "_" + UUID.randomUUID()
                 val assetDefinitionId = AssetDefinitionId(
@@ -134,7 +134,7 @@ class UserFlow : Wrench13() {
                 }
             }
             Session
-        }.exec { Session ->
+        }*/.exec { Session ->
             runBlocking {
                 QueryBuilder.findAllTransactions()
                     .account(anotherDevAccountIdSender)
