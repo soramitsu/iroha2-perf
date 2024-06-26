@@ -88,8 +88,6 @@ open class Wrench13 {
             urls[0],
             log = false,
             credentials = SimulationConfig.simulation.remoteLogin() + ":" + SimulationConfig.simulation.remotePass(),
-            /*eventReadTimeoutInMills = 10000,
-            eventReadMaxAttempts = 20*/
         )
     }
 
