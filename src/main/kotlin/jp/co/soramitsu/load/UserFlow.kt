@@ -55,6 +55,7 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAssetsByAccountId")
             }
             Session
         }.exec { Session ->
@@ -66,6 +67,7 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAccountsByDomainId")
             }
             Session
         }.exec { Session ->
@@ -77,6 +79,7 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAllAssets")
             }
             Session
         }.exec { Session ->
@@ -88,6 +91,7 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAllAssets")
             }
             Session
         }.exec { Session ->
@@ -99,6 +103,7 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAllTransactions")
             }
             Session
         }.exec { Session ->
@@ -110,6 +115,7 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findTransactionByHash")
             }
             Session
         }.exec { Session ->
@@ -121,6 +127,7 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAccountsByDomainId")
             }
             Session
         }.exec { Session ->
@@ -132,6 +139,7 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAllAssets")
             }
             Session
         }.exec { Session ->
@@ -143,6 +151,7 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAllAssets")
             }
             Session
         }.exec { Session ->
@@ -154,6 +163,7 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAllTransactions")
             }
             Session
         }
