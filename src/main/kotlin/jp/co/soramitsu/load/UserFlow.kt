@@ -39,7 +39,7 @@ class UserFlow : Wrench13() {
     val userFlowScn = scenario("userFlowScn")
         .feed(csv("preconditionList.csv").circular())
         .exec { Session ->
-            //iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+            iroha2Client = buildClient(SimulationConfig.simulation.configuration())
             anotherDevKeyPairSender = adminKeyPair
             domainIdSender = Session.get<String>("domainIdSender")!!.asDomainId()
             anotherDevAccountIdSender = Session.get<String>("anotherDevAccountIdSender")!!.asAccountId()
@@ -47,7 +47,6 @@ class UserFlow : Wrench13() {
             anotherDevAssetIdSender = Session.get<String>("anotherDevAssetIdSender")!!.asAssetId()
             Session
         }.exec { Session ->
-            val iroha2Client = builder("peer-0/api")
             runBlocking {
                 QueryBuilder.findAssetsByAccountId(anotherDevAccountIdSender)
                     .account(anotherDevAccountIdSender)
@@ -55,10 +54,10 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAssetsByAccountId")
             }
             Session
         }.exec { Session ->
-            val iroha2Client = builder("peer-1/api")
             runBlocking {
                 QueryBuilder.findAccountsByDomainId(domainIdSender)
                     .account(anotherDevAccountIdSender)
@@ -66,10 +65,10 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAccountsByDomainId")
             }
             Session
         }.exec { Session ->
-            val iroha2Client = builder("peer-2/api")
             runBlocking {
                 QueryBuilder.findAllAssets()
                     .account(anotherDevAccountIdSender)
@@ -77,10 +76,10 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAllAssets")
             }
             Session
         }.exec { Session ->
-            val iroha2Client = builder("peer-3/api")
             runBlocking {
                 QueryBuilder.findAllAssets()
                     .account(anotherDevAccountIdSender)
@@ -88,10 +87,10 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAllAssets")
             }
             Session
         }.exec { Session ->
-            val iroha2Client = builder("peer-4/api")
             runBlocking {
                 QueryBuilder.findAllTransactions()
                     .account(anotherDevAccountIdSender)
@@ -99,10 +98,10 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAllTransactions")
             }
             Session
         }.exec { Session ->
-            val iroha2Client = builder("peer-0/api")
             runBlocking {
                 QueryBuilder.findTransactionByHash(hash)
                     .account(anotherDevAccountIdSender)
@@ -110,10 +109,10 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findTransactionByHash")
             }
             Session
         }.exec { Session ->
-            val iroha2Client = builder("peer-1/api")
             runBlocking {
                 QueryBuilder.findAccountsByDomainId(domainIdSender)
                     .account(anotherDevAccountIdSender)
@@ -121,10 +120,10 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAccountsByDomainId")
             }
             Session
         }.exec { Session ->
-            val iroha2Client = builder("peer-2/api")
             runBlocking {
                 QueryBuilder.findAllAssets()
                     .account(anotherDevAccountIdSender)
@@ -132,21 +131,23 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAllAssets")
             }
             Session
         }.exec { Session ->
-            val iroha2Client = builder("peer-3/api")
             runBlocking {
                 QueryBuilder.findAllAssets()
                     .account(anotherDevAccountIdSender)
                     .buildSigned(anotherDevKeyPairSender)
                     .let { query ->
                         iroha2Client.sendQuery(query)
+                    }.also {
+
                     }
+                println("findAllAssets")
             }
             Session
         }.exec { Session ->
-            val iroha2Client = builder("peer-4/api")
             runBlocking {
                 QueryBuilder.findAllTransactions()
                     .account(anotherDevAccountIdSender)
@@ -154,6 +155,7 @@ class UserFlow : Wrench13() {
                     .let { query ->
                         iroha2Client.sendQuery(query)
                     }
+                println("findAllTransactions")
             }
             Session
         }

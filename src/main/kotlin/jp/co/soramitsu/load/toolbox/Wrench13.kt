@@ -23,7 +23,8 @@ import java.security.KeyPair
 open class Wrench13 {
 
     val urls: MutableList<URL> = mutableListOf()
-    val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
+    //val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
+    val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api")
     val bobAccountId = AccountId("wonderland".asDomainId(), "bob".asName())
     val aliceAccountId = AccountId("wonderland".asDomainId(), "alice".asName())
     val admin = AccountId("wonderland".asDomainId(), "bob".asName())
@@ -72,7 +73,7 @@ open class Wrench13 {
         return builder(randomPeer)
     }
 
-    fun builder(randomPeer: String): AdminIroha2Client {
+    private fun builder(randomPeer: String): AdminIroha2Client {
         val peerUrl = URIBuilder().let {
             it.scheme = SimulationConfig.simulation.targetProtocol()
             it.host = SimulationConfig.simulation.targetURL()
@@ -88,8 +89,6 @@ open class Wrench13 {
             urls[0],
             log = false,
             credentials = SimulationConfig.simulation.remoteLogin() + ":" + SimulationConfig.simulation.remotePass(),
-            /*eventReadTimeoutInMills = 10000,
-            eventReadMaxAttempts = 20*/
         )
     }
 
