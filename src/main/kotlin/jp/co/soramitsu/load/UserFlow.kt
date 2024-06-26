@@ -39,7 +39,7 @@ class UserFlow : Wrench13() {
     val userFlowScn = scenario("userFlowScn")
         .feed(csv("preconditionList.csv").circular())
         .exec { Session ->
-            iroha2Client = buildClient(SimulationConfig.simulation.configuration())
+            //iroha2Client = buildClient(SimulationConfig.simulation.configuration())
             anotherDevKeyPairSender = adminKeyPair
             domainIdSender = Session.get<String>("domainIdSender")!!.asDomainId()
             anotherDevAccountIdSender = Session.get<String>("anotherDevAccountIdSender")!!.asAccountId()
@@ -47,94 +47,51 @@ class UserFlow : Wrench13() {
             anotherDevAssetIdSender = Session.get<String>("anotherDevAssetIdSender")!!.asAssetId()
             Session
         }.exec { Session ->
+            iroha2Client = builder("peer-0/api")
             runBlocking {
                 QueryBuilder.findAssetsByAccountId(anotherDevAccountIdSender)
                     .account(anotherDevAccountIdSender)
                     .buildSigned(anotherDevKeyPairSender)
                     .let { query ->
-                        /*println("QUERY BODY")
-                        println(query)*/
                         iroha2Client.sendQuery(query)
                     }
             }
             Session
         }.exec { Session ->
+            iroha2Client = builder("peer-1/api")
             runBlocking {
                 QueryBuilder.findAccountsByDomainId(domainIdSender)
                     .account(anotherDevAccountIdSender)
                     .buildSigned(anotherDevKeyPairSender)
                     .let { query ->
-                        /*println("QUERY BODY")
-                        println(query)*/
                         iroha2Client.sendQuery(query)
                     }
             }
             Session
         }.exec { Session ->
+            iroha2Client = builder("peer-2/api")
             runBlocking {
                 QueryBuilder.findAllAssets()
                     .account(anotherDevAccountIdSender)
                     .buildSigned(anotherDevKeyPairSender)
                     .let { query ->
-                        /*println("QUERY BODY")
-                        println(query)*/
                         iroha2Client.sendQuery(query)
                     }
             }
             Session
         }.exec { Session ->
+            iroha2Client = builder("peer-3/api")
             runBlocking {
                 QueryBuilder.findAllAssets()
                     .account(anotherDevAccountIdSender)
                     .buildSigned(anotherDevKeyPairSender)
                     .let { query ->
-                        /*println("QUERY BODY")
-                        println(query)*/
                         iroha2Client.sendQuery(query)
                     }
             }
             Session
-        }/*.exec { Session ->
-            runBlocking {
-                val assetDefinition = "xor_" + UUID.randomUUID() + "_" + UUID.randomUUID()
-                val assetDefinitionId = AssetDefinitionId(
-                    domainIdSender,
-                    assetDefinition.asName()
-                )
-                iroha2Client.sendTransaction {
-                    account(anotherDevAccountIdSender)
-                    registerAssetDefinition(assetDefinitionId, AssetValueType.numeric())
-                    buildSigned(anotherDevKeyPairSender)
-                }
-            }
-            Session
         }.exec { Session ->
-            runBlocking {
-                txs = QueryBuilder.findTransactionsByAccountId(anotherDevAccountIdSender)
-                    .account(anotherDevAccountIdSender)
-                    .buildSigned(anotherDevKeyPairSender)
-                    .let { query ->
-                        iroha2Client.sendQuery(query)
-                    }
-
-                hash = SignedTransaction.encode(txs[2].transaction.value).hash()
-            }
-            Session
-        }.exec { Session ->
-            runBlocking {
-                val assetDefinition = "xor_" + UUID.randomUUID() + "_" + UUID.randomUUID()
-                val assetDefinitionId = AssetDefinitionId(
-                    domainIdSender,
-                    assetDefinition.asName()
-                )
-                iroha2Client.sendTransaction {
-                    account(anotherDevAccountIdSender)
-                    registerAssetDefinition(assetDefinitionId, AssetValueType.numeric())
-                    buildSigned(anotherDevKeyPairSender)
-                }
-            }
-            Session
-        }*/.exec { Session ->
+            iroha2Client = builder("peer-4/api")
             runBlocking {
                 QueryBuilder.findAllTransactions()
                     .account(anotherDevAccountIdSender)
@@ -145,8 +102,53 @@ class UserFlow : Wrench13() {
             }
             Session
         }.exec { Session ->
+            iroha2Client = builder("peer-0/api")
             runBlocking {
                 QueryBuilder.findTransactionByHash(hash)
+                    .account(anotherDevAccountIdSender)
+                    .buildSigned(anotherDevKeyPairSender)
+                    .let { query ->
+                        iroha2Client.sendQuery(query)
+                    }
+            }
+            Session
+        }.exec { Session ->
+            iroha2Client = builder("peer-1/api")
+            runBlocking {
+                QueryBuilder.findAccountsByDomainId(domainIdSender)
+                    .account(anotherDevAccountIdSender)
+                    .buildSigned(anotherDevKeyPairSender)
+                    .let { query ->
+                        iroha2Client.sendQuery(query)
+                    }
+            }
+            Session
+        }.exec { Session ->
+            iroha2Client = builder("peer-2/api")
+            runBlocking {
+                QueryBuilder.findAllAssets()
+                    .account(anotherDevAccountIdSender)
+                    .buildSigned(anotherDevKeyPairSender)
+                    .let { query ->
+                        iroha2Client.sendQuery(query)
+                    }
+            }
+            Session
+        }.exec { Session ->
+            iroha2Client = builder("peer-3/api")
+            runBlocking {
+                QueryBuilder.findAllAssets()
+                    .account(anotherDevAccountIdSender)
+                    .buildSigned(anotherDevKeyPairSender)
+                    .let { query ->
+                        iroha2Client.sendQuery(query)
+                    }
+            }
+            Session
+        }.exec { Session ->
+            iroha2Client = builder("peer-4/api")
+            runBlocking {
+                QueryBuilder.findAllTransactions()
                     .account(anotherDevAccountIdSender)
                     .buildSigned(anotherDevKeyPairSender)
                     .let { query ->
