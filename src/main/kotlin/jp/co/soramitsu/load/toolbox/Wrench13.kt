@@ -72,7 +72,7 @@ open class Wrench13 {
         return builder(randomPeer)
     }
 
-    private fun builder(randomPeer: String): AdminIroha2Client {
+    fun builder(randomPeer: String): AdminIroha2Client {
         val peerUrl = URIBuilder().let {
             it.scheme = SimulationConfig.simulation.targetProtocol()
             it.host = SimulationConfig.simulation.targetURL()
