@@ -23,8 +23,7 @@ import java.security.KeyPair
 open class Wrench13 {
 
     val urls: MutableList<URL> = mutableListOf()
-    //val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
-    val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api")
+    val peers = arrayOf("peer-0/api", "peer-1/api", "peer-2/api", "peer-3/api", "peer-4/api")
     val bobAccountId = AccountId("wonderland".asDomainId(), "bob".asName())
     val aliceAccountId = AccountId("wonderland".asDomainId(), "alice".asName())
     val admin = AccountId("wonderland".asDomainId(), "bob".asName())
