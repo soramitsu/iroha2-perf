@@ -15,9 +15,12 @@ public class Queries extends Constants {
 
     public static ChainBuilder queryPostFindAllDomains = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
-
                     http("findAllDomains query")
-                            .post(session -> {return session.getString("peer");})
+                            .post(session -> {
+                                        String route = session.getString("peer") + "query";
+                                        return route;
+                                    }
+                            )
                             .body(ByteArrayBody(session -> {
                                                 return SignedQuery.Companion.encode(QueryBuilder
                                                         .findAllDomains()
@@ -26,12 +29,20 @@ public class Queries extends Constants {
                                             }
                                     )
                             )
-            ).exec(http("findAllDomains status").get(Constants.URL_STATUS).check(status().is(200)));
+            ).exec(http("findAllDomains status").get(session -> {
+                        String route = session.getString("peer") + "status";
+                        return route;
+                    }
+            ).check(status().is(200)));
 
     public static ChainBuilder queryPostFindAccountsByDomainId = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAccountsByDomainId query")
-                            .post(session -> {return session.getString("peer");})
+                            .post(session -> {
+                                        String route = session.getString("peer") + "query";
+                                        return route;
+                                    }
+                            )
                             .body(ByteArrayBody(session -> {
                                                 return SignedQuery.Companion.encode(QueryBuilder
                                                         .findAccountsByDomainId(ExtensionsKt.asDomainId(session.getString("domainIdSender")))
@@ -41,12 +52,20 @@ public class Queries extends Constants {
                                     )
                             )
 
-            ).exec(http("findAccountsByDomainId status").get(Constants.URL_STATUS).check(status().is(200)));
+            ).exec(http("findAccountsByDomainId status").get(session -> {
+                        String route = session.getString("peer") + "status";
+                        return route;
+                    }
+            ).check(status().is(200)));
 
     public static ChainBuilder queryPostFindAllAssets = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAllAssets query")
-                            .post(session -> {return session.getString("peer");})
+                            .post(session -> {
+                                        String route = session.getString("peer") + "query";
+                                        return route;
+                                    }
+                            )
                             .body(ByteArrayBody(session -> {
                                                 return SignedQuery.Companion.encode(QueryBuilder
                                                         .findAllAssets()
@@ -55,12 +74,18 @@ public class Queries extends Constants {
                                             }
                                     )
                             )
-            ).exec(http("findAllAssets status").get(Constants.URL_STATUS).check(status().is(200)));
+            ).exec(http("findAllAssets status").get(session -> {
+                        String route = session.getString("peer") + "status";
+                        return route;
+                    }
+            ).check(status().is(200)));
 
     public static ChainBuilder queryPostFindAllTransactions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAllTransactions query")
-                            .post(session -> {return session.getString("peer");})
+                            .post(session -> {
+                                return session.getString("peer");
+                            })
                             .body(ByteArrayBody(session -> {
                                                 return SignedQuery.Companion.encode(QueryBuilder
                                                         .findAllTransactions(null)
@@ -69,5 +94,7 @@ public class Queries extends Constants {
                                             }
                                     )
                             )
-            ).exec(http("findAllTransactions status").get(Constants.URL_STATUS).check(status().is(200)));
+            ).exec(http("findAllTransactions status").get(session -> {
+                return session.getString("status");
+            }).check(status().is(200)));
 }
