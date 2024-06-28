@@ -8,6 +8,9 @@ import jp.co.soramitsu.iroha2.generated.DomainId;
 import jp.co.soramitsu.iroha2.generated.Name;
 
 import java.security.KeyPair;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import static io.gatling.javaapi.core.CoreDsl.csv;
@@ -29,4 +32,5 @@ public class Constants {
     public static final DomainId NEW_DOMAIN_ID = new DomainId(new Name("new_domain_name"));
     public static final UUID CHAIN_ID = UUID.fromString("00000000-0000-0000-0000-000000000000");
     public static FeederBuilder<String> CSV_FEEDER = csv("preconditionList.csv").circular();
+    public static FeederBuilder<String> PEERS_FEEDER = csv("peers.csv").circular();
 }

@@ -5,16 +5,19 @@ import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.generated.SignedQuery;
 import jp.co.soramitsu.iroha2.query.QueryBuilder;
 
+import java.util.List;
+
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
 import static io.gatling.javaapi.http.HttpDsl.status;
 
 public class Queries extends Constants {
 
-    public static ChainBuilder queryPostFindAllDomains = exec(feed(CSV_FEEDER))
+    public static ChainBuilder queryPostFindAllDomains = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
+
                     http("findAllDomains query")
-                            .post(Constants.URL_QUERY)
+                            .post(session -> {return session.getString("peer");})
                             .body(ByteArrayBody(session -> {
                                                 return SignedQuery.Companion.encode(QueryBuilder
                                                         .findAllDomains()
@@ -28,7 +31,7 @@ public class Queries extends Constants {
     public static ChainBuilder queryPostFindAccountsByDomainId = exec(feed(CSV_FEEDER))
             .exec(
                     http("findAccountsByDomainId query")
-                            .post(Constants.URL_QUERY)
+                            .post(session -> {return session.getString("peer");})
                             .body(ByteArrayBody(session -> {
                                                 return SignedQuery.Companion.encode(QueryBuilder
                                                         .findAccountsByDomainId(ExtensionsKt.asDomainId(session.getString("domainIdSender")))
@@ -43,7 +46,7 @@ public class Queries extends Constants {
     public static ChainBuilder queryPostFindAllAssets = exec(feed(CSV_FEEDER))
             .exec(
                     http("findAllAssets query")
-                            .post(Constants.URL_QUERY)
+                            .post(session -> {return session.getString("peer");})
                             .body(ByteArrayBody(session -> {
                                                 return SignedQuery.Companion.encode(QueryBuilder
                                                         .findAllAssets()
@@ -57,7 +60,7 @@ public class Queries extends Constants {
     public static ChainBuilder queryPostFindAllTransactions = exec(feed(CSV_FEEDER))
             .exec(
                     http("findAllTransactions query")
-                            .post(Constants.URL_QUERY)
+                            .post(session -> {return session.getString("peer");})
                             .body(ByteArrayBody(session -> {
                                                 return SignedQuery.Companion.encode(QueryBuilder
                                                         .findAllTransactions(null)
