@@ -28,7 +28,7 @@ public class Queries extends Constants {
                             )
             ).exec(http("findAllDomains status").get(Constants.URL_STATUS).check(status().is(200)));
 
-    public static ChainBuilder queryPostFindAccountsByDomainId = exec(feed(CSV_FEEDER))
+    public static ChainBuilder queryPostFindAccountsByDomainId = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAccountsByDomainId query")
                             .post(session -> {return session.getString("peer");})
@@ -43,7 +43,7 @@ public class Queries extends Constants {
 
             ).exec(http("findAccountsByDomainId status").get(Constants.URL_STATUS).check(status().is(200)));
 
-    public static ChainBuilder queryPostFindAllAssets = exec(feed(CSV_FEEDER))
+    public static ChainBuilder queryPostFindAllAssets = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAllAssets query")
                             .post(session -> {return session.getString("peer");})
@@ -57,7 +57,7 @@ public class Queries extends Constants {
                             )
             ).exec(http("findAllAssets status").get(Constants.URL_STATUS).check(status().is(200)));
 
-    public static ChainBuilder queryPostFindAllTransactions = exec(feed(CSV_FEEDER))
+    public static ChainBuilder queryPostFindAllTransactions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAllTransactions query")
                             .post(session -> {return session.getString("peer");})
