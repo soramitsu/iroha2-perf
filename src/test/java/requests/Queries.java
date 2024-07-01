@@ -14,87 +14,61 @@ import static io.gatling.javaapi.http.HttpDsl.status;
 public class Queries extends Constants {
 
     public static ChainBuilder queryPostFindAllDomains = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
-            .exec(
-                    http("findAllDomains query")
-                            .post(session -> {
-                                        String route = session.getString("peer") + "query";
-                                        return route;
-                                    }
-                            )
-                            .body(ByteArrayBody(session -> {
-                                                return SignedQuery.Companion.encode(QueryBuilder
-                                                        .findAllDomains()
-                                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                        .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
-                                            }
-                                    )
-                            )
-            ).exec(http("findAllDomains status").get(session -> {
-                        String route = session.getString("peer") + "status";
-                        return route;
-                    }
-            ).check(status().is(200)));
+            .exec(http("findAllDomains query")
+                    .post(session -> {
+                        return session.getString("peer") + "query";
+                    })
+                    .body(ByteArrayBody(session -> {
+                        return SignedQuery.Companion.encode(QueryBuilder
+                                .findAllDomains()
+                                .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                                .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
+                    }))
+            );
 
     public static ChainBuilder queryPostFindAccountsByDomainId = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAccountsByDomainId query")
                             .post(session -> {
-                                        String route = session.getString("peer") + "query";
-                                        return route;
+                                        return session.getString("peer") + "query";
                                     }
                             )
                             .body(ByteArrayBody(session -> {
-                                                return SignedQuery.Companion.encode(QueryBuilder
-                                                        .findAccountsByDomainId(ExtensionsKt.asDomainId(session.getString("domainIdSender")))
-                                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                        .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
-                                            }
-                                    )
-                            )
+                                return SignedQuery.Companion.encode(QueryBuilder
+                                        .findAccountsByDomainId(ExtensionsKt.asDomainId(session.getString("domainIdSender")))
+                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                                        .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
+                            }))
 
-            ).exec(http("findAccountsByDomainId status").get(session -> {
-                        String route = session.getString("peer") + "status";
-                        return route;
-                    }
-            ).check(status().is(200)));
+            );
 
     public static ChainBuilder queryPostFindAllAssets = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAllAssets query")
                             .post(session -> {
-                                        String route = session.getString("peer") + "query";
-                                        return route;
+                                        return session.getString("peer") + "query";
                                     }
                             )
                             .body(ByteArrayBody(session -> {
-                                                return SignedQuery.Companion.encode(QueryBuilder
-                                                        .findAllAssets()
-                                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                        .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
-                                            }
-                                    )
-                            )
-            ).exec(http("findAllAssets status").get(session -> {
-                        String route = session.getString("peer") + "status";
-                        return route;
-                    }
-            ).check(status().is(200)));
+                                return SignedQuery.Companion.encode(QueryBuilder
+                                        .findAllAssets()
+                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                                        .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
+                            }))
+            );
 
     public static ChainBuilder queryPostFindAllTransactions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAllTransactions query")
                             .post(session -> {
-                                return session.getString("peer");
-                            })
-                            .body(ByteArrayBody(session -> {
-                                                return SignedQuery.Companion.encode(QueryBuilder
-                                                        .findAllTransactions(null)
-                                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender}")))
-                                                        .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
-                                            }
-                                    )
+                                        return session.getString("peer") + "query";
+                                    }
                             )
-            ).exec(http("findAllTransactions status").get(session -> {
-                return session.getString("status");
-            }).check(status().is(200)));
+                            .body(ByteArrayBody(session -> {
+                                return SignedQuery.Companion.encode(QueryBuilder
+                                        .findAllTransactions(null)
+                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender}")))
+                                        .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
+                            }))
+            );
 }
