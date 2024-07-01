@@ -12,16 +12,40 @@ import static io.gatling.javaapi.http.HttpDsl.status;
 
 public class Transactions extends Constants {
 
-    public static ChainBuilder txPostRegisterDomain = exec(feed(CSV_FEEDER))
+    public static ChainBuilder txPostRegisterDomain = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("registerDomain transaction")
-                            .post(Constants.URL_TRANSACTION)
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
+                                    }
+                            )
                             .body(ByteArrayBody(session -> {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
                                                                 .chainId(Constants.CHAIN_ID)
                                                                 .registerDomain(Constants.NEW_DOMAIN_ID)
+                                                                .buildSigned(Constants.ALICE_KEYPAIR));
+                                            }
+                                    )
+                            )
+            ).exec(http("registerDomain status").get(Constants.URL_STATUS).check(status().is(200)));
+
+    public static ChainBuilder txPostTransferAsset = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+            .exec(
+                    http("registerDomain transaction")
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
+                                    }
+                            ).body(ByteArrayBody(session -> {
+                                                return SignedTransaction.Companion.encode(
+                                                        TransactionBuilder.Companion.builder()
+                                                                .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                                                                .chainId(Constants.CHAIN_ID)
+                                                                .transferAsset(ExtensionsKt.asAssetId(session.getString("anotherDevAssetIdSender")),
+                                                                        1,
+                                                                        ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdReceiver"))
+                                                                )
                                                                 .buildSigned(Constants.ALICE_KEYPAIR));
                                             }
                                     )

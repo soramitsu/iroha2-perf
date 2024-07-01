@@ -16,9 +16,9 @@ import java.util.UUID;
 import static io.gatling.javaapi.core.CoreDsl.csv;
 
 public class Constants {
-    public static final String URL_QUERY = "/peer-2/query";
+    public static final String URL_QUERY = "query";
     public static final String URL_STATUS = "/peer-2/status";
-    public static final String URL_TRANSACTION = "/peer-2/api/transaction";
+    public static final String URL_TRANSACTION = "api/transaction";
     public static final String DEFAULT_DOMAIN = "wonderland";
     public static final String ALICE_ACCOUNT = "alice";
     public static final String BOB_ACCOUNT = "bob";

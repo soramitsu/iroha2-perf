@@ -16,7 +16,7 @@ public class Queries extends Constants {
     public static ChainBuilder queryPostFindAllDomains = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(http("findAllDomains query")
                     .post(session -> {
-                        return session.getString("peer") + "query";
+                        return session.getString("peer") + URL_QUERY;
                     })
                     .body(ByteArrayBody(session -> {
                         return SignedQuery.Companion.encode(QueryBuilder
@@ -30,7 +30,7 @@ public class Queries extends Constants {
             .exec(
                     http("findAccountsByDomainId query")
                             .post(session -> {
-                                        return session.getString("peer") + "query";
+                                        return session.getString("peer") + URL_QUERY;
                                     }
                             )
                             .body(ByteArrayBody(session -> {
@@ -46,7 +46,7 @@ public class Queries extends Constants {
             .exec(
                     http("findAllAssets query")
                             .post(session -> {
-                                        return session.getString("peer") + "query";
+                                        return session.getString("peer") + URL_QUERY;
                                     }
                             )
                             .body(ByteArrayBody(session -> {
@@ -61,7 +61,7 @@ public class Queries extends Constants {
             .exec(
                     http("findAllTransactions query")
                             .post(session -> {
-                                        return session.getString("peer") + "query";
+                                        return session.getString("peer") + URL_QUERY;
                                     }
                             )
                             .body(ByteArrayBody(session -> {
