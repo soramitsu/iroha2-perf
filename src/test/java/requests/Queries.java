@@ -13,6 +13,12 @@ import static io.gatling.javaapi.http.HttpDsl.status;
 
 public class Queries extends Constants {
 
+    public static ChainBuilder healthCheck = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+            .exec(http("health check")
+                    .get(session -> {
+                        return session.getString("peer") + "health";
+                    }));
+
     public static ChainBuilder queryPostFindAllDomains = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(http("findAllDomains query")
                     .post(session -> {
@@ -39,7 +45,6 @@ public class Queries extends Constants {
                                         .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
                                         .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
                             }))
-
             );
 
     public static ChainBuilder queryPostFindAllAssets = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
