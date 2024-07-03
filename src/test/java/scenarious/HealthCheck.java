@@ -11,8 +11,7 @@ public class HealthCheck {
 
     //./mvnw gatling:test -DtargetURL=https://iroha2.test2.tachi.soramitsu.co.jp -DremoteLogin=iroha2-test -DremotePassword=7kUHkgq30JBeVyJVZ4Z1wbGBP3vah3 -Dintensity=450 -DrampDuration=120 -DmaxDuration=120
 
-
-    public static ScenarioBuilder generalQueries = scenario("general queries")
+    public static ScenarioBuilder healthCheck = scenario("health check")
             .feed(csv("preconditionList.csv").circular())
             .exec(
                     Queries.healthCheck,
