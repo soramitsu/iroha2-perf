@@ -12,9 +12,9 @@ import static io.gatling.javaapi.http.HttpDsl.status;
 
 public class Transactions extends Constants {
 
-    public static ChainBuilder txPostRegisterDomain = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+    public static ChainBuilder postRegisterDomain = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
-                    http("registerDomain transaction")
+                    http("tx_register_domain")
                             .post(session -> {
                                         return session.getString("peer") + Constants.URL_TRANSACTION;
                                     }
@@ -29,11 +29,11 @@ public class Transactions extends Constants {
                                             }
                                     )
                             )
-            ).exec(http("registerDomain status").get(Constants.URL_STATUS).check(status().is(200)));
+            ).exec(http("tx_register_domain_status").get(Constants.URL_STATUS).check(status().is(200)));
 
-    public static ChainBuilder txPostTransferAsset = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+    public static ChainBuilder postTransferAsset = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
-                    http("registerDomain transaction")
+                    http("tx_transfer_asset")
                             .post(session -> {
                                         return session.getString("peer") + Constants.URL_TRANSACTION;
                                     }
@@ -50,5 +50,5 @@ public class Transactions extends Constants {
                                             }
                                     )
                             )
-            ).exec(http("registerDomain status").get(Constants.URL_STATUS).check(status().is(200)));
+            ).exec(http("tx_transfer_asset_status").get(Constants.URL_STATUS).check(status().is(200)));
 }
