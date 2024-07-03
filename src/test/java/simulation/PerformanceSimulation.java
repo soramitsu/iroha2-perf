@@ -8,6 +8,6 @@ import static scenarious.GeneralQueries.generalQueries;
 
 public class PerformanceSimulation extends Simulation {
     {
-        setUp(generalQueries.injectOpen(LoadProfile.getMaxPerformance()).protocols(httpProtocol));
+        setUp(generalQueries.injectOpen(LoadProfile.getMaxPerformanceOpenProfile()).protocols(httpProtocol)).maxDuration(Long.parseLong(System.getProperty("maxDuration")));
     }
 }
