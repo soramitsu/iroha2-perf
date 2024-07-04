@@ -2,8 +2,7 @@ package Configs;
 
 import io.gatling.javaapi.core.OpenInjectionStep;
 
-import static io.gatling.javaapi.core.CoreDsl.incrementUsersPerSec;
-import static io.gatling.javaapi.core.CoreDsl.rampUsers;
+import static io.gatling.javaapi.core.CoreDsl.*;
 
 public class LoadProfile {
     public static OpenInjectionStep getMaxPerformanceOpenProfile() {
@@ -14,8 +13,10 @@ public class LoadProfile {
                 .startingFrom(Integer.parseInt(System.getProperty("startingFrom")));//20
     }
 
-    public static OpenInjectionStep getMaxPerformance() {
-        return rampUsers(Integer.parseInt(System.getProperty("intensity")))
-                .during(Long.parseLong(System.getProperty("rampDuration")));
+    public static OpenInjectionStep[] getMaxPerformance() {
+        return new OpenInjectionStep[]{
+                rampUsers(Integer.parseInt(System.getProperty("intensity"))).during(Long.parseLong(System.getProperty("rampDuration")))
+                , constantUsersPerSec(Integer.parseInt(System.getProperty("intensity"))).during(Long.parseLong(System.getProperty("maxDuration")) - Long.parseLong(System.getProperty("rampDuration")))
+        };
     }
 }

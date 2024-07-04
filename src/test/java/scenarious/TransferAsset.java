@@ -11,6 +11,7 @@ public class TransferAsset {
     public static ScenarioBuilder transferAsset = scenario("transfer asset")
             .feed(csv("preconditionList.csv").circular())
             .exec(
+                    Transactions.postTransferAsset/*,
                     Transactions.postTransferAsset,
                     Transactions.postTransferAsset,
                     Transactions.postTransferAsset,
@@ -909,7 +910,6 @@ public class TransferAsset {
                     Transactions.postTransferAsset,
                     Transactions.postTransferAsset,
                     Transactions.postTransferAsset,
-                    Transactions.postTransferAsset,
-                    Transactions.postTransferAsset
+                    Transactions.postTransferAsset*/
             );
 }
