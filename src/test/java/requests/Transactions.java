@@ -29,7 +29,7 @@ public class Transactions extends Constants {
                                             }
                                     )
                             )
-            );
+            ).exec(http("tx_register_domain_status").get(Constants.URL_STATUS).check(status().is(200)));;
 
     public static ChainBuilder postTransferAsset = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
@@ -50,5 +50,5 @@ public class Transactions extends Constants {
                                             }
                                     )
                             )
-            );
+            ).exec(http("tx_register_domain_status").get(Constants.URL_STATUS).check(status().is(200)));
 }
