@@ -12,9 +12,7 @@ public class TransferAsset {
             .feed(csv("preconditionList.csv").circular())
             .exec(
                     Transactions.postTransferAsset/*,
-                    Transactions.postTransferAsset,
-                    Transactions.postTransferAsset,
-                    Transactions.postTransferAsset,
+
                     Transactions.postTransferAsset,
                     Transactions.postTransferAsset,
                     Transactions.postTransferAsset,
