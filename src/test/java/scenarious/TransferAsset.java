@@ -908,8 +908,6 @@ public class TransferAsset {
                     Transactions.postTransferAsset,
                     Transactions.postTransferAsset,
                     Transactions.postTransferAsset,
-                    Transactions.postTransferAsset,
-                    Transactions.postTransferAsset,
                     Transactions.postTransferAsset*/
             );
 }
