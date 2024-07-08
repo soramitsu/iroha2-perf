@@ -1,0 +1,512 @@
+{
+  "chain": "00000000-0000-0000-0000-000000000000",
+  "executor": "./executor.wasm",
+  "instructions": [
+    {
+      "Register": {
+        "Domain": {
+"id": "wonderland",
+"logo": null,
+"metadata": {
+"key": "value"
+}
+}
+}
+},
+{
+"Register": {
+"Domain": {
+"id": "garden_of_live_flowers",
+"logo": null,
+"metadata": {}
+}
+}
+},{
+"Register": {
+"Domain": {
+"id": "bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"logo": null,
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Domain": {
+"id": "bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"logo": null,
+"metadata": {
+"key": "value"
+}
+}
+}
+},    {
+      "Register": {
+        "Account": {
+"id": "ed0120CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland",
+"metadata": {
+"key": "value"
+}
+}
+}
+},
+{
+"Register": {
+"Account": {
+"id": "ed012004FF5B81046DDCCF19E2E451C45DFB6F53759D4EB30FA2EFA807284D1CC33016@wonderland",
+"metadata": {
+"key": "value"
+}
+}
+}
+},
+{
+"Register": {
+"Account": {
+"id": "ed0120c5e179d5adab18a9142106932a4d917581d24b23477d68be136320ec818a9ae2@bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed01203e12396e66e3baff677729af85013ed8f7f4a9e179eeadc636201eb4f8f126a3@bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed0120f47ea9e6fd551789f707819a9ab3c7d57283635802f607f7195e675b4f258979@bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed0120f3c17183f9779d7ce074577fd8d255590d0a217ba7d27552fd65f550c4bb5d90@bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed0120e656c1a2b9815ad99822880a1bed620a6dfce4782256cd4840abe99e33b2d7df@bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed012067dea86c07b3cadd79be71a8f7433a8296f17e2349337329e7f0e63effaa8d80@bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed012015ddab3bcb103f535db818fe671bdeb7081f39af9932634ff661bdc2bc48e87c@bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed0120303e5d04c6d8fe18b7c000f1822baa6a313cfbb6da1bd6c09ac22c502989fece@bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed0120e051d40f6a5ea38e33ef1389260a6658aede345d3eac7d63d36b259731c7b297@bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed01201ed55d499db981f81d5bf15fb2b9b37313b6865d6761545387f97996264e66aa@bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed0120806024465cdad7b18d99b042e03c8aa447670e342587a422f59d42005ce60f02@bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed0120c9deb0c41a6965ccf63684cb5f4e9ac79141d9cb4fa21e68f27b4010c8ce79a3@bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed012085e925973d0a80b8b598e9de84b3cf01ae998b385238e3cbcedf391ac6e18642@bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed012059cf58b56224f27bce5e68a9497ef8b59a3dfec2b4dd918da475ff2f2646ee43@bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed01206b5d9350f8e8f093204c6705716229dad37bc5d8c85976bf0efab53c2657524e@bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"metadata": {
+"key": "value"
+}
+}
+}
+},{
+"Register": {
+"Account": {
+"id": "ed012065d700957840e9525f588657166cffd1998e99390d70ababbc644a9d68693093@bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"metadata": {
+"key": "value"
+}
+}
+}
+},    {
+      "Register": {
+        "AssetDefinition": {
+"id": "rose#wonderland",
+"type_": "Numeric",
+"mintable": "Infinitely",
+"logo": null,
+"metadata": {}
+}
+}
+},
+{
+"Register": {
+"AssetDefinition": {
+"id": "cabbage#garden_of_live_flowers",
+"type_": "Numeric",
+"mintable": "Infinitely",
+"logo": null,
+"metadata": {}
+}
+}
+},
+{
+"Register": {
+"AssetDefinition": {
+"id": "xor711dc450-22b9-4808-9b1d-6c170bc33cb4_606324bf-9cd7-4a4d-89d3-cc6d70645abd#bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"type_": "Numeric",
+"mintable": "Infinitely",
+"logo": null,
+"metadata": {}
+}
+}
+},
+{
+"Register": {
+"AssetDefinition": {
+"id": "xor44e1160e-af9e-4cc6-9622-a12c5d427bac_8f3c14f3-02b4-41af-bf27-6454351732a4#bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"type_": "Numeric",
+"mintable": "Infinitely",
+"logo": null,
+"metadata": {}
+}
+}
+},
+{
+"Register": {
+"AssetDefinition": {
+"id": "xorb922a750-4dc7-4bb0-ace2-f9d1f27d3486_8b6502f7-114b-4f9b-b347-1a5eb74fa9dc#bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"type_": "Numeric",
+"mintable": "Infinitely",
+"logo": null,
+"metadata": {}
+}
+}
+},
+{
+"Register": {
+"AssetDefinition": {
+"id": "xor9119b8a9-4ebf-4072-8a29-c9d493210906_84d1f0e3-08f7-4e71-becb-c229bdf4857a#bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412",
+"type_": "Numeric",
+"mintable": "Infinitely",
+"logo": null,
+"metadata": {}
+}
+}
+},
+{
+"Register": {
+"AssetDefinition": {
+"id": "xord0bff90a-951b-4364-adcf-75b499bdc15d_d3787980-1dea-4c6e-9008-2e9b221945b0#bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"type_": "Numeric",
+"mintable": "Infinitely",
+"logo": null,
+"metadata": {}
+}
+}
+},
+{
+"Register": {
+"AssetDefinition": {
+"id": "xor576cb261-3525-4991-a8b5-caca6359007d_7e11cda8-ea87-4f53-b96f-f41e3b3981b7#bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"type_": "Numeric",
+"mintable": "Infinitely",
+"logo": null,
+"metadata": {}
+}
+}
+},
+{
+"Register": {
+"AssetDefinition": {
+"id": "xorb2199c4a-8264-4132-b999-e00b40292d24_b5432673-7a20-4fed-abd4-3ade11968979#bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"type_": "Numeric",
+"mintable": "Infinitely",
+"logo": null,
+"metadata": {}
+}
+}
+},
+{
+"Register": {
+"AssetDefinition": {
+"id": "xor91b492e7-c7c0-47a5-8740-da5da0941cf5_c6aee4f4-d2f8-4c56-8c98-a7fbfc63dc0f#bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859",
+"type_": "Numeric",
+"mintable": "Infinitely",
+"logo": null,
+"metadata": {}
+}
+}
+},
+    {
+      "Mint": {
+"Asset": {
+"object": "100000",
+"destination": "rose#wonderland#ed0120CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland"
+}
+}
+},
+{
+"Mint": {
+"Asset": {
+"object": "100000",
+"destination": "cabbage#garden_of_live_flowers#ed0120CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland"
+}
+}
+},
+{
+"Transfer": {
+"AssetDefinition": {
+"source": "ed01204164BF554923ECE1FD412D241036D863A6AE430476C898248B8237D77534CFC4@genesis",
+"object": "rose#wonderland",
+"destination": "ed0120CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland"
+}
+}
+},
+{
+"Transfer": {
+"Domain": {
+"source": "ed01204164BF554923ECE1FD412D241036D863A6AE430476C898248B8237D77534CFC4@genesis",
+"object": "wonderland",
+"destination": "ed0120CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland"
+}
+}
+},
+{
+"Grant": {
+"Permission": {
+"object": {
+"name": "CanSetParameters",
+"payload": null
+},
+"destination": "ed0120CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland"
+}
+}
+},
+{
+"Mint": {
+"Asset": {
+"object": "100000",
+"destination": "xor711dc450-22b9-4808-9b1d-6c170bc33cb4_606324bf-9cd7-4a4d-89d3-cc6d70645abd##ed0120c5e179d5adab18a9142106932a4d917581d24b23477d68be136320ec818a9ae2@bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412"
+}
+}
+},
+{
+"Mint": {
+"Asset": {
+"object": "100000",
+"destination": "xor44e1160e-af9e-4cc6-9622-a12c5d427bac_8f3c14f3-02b4-41af-bf27-6454351732a4##ed0120f47ea9e6fd551789f707819a9ab3c7d57283635802f607f7195e675b4f258979@bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412"
+}
+}
+},
+{
+"Mint": {
+"Asset": {
+"object": "100000",
+"destination": "xorb922a750-4dc7-4bb0-ace2-f9d1f27d3486_8b6502f7-114b-4f9b-b347-1a5eb74fa9dc##ed0120e656c1a2b9815ad99822880a1bed620a6dfce4782256cd4840abe99e33b2d7df@bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412"
+}
+}
+},
+{
+"Mint": {
+"Asset": {
+"object": "100000",
+"destination": "xor9119b8a9-4ebf-4072-8a29-c9d493210906_84d1f0e3-08f7-4e71-becb-c229bdf4857a##ed012015ddab3bcb103f535db818fe671bdeb7081f39af9932634ff661bdc2bc48e87c@bulb_f4fcab41-6893-45fd-a2a8-d5e5eacbad26_27e0d424-a64c-48ed-8dd1-ccc466d5d412"
+}
+}
+},
+{
+"Mint": {
+"Asset": {
+"object": "100000",
+"destination": "xord0bff90a-951b-4364-adcf-75b499bdc15d_d3787980-1dea-4c6e-9008-2e9b221945b0##ed0120e051d40f6a5ea38e33ef1389260a6658aede345d3eac7d63d36b259731c7b297@bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859"
+}
+}
+},
+{
+"Mint": {
+"Asset": {
+"object": "100000",
+"destination": "xor576cb261-3525-4991-a8b5-caca6359007d_7e11cda8-ea87-4f53-b96f-f41e3b3981b7##ed0120806024465cdad7b18d99b042e03c8aa447670e342587a422f59d42005ce60f02@bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859"
+}
+}
+},
+{
+"Mint": {
+"Asset": {
+"object": "100000",
+"destination": "xorb2199c4a-8264-4132-b999-e00b40292d24_b5432673-7a20-4fed-abd4-3ade11968979##ed012085e925973d0a80b8b598e9de84b3cf01ae998b385238e3cbcedf391ac6e18642@bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859"
+}
+}
+},
+{
+"Mint": {
+"Asset": {
+"object": "100000",
+"destination": "xor91b492e7-c7c0-47a5-8740-da5da0941cf5_c6aee4f4-d2f8-4c56-8c98-a7fbfc63dc0f##ed01206b5d9350f8e8f093204c6705716229dad37bc5d8c85976bf0efab53c2657524e@bulb_41796e28-b3f9-4045-9e89-cb706711c7da_9a3ea05a-aa13-475b-82e9-f78aee218859"
+}
+}
+},{
+"SetParameter": {
+"Block": {
+"MaxTransactions": 20
+}
+}
+},
+{
+"SetParameter": {
+"Sumeragi": {
+"BlockTimeMs": 2000
+}
+}
+},
+{
+"SetParameter": {
+"Sumeragi": {
+"CommitTimeMs": 2000
+}
+}
+},
+{
+"SetParameter": {
+"Transaction": {
+"MaxInstructions": 4096
+}
+}
+},
+{
+"SetParameter": {
+"Transaction": {
+"SmartContractSize": 4194304
+}
+}
+},
+{
+"SetParameter": {
+"Executor": {
+"Fuel": 5524288000000
+}
+}
+},
+{
+"SetParameter": {
+"Executor": {
+"Memory": 4294967295
+}
+}
+},
+{
+"SetParameter": {
+"SmartContract": {
+"Fuel": 55000000
+}
+}
+},
+{
+"SetParameter": {
+"SmartContract": {
+"Memory": 524288000
+}
+}
+},
+{
+"Register": {
+"Role": {
+"id": "ALICE_METADATA_ACCESS",
+"permissions": [
+{
+"name": "CanRemoveKeyValueInAccount",
+"payload": {
+"account": "ed0120CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland"
+}
+},
+{
+"name": "CanSetKeyValueInAccount",
+"payload": {
+"account": "ed0120CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland"
+}
+}
+]
+}
+}
+}
+],
+"topology": []
+}
