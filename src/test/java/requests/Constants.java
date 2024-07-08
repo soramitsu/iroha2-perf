@@ -23,7 +23,7 @@ public class Constants {
     public static final String ALICE_ACCOUNT = "alice";
     public static final String BOB_ACCOUNT = "bob";
     public static final String GENESIS = "genesis";
-    public static final String ALICE_ACCOUNT_ID_VALUE = "alice@wonderland";
+    public static final String ALICE_ACCOUNT_ID_VALUE = "7233bfc89dcbd68c19fde6ce6158225298ec1131b6a130d1aeb454c1ab5183c0@wonderland";
     public static final AccountId ALICE_ACCOUNT_ID = ExtensionsKt.asAccountId(ALICE_ACCOUNT_ID_VALUE);
     public static final DomainId WONDERLAND_DOMAIN_ID = ExtensionsKt.asDomainId(DEFAULT_DOMAIN);
     public static final KeyPair ALICE_KEYPAIR = CryptoUtils.keyPairFromHex(
