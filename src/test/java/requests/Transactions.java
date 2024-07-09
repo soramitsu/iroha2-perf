@@ -28,9 +28,32 @@ public class Transactions extends Constants {
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
                                                                 .chainId(Constants.CHAIN_ID)
                                                                 .registerAssetDefinition(
-                                                                        ExtensionsKt.asAssetDefinitionId(session.getString("domainIdSender")),
+                                                                        ExtensionsKt.asAssetDefinitionId("performance_token_#" + session.getString("domainIdSender")),
                                                                         new AssetType.Numeric(new NumericSpec())
                                                                 )
+                                                                .buildSigned(CryptoUtils.keyPairFromHex(
+                                                                        session.getString("publicKeySender"),
+                                                                        session.getString("privateKeySender")))
+                                                );
+                                            }
+                                    )
+                            )
+            ).exec(http("tx_register_definition_id_status").get(Constants.URL_STATUS).check(status().is(200)));
+
+    //TODO: special genesis with 500000 definitionId include 10 assets, object 50000
+    public static ChainBuilder postUnregisterDefinitionId = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+            .exec(
+                    http("tx_register_definition_id")
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
+                                    }
+                            )
+                            .body(ByteArrayBody(session -> {
+                                                return SignedTransaction.Companion.encode(
+                                                        TransactionBuilder.Companion.builder()
+                                                                .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                                                                .chainId(Constants.CHAIN_ID)
+                                                                .unregisterAssetDefinition(ExtensionsKt.asAssetDefinitionId("performance_token_#" + session.getString("domainIdSender"))                                                                )
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
                                                                         session.getString("publicKeySender"),
                                                                         session.getString("privateKeySender")))

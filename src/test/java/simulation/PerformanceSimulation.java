@@ -7,6 +7,7 @@ import static Configs.Protocol.httpProtocol;
 import static scenarious.GeneralQueries.*;
 import static scenarious.HealthCheck.*;
 import static scenarious.DefinitionId.*;
+import static scenarious.TransferAsset.*;
 
 public class PerformanceSimulation extends Simulation {
     {
