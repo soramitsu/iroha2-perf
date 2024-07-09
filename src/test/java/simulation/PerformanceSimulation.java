@@ -4,12 +4,12 @@ import Configs.LoadProfile;
 import io.gatling.javaapi.core.Simulation;
 
 import static Configs.Protocol.httpProtocol;
-import static scenarious.GeneralQueries.generalQueries;
-import static scenarious.HealthCheck.healthCheck;
-import static scenarious.TransferAsset.transferAsset;
+import static scenarious.GeneralQueries.*;
+import static scenarious.HealthCheck.*;
+import static scenarious.DefinitionId.*;
 
 public class PerformanceSimulation extends Simulation {
     {
-        setUp(transferAsset.injectOpen(LoadProfile.getMaxPerformance()).protocols(httpProtocol)).maxDuration(Long.parseLong(System.getProperty("maxDuration")));
+        setUp(definitionId.injectOpen(LoadProfile.getMaxPerformance()).protocols(httpProtocol)).maxDuration(Long.parseLong(System.getProperty("maxDuration")));
     }
 }
