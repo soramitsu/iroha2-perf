@@ -1,6 +1,7 @@
 package requests;
 
 import io.gatling.javaapi.core.ChainBuilder;
+import jp.co.soramitsu.iroha2.CryptoUtils;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.generated.SignedQuery;
 import jp.co.soramitsu.iroha2.query.QueryBuilder;
@@ -28,7 +29,10 @@ public class Queries extends Constants {
                         return SignedQuery.Companion.encode(QueryBuilder
                                 .findAllDomains()
                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
+                                .buildSigned(CryptoUtils.keyPairFromHex(
+                                        session.getString("publicKeySender"),
+                                        session.getString("privateKeySender")))
+                                .getQuery());
                     }))
             );
 
@@ -43,7 +47,10 @@ public class Queries extends Constants {
                                 return SignedQuery.Companion.encode(QueryBuilder
                                         .findAccountsByDomainId(ExtensionsKt.asDomainId(session.getString("domainIdSender")))
                                         .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                        .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
+                                        .buildSigned(CryptoUtils.keyPairFromHex(
+                                                session.getString("publicKeySender"),
+                                                session.getString("privateKeySender")))
+                                        .getQuery());
                             }))
             );
 
@@ -58,7 +65,10 @@ public class Queries extends Constants {
                                 return SignedQuery.Companion.encode(QueryBuilder
                                         .findAllAssets()
                                         .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                        .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
+                                        .buildSigned(CryptoUtils.keyPairFromHex(
+                                                session.getString("publicKeySender"),
+                                                session.getString("privateKeySender")))
+                                        .getQuery());
                             }))
             );
 
@@ -73,7 +83,10 @@ public class Queries extends Constants {
                                 return SignedQuery.Companion.encode(QueryBuilder
                                         .findAllTransactions(null)
                                         .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender}")))
-                                        .buildSigned(Constants.ALICE_KEYPAIR).getQuery());
+                                        .buildSigned(CryptoUtils.keyPairFromHex(
+                                                session.getString("publicKeySender"),
+                                                session.getString("privateKeySender")))
+                                        .getQuery());
                             }))
             );
 }

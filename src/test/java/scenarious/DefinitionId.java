@@ -11,6 +11,5 @@ public class DefinitionId {
             .feed(csv("preconditionList.csv").circular())
             .exec(
                     Transactions.postRegisterDefinitionId
-
             );
 }
