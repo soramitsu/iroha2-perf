@@ -78,10 +78,10 @@
 				<artifactId>gatling-maven-plugin</artifactId>
 				<version>${gatling-maven-plugin.version}</version>
 				<configuration>
-					<overrideJvmArgs>
+					<jvmArgs>
 						<arg>-Xms25600m</arg>
 						<arg>-Xmx25600m</arg>
-					</overrideJvmArgs>
+					</jvmArgs>
 				</configuration>
 			</plugin>
 			<plugin>
