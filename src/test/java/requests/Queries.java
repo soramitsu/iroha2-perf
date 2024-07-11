@@ -82,7 +82,7 @@ public class Queries extends Constants {
                             .body(ByteArrayBody(session -> {
                                 return SignedQuery.Companion.encode(QueryBuilder
                                         .findAllTransactions(null)
-                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender}")))
+                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
                                         .buildSigned(CryptoUtils.keyPairFromHex(
                                                 session.getString("publicKeySender"),
                                                 session.getString("privateKeySender")))
