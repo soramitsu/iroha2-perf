@@ -11,7 +11,8 @@ import jp.co.soramitsu.iroha2.transaction.TransactionBuilder;
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
 import static io.gatling.javaapi.http.HttpDsl.status;
-
+import static requests.Constants.CSV_FEEDER;
+import static requests.Constants.PEERS_FEEDER;
 
 public class Transactions extends Constants {
 
@@ -53,7 +54,7 @@ public class Transactions extends Constants {
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
                                                                 .chainId(Constants.CHAIN_ID)
-                                                                .unregisterAssetDefinition(ExtensionsKt.asAssetDefinitionId("performance_token_#" + session.getString("domainIdSender"))                                                                )
+                                                                .unregisterAssetDefinition(ExtensionsKt.asAssetDefinitionId("performance_token_#" + session.getString("domainIdSender")))
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
                                                                         session.getString("publicKeySender"),
                                                                         session.getString("privateKeySender")))
@@ -103,18 +104,32 @@ public class Transactions extends Constants {
                                                                         session.getString("publicKeySender"),
                                                                         session.getString("privateKeySender")
                                                                 ))
-                                                        /*TransactionBuilder.Companion.builder()
-                                                                .account(ExtensionsKt.asAccountId("CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland"))
-                                                                .chainId(Constants.CHAIN_ID)
-                                                                .transferAsset(ExtensionsKt.asAssetId("rose#wonderland#CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland"),
-                                                                        1,
-                                                                        ExtensionsKt.asAccountId("04FF5B81046DDCCF19E2E451C45DFB6F53759D4EB30FA2EFA807284D1CC33016@wonderland"))
-                                                                .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        "7233bfc89dcbd68c19fde6ce6158225298ec1131b6a130d1aeb454c1ab5183c0",
-                                                                        "9ac47abf59b356e0bd7dcbbbb4dec080e302156a48ca907e47cb6aea1d32719e"))*/
                                                 );
                                             }
                                     )
                             )
             ).exec(http("tx_register_domain_status").get(Constants.URL_STATUS).check(status().is(200)));
+
+    public static ChainBuilder debuggingPostTransferAsset = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+            .exec(
+                    http("debugging_tx_transfer_asset")
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
+                                    }
+                            ).body(ByteArrayBody(session -> {
+                                                return SignedTransaction.Companion.encode(
+                                                        TransactionBuilder.Companion.builder()
+                                                                .account(ExtensionsKt.asAccountId("b24ff6ab1e5923f125d7f4eb0c62528eb6b8e84139e17fb377e2bd5fc1498b19@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"))
+                                                                .chainId(Constants.CHAIN_ID)
+                                                                /* drop ed0120*/.transferAsset(ExtensionsKt.asAssetId("xora08da796-bca3-475f-bf94-30cc918ef69b_c687b817-3a68-4848-81bc-d4915801cee1##b24ff6ab1e5923f125d7f4eb0c62528eb6b8e84139e17fb377e2bd5fc1498b19@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"),
+                                                                        1,
+                                                                        /*drop ed0120*/ExtensionsKt.asAccountId("7d5ad42de2c9c7f4b1faa7e12a9fc58d831189a59ad60daa6a3a88af9dc2a2e2@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"))
+                                                                .buildSigned(CryptoUtils.keyPairFromHex(
+                                                                        "b24ff6ab1e5923f125d7f4eb0c62528eb6b8e84139e17fb377e2bd5fc1498b19",
+                                                                        "272d70e7efbee4f4c9bc61a2b30deb43194ac1b5e18d06fbba0374d3505c36c8"))
+                                            );
+                                            }
+                                    )
+                            )
+            ).exec(http("debugging_tx_register_domain_status").get(Constants.URL_STATUS).check(status().is(200)));
 }
