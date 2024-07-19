@@ -4,17 +4,17 @@
   "parameters": [
     {
       "Sumeragi": {
-        "BlockTimeMs": 500
+        "BlockTimeMs": 100
       }
     },
     {
       "Sumeragi": {
-        "CommitTimeMs": 1000
+        "CommitTimeMs": 150
       }
     },
     {
       "Block": {
-        "MaxTransactions": 600
+        "MaxTransactions": 80
       }
     },
     {
