@@ -11,6 +11,6 @@ import static scenarious.TransferAsset.*;
 
 public class PerformanceSimulation extends Simulation {
     {
-        setUp(transferAsset.injectOpen(LoadProfile.getMaxPerformanceOpenProfile()).protocols(httpProtocol)).maxDuration(Long.parseLong(System.getProperty("maxDuration")));
+        setUp(findAllAccounts.injectOpen(LoadProfile.getMaxPerformance()).protocols(httpProtocol)).maxDuration(Long.parseLong(System.getProperty("maxDuration")));
     }
 }

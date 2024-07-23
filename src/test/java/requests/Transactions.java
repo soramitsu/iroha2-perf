@@ -96,6 +96,7 @@ public class Transactions extends Constants {
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("anotherDevAssetIdSender")),
                                                                         1,
                                                                         ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdReceiver")))
+
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
                                                                         session.getString("publicKeySender"),
                                                                         session.getString("privateKeySender")
