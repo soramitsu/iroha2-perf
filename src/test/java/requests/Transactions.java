@@ -6,6 +6,8 @@ import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.generated.*;
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder;
 
+import java.math.BigInteger;
+
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
 import static io.gatling.javaapi.http.HttpDsl.status;
@@ -36,6 +38,155 @@ public class Transactions extends Constants {
                                     )
                             )
             ).exec(http("tx_register_definition_id_status").get(Constants.URL_STATUS).check(status().is(200)));
+
+    public static ChainBuilder postMultiInstructions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+            .exec(
+                    http("tx_register_definition_id")
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
+                                    }
+                            )
+                            .body(ByteArrayBody(session -> {
+                                                return SignedTransaction.Companion.encode(
+                                                        TransactionBuilder.Companion.builder()
+                                                                .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                                                                .chainId(Constants.CHAIN_ID)
+                                                                .registerDomain(ExtensionsKt.asDomainId("DOMAIN_ID_0"))
+                                                                .registerDomain(ExtensionsKt.asDomainId("DOMAIN_ID_1"))
+                                                                .registerDomain(ExtensionsKt.asDomainId("DOMAIN_ID_2"))
+
+                                                                /*
+                                                                domainId
+                                                                assetDefinitionId
+                                                                accountIdSender
+                                                                accountIdReceiver
+                                                                assetId
+                                                                */
+
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId("performance_token_for_domain_id_0#" + session.getString("domainIdSender")), new AssetType.Numeric(new NumericSpec()))
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId("performance_token_for_domain_id_1#" + session.getString("domainIdSender")), new AssetType.Numeric(new NumericSpec()))
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId("performance_token_for_domain_id_2#" + session.getString("domainIdSender")), new AssetType.Numeric(new NumericSpec()))
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId("performance_token_for_domain_id_2_ONE_MORE#" + session.getString("domainIdSender")), new AssetType.Numeric(new NumericSpec()))
+
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_0_@_DOMAIN_ID_0"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_1_@_DOMAIN_ID_0"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_2_@_DOMAIN_ID_0"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_3_@_DOMAIN_ID_0"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_4_@_DOMAIN_ID_0"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_5_@_DOMAIN_ID_0"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_0_@_DOMAIN_ID_1"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_1_@_DOMAIN_ID_1"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_2_@_DOMAIN_ID_1"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_3_@_DOMAIN_ID_1"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_4_@_DOMAIN_ID_1"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_5_@_DOMAIN_ID_1"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_0_@_DOMAIN_ID_2"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_1_@_DOMAIN_ID_2"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_2_@_DOMAIN_ID_2"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_3_@_DOMAIN_ID_2"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_4_@_DOMAIN_ID_2"))
+                                                                .registerAccount(ExtensionsKt.asAccountId("USER_ID_5_@_DOMAIN_ID_2"))
+
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_0_@_DOMAIN_ID_0"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_1_@_DOMAIN_ID_0"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_2_@_DOMAIN_ID_0"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_3_@_DOMAIN_ID_0"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_4_@_DOMAIN_ID_0"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_5_@_DOMAIN_ID_0"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_0_@_DOMAIN_ID_1"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_1_@_DOMAIN_ID_1"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_2_@_DOMAIN_ID_1"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_3_@_DOMAIN_ID_1"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_4_@_DOMAIN_ID_1"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_5_@_DOMAIN_ID_1"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_0_@_DOMAIN_ID_2"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_1_@_DOMAIN_ID_2"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_2_@_DOMAIN_ID_2"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_3_@_DOMAIN_ID_2"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_4_@_DOMAIN_ID_2"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_5_@_DOMAIN_ID_2"), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_0_@_DOMAIN_ID_0"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_1_@_DOMAIN_ID_0"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_2_@_DOMAIN_ID_0"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_3_@_DOMAIN_ID_0"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_4_@_DOMAIN_ID_0"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_5_@_DOMAIN_ID_0"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_0_@_DOMAIN_ID_1"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_1_@_DOMAIN_ID_1"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_2_@_DOMAIN_ID_1"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_3_@_DOMAIN_ID_1"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_4_@_DOMAIN_ID_1"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_5_@_DOMAIN_ID_1"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_0_@_DOMAIN_ID_2"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_1_@_DOMAIN_ID_2"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_2_@_DOMAIN_ID_2"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_3_@_DOMAIN_ID_2"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_4_@_DOMAIN_ID_2"), 100)
+                                                                .mintAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_5_@_DOMAIN_ID_2"), 100)
+
+                                                                .transferAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_0_@_DOMAIN_ID_0"), 1, ExtensionsKt.asAccountId("perf_asset_id_#_USER_ID_1_@_DOMAIN_ID_0"))
+                                                                .burnAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_0_@_DOMAIN_ID_0"), 1)
+
+                                                                .transferAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_2_@_DOMAIN_ID_0"), 1, ExtensionsKt.asAccountId("perf_asset_id_#_USER_ID_3_@_DOMAIN_ID_0"))
+                                                                .burnAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_2_@_DOMAIN_ID_0"), 1)
+
+                                                                .transferAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_4_@_DOMAIN_ID_0"), 1, ExtensionsKt.asAccountId("perf_asset_id_#_USER_ID_5_@_DOMAIN_ID_0"))
+                                                                .burnAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_4_@_DOMAIN_ID_0"), 1)
+
+                                                                .transferAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_0_@_DOMAIN_ID_1"), 1, ExtensionsKt.asAccountId("perf_asset_id_#_USER_ID_1_@_DOMAIN_ID_1"))
+                                                                .burnAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_0_@_DOMAIN_ID_1"), 1)
+
+                                                                .transferAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_2_@_DOMAIN_ID_1"), 1, ExtensionsKt.asAccountId("perf_asset_id_#_USER_ID_3_@_DOMAIN_ID_1"))
+                                                                .burnAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_2_@_DOMAIN_ID_1"), 1)
+
+                                                                .transferAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_4_@_DOMAIN_ID_1"), 1, ExtensionsKt.asAccountId("perf_asset_id_#_USER_ID_5_@_DOMAIN_ID_1"))
+                                                                .burnAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_4_@_DOMAIN_ID_1"), 1)
+
+                                                                .transferAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_0_@_DOMAIN_ID_2"), 1, ExtensionsKt.asAccountId("perf_asset_id_#_USER_ID_1_@_DOMAIN_ID_2"))
+                                                                .burnAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_0_@_DOMAIN_ID_2"), 1)
+
+                                                                .transferAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_2_@_DOMAIN_ID_2"), 1, ExtensionsKt.asAccountId("perf_asset_id_#_USER_ID_3_@_DOMAIN_ID_2"))
+                                                                .burnAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_2_@_DOMAIN_ID_2"), 1)
+
+                                                                .transferAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_4_@_DOMAIN_ID_2"), 1, ExtensionsKt.asAccountId("perf_asset_id_#_USER_ID_5_@_DOMAIN_ID_2"))
+                                                                .burnAsset(ExtensionsKt.asAssetId("perf_asset_id_#_USER_ID_4_@_DOMAIN_ID_2"), 1)
+
+                                                                .buildSigned(CryptoUtils.keyPairFromHex(
+                                                                        session.getString("publicKeySender"),
+                                                                        session.getString("privateKeySender"))));
+                                            }
+                                    )
+                            )
+            ).exec(http("tx_register_definition_id_status").get(Constants.URL_STATUS).check(status().is(200)));
+
+
+    public static ChainBuilder postRevertWorldViewMultiInstructions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+            .exec(
+                    http("tx_register_definition_id")
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
+                                    }
+                            )
+                            .body(ByteArrayBody(session -> {
+                                                return SignedTransaction.Companion.encode(
+                                                        TransactionBuilder.Companion.builder()
+                                                                .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                                                                .chainId(Constants.CHAIN_ID)
+
+                                                                .unregisterDomain(ExtensionsKt.asDomainId("DOMAIN_ID_0"))
+                                                                .unregisterDomain(ExtensionsKt.asDomainId("DOMAIN_ID_1"))
+                                                                .unregisterDomain(ExtensionsKt.asDomainId("DOMAIN_ID_2"))
+
+                                                                .buildSigned(CryptoUtils.keyPairFromHex(
+                                                                        session.getString("publicKeySender"),
+                                                                        session.getString("privateKeySender")))
+                                                );
+                                            }
+                                    )
+                            )
+            ).exec(http("tx_register_definition_id_status").get(Constants.URL_STATUS).check(status().is(200)));
+
 
     //TODO: special genesis with 500000 definitionId include 10 assets, object 50000
     public static ChainBuilder postUnregisterDefinitionId = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
@@ -96,7 +247,6 @@ public class Transactions extends Constants {
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("anotherDevAssetIdSender")),
                                                                         1,
                                                                         ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdReceiver")))
-
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
                                                                         session.getString("publicKeySender"),
                                                                         session.getString("privateKeySender")
@@ -116,15 +266,15 @@ public class Transactions extends Constants {
                             ).body(ByteArrayBody(session -> {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
-                                                                /*crypto*/.account(ExtensionsKt.asAccountId("b24ff6ab1e5923f125d7f4eb0c62528eb6b8e84139e17fb377e2bd5fc1498b19@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"))
+                                                                .account(ExtensionsKt.asAccountId("b24ff6ab1e5923f125d7f4eb0c62528eb6b8e84139e17fb377e2bd5fc1498b19@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"))
                                                                 .chainId(Constants.CHAIN_ID)
-                                                                /* drop ed0120*/.transferAsset(ExtensionsKt.asAssetId("xora08da796-bca3-475f-bf94-30cc918ef69b_c687b817-3a68-4848-81bc-d4915801cee1##b24ff6ab1e5923f125d7f4eb0c62528eb6b8e84139e17fb377e2bd5fc1498b19@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"),
+                                                                .transferAsset(ExtensionsKt.asAssetId("xora08da796-bca3-475f-bf94-30cc918ef69b_c687b817-3a68-4848-81bc-d4915801cee1##b24ff6ab1e5923f125d7f4eb0c62528eb6b8e84139e17fb377e2bd5fc1498b19@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"),
                                                                         1,
                                                                         /*drop ed0120*/ExtensionsKt.asAccountId("7d5ad42de2c9c7f4b1faa7e12a9fc58d831189a59ad60daa6a3a88af9dc2a2e2@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"))
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
                                                                         "b24ff6ab1e5923f125d7f4eb0c62528eb6b8e84139e17fb377e2bd5fc1498b19",
                                                                         "272d70e7efbee4f4c9bc61a2b30deb43194ac1b5e18d06fbba0374d3505c36c8"))
-                                            );
+                                                );
                                             }
                                     )
                             ).check(
