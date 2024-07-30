@@ -132,7 +132,7 @@ public class Transactions extends Constants {
                                             }
                                     )
                             )
-            )/*.exec(http("tx_multi_instruction_status").get(Constants.URL_STATUS).check(status().is(200)))*/;
+            ).exec(http("tx_multi_instruction_status").get(Constants.URL_STATUS).check(status().is(200)));
 
     public static ChainBuilder postRevertWorldViewMultiInstructions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
             .exec(
@@ -158,7 +158,7 @@ public class Transactions extends Constants {
                                             }
                                     )
                             )
-            )/*.exec(http("tx_unregister_domain_status").get(Constants.URL_STATUS).check(status().is(200)))*/;
+            ).exec(http("tx_unregister_domain_status").get(Constants.URL_STATUS).check(status().is(200)));
 
 
     //TODO: special genesis with 500000 definitionId include 10 assets, object 50000
