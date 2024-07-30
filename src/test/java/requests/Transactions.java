@@ -41,7 +41,7 @@ public class Transactions extends Constants {
 
     public static ChainBuilder postMultiInstructions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
             .exec(
-                    http("tx_register_definition_id")
+                    http("tx_multi_instruction")
                             .post(session -> {
                                         return session.getString("peer") + Constants.URL_TRANSACTION;
                                     }
@@ -57,8 +57,8 @@ public class Transactions extends Constants {
 
                                                                 .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_0")), new AssetType.Numeric(new NumericSpec()))
                                                                 .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_1")), new AssetType.Numeric(new NumericSpec()))
-                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2")), new AssetType.Numeric(new NumericSpec()))
-                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2")), new AssetType.Numeric(new NumericSpec()))
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_0")), new AssetType.Numeric(new NumericSpec()))
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_1")), new AssetType.Numeric(new NumericSpec()))
 
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_0")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_1")))
@@ -79,15 +79,15 @@ public class Transactions extends Constants {
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_7")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_8")))
 
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_2")), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_3")), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_4")), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_5")), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_6")), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_7")), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), new AssetValue.Numeric(new Numeric(BigInteger.valueOf(1000), 1000)))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_2")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_3")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_4")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_5")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_6")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_7")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
 
                                                                 .mintAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), 100)
                                                                 .mintAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), 100)
@@ -100,31 +100,31 @@ public class Transactions extends Constants {
                                                                 .mintAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), 100)
 
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), 1, ExtensionsKt.asAccountId(session.getString("accountIdReceiver_0")))
-                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("accountIdSender_0")), 1)
+                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), 1)
 
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), 1, ExtensionsKt.asAccountId(session.getString("accountIdReceiver_1")))
-                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("accountIdSender_1")), 1)
+                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), 1)
 
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("assetId_2")), 1, ExtensionsKt.asAccountId(session.getString("accountIdReceiver_2")))
-                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("accountIdSender_2")), 1)
+                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("assetId_2")), 1)
 
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("assetId_3")), 1, ExtensionsKt.asAccountId(session.getString("accountIdReceiver_3")))
-                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("accountIdSender_3")), 1)
+                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("assetId_3")), 1)
 
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("assetId_4")), 1, ExtensionsKt.asAccountId(session.getString("accountIdReceiver_4")))
-                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("accountIdSender_4")), 1)
+                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("assetId_4")), 1)
 
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("assetId_5")), 1, ExtensionsKt.asAccountId(session.getString("accountIdReceiver_5")))
-                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("accountIdSender_5")), 1)
+                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("assetId_5")), 1)
 
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("assetId_6")), 1, ExtensionsKt.asAccountId(session.getString("accountIdReceiver_6")))
-                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("accountIdSender_6")), 1)
+                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("assetId_6")), 1)
 
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("assetId_7")), 1, ExtensionsKt.asAccountId(session.getString("accountIdReceiver_7")))
-                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("accountIdSender_7")), 1)
+                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("assetId_7")), 1)
 
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), 1, ExtensionsKt.asAccountId(session.getString("accountIdReceiver_8")))
-                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("accountIdSender_8")), 1)
+                                                                .burnAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), 1)
 
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
                                                                         session.getString("publicKeySender"),
@@ -132,8 +132,7 @@ public class Transactions extends Constants {
                                             }
                                     )
                             )
-            ).exec(http("tx_register_definition_id_status").get(Constants.URL_STATUS).check(status().is(200)));
-
+            ).exec(http("tx_multi_instruction_status").get(Constants.URL_STATUS).check(status().is(200)));
 
     public static ChainBuilder postRevertWorldViewMultiInstructions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
             .exec(
