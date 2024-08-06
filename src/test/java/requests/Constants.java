@@ -17,7 +17,7 @@ import static io.gatling.javaapi.core.CoreDsl.csv;
 
 public class Constants {
     public static final String URL_QUERY = "query";
-    public static final String URL_STATUS = "/peer-2/status";
+    public static final String URL_STATUS = "status";
     public static final String URL_TRANSACTION = "api/transaction";
     public static final String DEFAULT_DOMAIN = "wonderland";
     public static final String ALICE_ACCOUNT = "alice";
