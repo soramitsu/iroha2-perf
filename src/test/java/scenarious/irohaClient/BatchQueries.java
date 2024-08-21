@@ -48,6 +48,40 @@ public class BatchQueries {
                     )
             );
 
+    public static ScenarioBuilder findAssetByIdClientMode = scenario("findAssetByIdClientMode")
+            .feed(csv("preconditionList.csv").circular()).feed(csv("peers.csv").circular())
+            .exec(session -> {
+                        try {
+                            client = builderAsyncClient(session.getString("peer"));
+                        } catch (MalformedURLException e) {
+                            throw new RuntimeException(e);
+                        }
+                        return session;
+                    }
+            ).repeat(10).on(
+                    CoreDsl.exec(session -> {
+                                try {
+                                    client.sendQueryAsCompletableFuture(buildFindAssetByIdQuery(session)).get();
+                                    return session;
+                                } catch (InterruptedException | ExecutionException e) {
+                                    e.printStackTrace();
+                                    e.getMessage();
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                    )
+            );
+
+    private static QueryAndExtractor<Asset> buildFindAssetByIdQuery (Session session) {
+        return QueryBuilder
+                .findAssetById(ExtensionsKt.asAssetId(session.getString("anotherDevAssetIdSender")))
+                .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                .buildSigned(CryptoUtils.keyPairFromHex(
+                        session.getString("publicKeySender"),
+                        session.getString("privateKeySender")
+                ));
+    }
+
     private static QueryAndExtractor<List<Asset>> buildFindAllAssetsQuery(Session session) {
         return QueryBuilder
                 .findAllAssets()
