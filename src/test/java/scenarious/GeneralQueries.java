@@ -10,7 +10,8 @@ public class GeneralQueries {
 
     public static ScenarioBuilder findAllAccounts = scenario("query find all accounts")
             .feed(csv("preconditionList.csv").circular())
-            .exec(Queries.queryPostFindAllAccounts);
+            //.exec(Queries.queryPostFindAllAccounts);
+            .exec(Queries.queryPostFindAllAssets);
 
     public static ScenarioBuilder generalQueries = scenario("general queries")
             .feed(csv("preconditionList.csv").circular())

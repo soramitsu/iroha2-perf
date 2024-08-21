@@ -183,7 +183,6 @@ public class Queries extends Constants {
                             }))
             );
 
-
     public static ChainBuilder queryPostFindAllAccounts = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAllAccounts")

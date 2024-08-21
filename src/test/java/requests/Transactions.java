@@ -228,7 +228,7 @@ public class Transactions extends Constants {
                                             }
                                     )
                             )
-            ).exec(http("tx_transfer_asset_status").get(Constants.URL_STATUS).check(status().is(200)));
+            ).exec(http("tx_transfer_asset_status").get( session -> {return session.getString("peer") + Constants.URL_STATUS;}).check(status().is(200)));
 
     public static ChainBuilder debuggingPostTransferAsset = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
