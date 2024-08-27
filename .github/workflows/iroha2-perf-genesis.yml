@@ -21,6 +21,6 @@ jobs:
           port: ${{ secrets.PORT }}
           key: ${{ secrets.KEY }}
           source: src/test/resources/iroha2_config/genesis.json
-          target: /home/jenkins
+          target: /opt
           strip_components: 4
           #overwrite: true
