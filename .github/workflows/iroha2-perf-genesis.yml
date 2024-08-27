@@ -13,16 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-    #   - name: copy file via ssh key
-    #     uses: appleboy/scp-action@master
-    #     with:
-    #       host: ${{ secrets.HOST }}
-    #       username: ${{ secrets.USERNAME }}
-    #       port: ${{ secrets.PORT }}
-    #       key: ${{ secrets.KEY }}
-    #       source: src/test/resources/iroha2_config/genesis.json
-    #       target: /home/vzyabkin/docker-share-files/shared-folder
-    #       strip_components: 4
-    #       overwrite: true
-      - name: native scp
-        run: scp -o StrictHostKeyChecking=no src/test/resources/iroha2_config/genesis.json vzyabkin@s2.dev.iroha2.iroha.tech:/home/vzyabkin
+      - name: copy file via ssh key
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.KEY }}
+          source: src/test/resources/iroha2_config/genesis.json
+          target: /home/vzyabkin/docker-share-files/shared-folder
+          strip_components: 4
+          overwrite: true
