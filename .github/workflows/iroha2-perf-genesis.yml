@@ -21,6 +21,6 @@ jobs:
           port: ${{ secrets.PORT }}
           key: ${{ secrets.KEY }}
           source: src/test/resources/iroha2_config/genesis.json
-          target: /home/vzyabkin/docker-share-files/shared-folder
+          target: /home/jenkins
           strip_components: 4
-          overwrite: true
+          #overwrite: true
