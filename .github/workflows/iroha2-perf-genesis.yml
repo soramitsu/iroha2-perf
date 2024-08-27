@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Copy to Remote Server
-        uses: pierrickdelrieu/scp-action@v0.1.0
+        uses: pierrickdelrieu/scp-action@v0.1.1
         with:
           host: ${{ secrets.HOST }}
           ssh_port: ${{ secrets.PORT }}
