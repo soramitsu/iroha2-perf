@@ -12,12 +12,12 @@ jobs:
   registry:
     runs-on: ubuntu-latest
     steps:
-      - name: copy file via ssh key
-        uses: appleboy/scp-action@v0.1.7
+      - name: Copy to Remote Server
+        uses: pierrickdelrieu/scp-action@v0.1.0
         with:
           host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.KEY }}
-          source: src/test/resources/iroha2_config/genesis.json
-          target: /home/vzyabkin/docker-share-files
+          ssh_port: ${{ secrets.PORT }}
+          ssh_username: ${{ secrets.USERNAME }}
+          ssh_key: ${{ secrets.KEY }}
+          source_dir: src/test/resources/iroha2_config
+          destination_dir: /home/vzyabkin/docker-share-files
