@@ -1,0 +1,23 @@
+name: I2-PERF::GENESIS
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [feature/DOPS-3319/genesis-external]
+
+jobs:
+  registry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: copy file via ssh key
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.KEY }}
+          source: src/test/resources/iroha2_config/genesis.json
+          target: /home/vzyabkin/docker-share-files
