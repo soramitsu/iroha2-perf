@@ -8,10 +8,14 @@ import requests.Queries;
 
 public class GeneralQueries {
 
-    public static ScenarioBuilder findAllAccounts = scenario("query find all accounts")
+    public static ScenarioBuilder generalLiteQueries = scenario("general queries")
             .feed(csv("preconditionList.csv").circular())
-            //.exec(Queries.queryPostFindAllAccounts);
-            .exec(Queries.queryPostFindAllAssets);
+            .repeat(10).on(
+                CoreDsl.exec(Queries.queryPostFindAssetById)
+                        .exec(Queries.queryPostFindAccountById)
+                        .exec(Queries.queryPostFindAssetQuantityById)
+            );
+
 
     public static ScenarioBuilder generalQueries = scenario("general queries")
             .feed(csv("preconditionList.csv").circular())
