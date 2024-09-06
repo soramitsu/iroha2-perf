@@ -100,7 +100,8 @@ public class BatchQueries {
         Iroha2AsyncClient client1 = new Iroha2AsyncClient(
                 irohaUrls,
                 true,
-                System.getProperty("remoteLogin") + ":" + System.getProperty("remotePassword"),
+                null,
+                /*System.getProperty("remoteLogin") + ":" + System.getProperty("remotePassword"),*/
                 1000);
 
         return client1;

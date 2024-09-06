@@ -1,3 +1,0 @@
-[chain_wide]
-executor_fuel_limit = 524288000000
-executor_max_memory = 4294967295
