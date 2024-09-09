@@ -36,14 +36,15 @@ public class BatchQueries {
                     }
             ).repeat(10).on(
                     CoreDsl.exec(session -> {
-                                try {
-                                    client.sendQueryAsCompletableFuture(buildFindAllAssetsQuery(session)).get();
+                                /*try {
+                                    //client.sendQueryAsCompletableFuture(buildFindAllAssetsQuery(session)).get();
                                     return session;
                                 } catch (InterruptedException | ExecutionException e) {
                                     e.printStackTrace();
                                     e.getMessage();
                                     throw new RuntimeException(e);
-                                }
+                                }*/
+                                return session;
                             }
                     )
             );
@@ -60,14 +61,15 @@ public class BatchQueries {
                     }
             ).repeat(10).on(
                     CoreDsl.exec(session -> {
-                                try {
+                                /*try {
                                     client.sendQueryAsCompletableFuture(buildFindAssetByIdQuery(session)).get();
                                     return session;
                                 } catch (InterruptedException | ExecutionException e) {
                                     e.printStackTrace();
                                     e.getMessage();
                                     throw new RuntimeException(e);
-                                }
+                                }*/
+                                return session;
                             }
                     )
             );
@@ -91,12 +93,10 @@ public class BatchQueries {
 
     private static Iroha2AsyncClient builderAsyncClient(String targetPeer) throws MalformedURLException {
         List<IrohaUrls> irohaUrls = new ArrayList<>();
-        irohaUrls.add(new IrohaUrls(
-                        new URL("https://iroha2.test.tachi.soramitsu.co.jp" + targetPeer),
-                        new URL("https://iroha2.test.tachi.soramitsu.co.jp"),
-                        new URL("https://iroha2.test.tachi.soramitsu.co.jp" + targetPeer)
-                )
-        );
+        irohaUrls.add(new IrohaUrls("https://iroha2.test.tachi.soramitsu.co.jp", targetPeer));
+        irohaUrls.add(new IrohaUrls("https://iroha2.test.tachi.soramitsu.co.jp", ""));
+        irohaUrls.add(new IrohaUrls("https://iroha2.test.tachi.soramitsu.co.jp", targetPeer));
+
         Iroha2AsyncClient client1 = new Iroha2AsyncClient(
                 irohaUrls,
                 true,

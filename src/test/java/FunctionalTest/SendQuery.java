@@ -18,7 +18,7 @@ public class SendQuery {
     //@Test
     public void findAllAssets() {
         Iroha2AsyncClient client;
-        try {
+        /*try {
             client = builderAsyncClient("/peer-0");
             QueryAndExtractor<List<Asset>> query = QueryBuilder
                     .findAllAssets()
@@ -28,17 +28,15 @@ public class SendQuery {
         } catch (MalformedURLException | InterruptedException | ExecutionException e) {
             System.out.println("EXEPTION: " + e.getMessage());
             throw new RuntimeException(e);
-        }
+        }*/
 
     }
 
     private Iroha2AsyncClient builderAsyncClient(String targetPeer) throws MalformedURLException {
         List<IrohaUrls> irohaUrls = new ArrayList<>();
-        irohaUrls.add(new IrohaUrls(
-                new URL("https://iroha2.test.tachi.soramitsu.co.jp" + targetPeer),
-                new URL("https://iroha2.test.tachi.soramitsu.co.jp"),
-                new URL("https://iroha2.test.tachi.soramitsu.co.jp" + targetPeer))
-        );
+        irohaUrls.add(new IrohaUrls("https://iroha2.test.tachi.soramitsu.co.jp", targetPeer));
+        irohaUrls.add(new IrohaUrls("https://iroha2.test.tachi.soramitsu.co.jp", ""));
+        irohaUrls.add(new IrohaUrls("https://iroha2.test.tachi.soramitsu.co.jp", targetPeer));
 
         return new Iroha2AsyncClient(
                 irohaUrls,
