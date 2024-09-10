@@ -11,4 +11,8 @@ public class GeneralTransaction {
             .feed(csv("preconditionList.csv").circular())
             .exec(Transactions.postRevertWorldViewMultiInstructions)
             .exec(Transactions.postMultiInstructions);
+
+    public static ScenarioBuilder txsTransferAsset = scenario("transfer asset")
+            .feed(csv("preconditionList.csv").circular())
+            .exec(Transactions.postTransferAsset);
 }
