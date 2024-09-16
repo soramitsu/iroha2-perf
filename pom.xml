@@ -59,12 +59,37 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.hyperledger.iroha-java</groupId>
+			<artifactId>block</artifactId>
+			<version>${iroha-java.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hyperledger.iroha-java</groupId>
+			<artifactId>codegen</artifactId>
+			<version>${iroha-java.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hyperledger.iroha-java</groupId>
+			<artifactId>client</artifactId>
+			<version>${iroha-java.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hyperledger.iroha-java</groupId>
 			<artifactId>admin-client</artifactId>
 			<version>${iroha-java.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.hyperledger.iroha-java</groupId>
+			<artifactId>tutorial</artifactId>
+			<version>${iroha-java.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hyperledger.iroha-java</groupId>
 			<artifactId>model</artifactId>
+			<version>${iroha-java.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.hyperledger.iroha-java</groupId>
+			<artifactId>test-tools</artifactId>
 			<version>${iroha-java.version}</version>
 		</dependency>
 	</dependencies>
