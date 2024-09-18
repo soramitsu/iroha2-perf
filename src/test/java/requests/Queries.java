@@ -1,6 +1,7 @@
 package requests;
 
 import io.gatling.javaapi.core.ChainBuilder;
+import javassist.bytecode.ByteArray;
 import jp.co.soramitsu.iroha2.CryptoUtils;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.generated.*;
@@ -8,8 +9,6 @@ import jp.co.soramitsu.iroha2.query.QueryAndExtractor;
 import jp.co.soramitsu.iroha2.query.QueryBuilder;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.ArrayList;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
@@ -197,9 +196,41 @@ public class Queries extends Constants {
             отправить дозапросы на эти батчи
     */
 
+    /*private static QueryAndExtractor queryFindAllAsset;
+    private static BatchedResponse responseDecoded;
+    private static byte[] response;
+
     public static ChainBuilder paginatedQueryPostFindAllAssets = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
-            .exec(
-                    http("findAllAssets")
+            .exec(session -> {
+                    ForwardCursor cursor = null;
+                    queryFindAllAsset = QueryBuilder
+                            .findAllAssets()
+                            .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                            .buildSigned(CryptoUtils.keyPairFromHex(
+                                    session.getString("publicKeySender"),
+                                    session.getString("privateKeySender")));
+                    return session;
+                    }
+            )
+            .exec(http("checkBatchesQuery")
+                    .post(session -> {
+                                return session.getString("peer") + URL_QUERY;
+                            }
+                    )
+                    .body(ByteArrayBody(session -> {
+                                         return SignedQuery.Companion.encode(queryFindAllAsset.getQuery());
+                                    }
+                            )
+                    //сохранил тело ответа как байт массив
+                    ).check(bodyBytes().saveAs("fullResponse")) // save id
+            )
+            .exec(session -> {
+                //реализовать работу с результатом предыдущего запроса
+
+                        return session;
+                    }
+            )
+            .exec(http("findAllAssets")
                             .post(session -> {
                                         return session.getString("peer") + URL_QUERY;
                                     }
@@ -212,6 +243,8 @@ public class Queries extends Constants {
                                                         .buildSigned(CryptoUtils.keyPairFromHex(
                                                                 session.getString("publicKeySender"),
                                                                 session.getString("privateKeySender")));
+
+
 
                                                 var responseDecoded = sendQueryRequest(queryFindAllAsset, cursor);
                                                 BatchedResponse.V1 decodedCursor = null;
@@ -236,8 +269,8 @@ public class Queries extends Constants {
             return client.post(getApiUrl() + QUERY_ENDPOINT,
                     request -> request.setBody(SignedQuery.encode(queryAndExtractor.getQuery()))
             ).thenApply(response -> {
-                byte[] responseBody = response.body();
-                return BatchedResponse.decode(responseBody);
+                byte[] responseBody = response;
+                return BatchedResponse.Companion.decode(responseBody);
             });
         } else {
             return client.post(getApiUrl() + QUERY_ENDPOINT,
@@ -266,7 +299,7 @@ public class Queries extends Constants {
             resultList.addAll(getQueryResultWithCursor(queryAndExtractor, cursor));
             return resultList;
         }
-    }
+    }*/
 
     public static ChainBuilder queryPostFindAllAccounts = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
@@ -285,6 +318,7 @@ public class Queries extends Constants {
                                         .getQuery());
                             }))
             );
+
     public static ChainBuilder queryPostFindAllTransactions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAllTransactions")
@@ -302,6 +336,4 @@ public class Queries extends Constants {
                                         .getQuery());
                             }))
             );
-
-
 }
