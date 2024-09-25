@@ -114,8 +114,9 @@
 				<version>${gatling-maven-plugin.version}</version>
 				<configuration>
 					<jvmArgs>
-						<arg>-Xms25600m</arg>
-						<arg>-Xmx25600m</arg>
+						<arg>-XX:+UseG1GC</arg>
+						<arg>-Xms12400m</arg>
+						<arg>-Xmx12400m</arg>
 					</jvmArgs>
 				</configuration>
 			</plugin>
