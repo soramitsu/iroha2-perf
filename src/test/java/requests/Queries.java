@@ -1,7 +1,6 @@
 package requests;
 
 import io.gatling.javaapi.core.ChainBuilder;
-import javassist.bytecode.ByteArray;
 import jp.co.soramitsu.iroha2.CryptoUtils;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.generated.*;
@@ -13,19 +12,18 @@ import java.util.ArrayList;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
-import static jp.co.soramitsu.iroha2.client.Iroha2Client.QUERY_ENDPOINT;
 
 public class Queries extends Constants {
 
     /*
-    Тяжёлые query
+    heavy query
     FindAllAccounts
     FindAccountsByDomainId
     FindAllAssets
     FindAllAssetsDefinitions
     FindAssetsByDomainId
 
-    Лёгкие query
+    lite query
     FindAccountById
     FindAssetById
     FindAssetDefinitionById
@@ -33,6 +31,12 @@ public class Queries extends Constants {
     FindTotalAssetQuantityByAssetDefinitionId
     FindDomainById
     */
+
+    private static QueryAndExtractor queryFindAllAsset;
+    private static BatchedResponse<QueryOutputBox> batchedResponse;
+    private static BatchedResponse.V1 batchedResponseV1;
+    private static List<QueryOutputBox> resultList = new ArrayList<>();
+    private static ForwardCursor cursor;
 
     public static ChainBuilder healthCheck = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(http("health check")
@@ -189,118 +193,6 @@ public class Queries extends Constants {
                             }))
             );
 
-    /*
-    отправить запрос гатлингом
-        проверить есть ли батчи
-        если батчи есть
-            отправить дозапросы на эти батчи
-    */
-
-    /*private static QueryAndExtractor queryFindAllAsset;
-    private static BatchedResponse responseDecoded;
-    private static byte[] response;
-
-    public static ChainBuilder paginatedQueryPostFindAllAssets = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
-            .exec(session -> {
-                    ForwardCursor cursor = null;
-                    queryFindAllAsset = QueryBuilder
-                            .findAllAssets()
-                            .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                            .buildSigned(CryptoUtils.keyPairFromHex(
-                                    session.getString("publicKeySender"),
-                                    session.getString("privateKeySender")));
-                    return session;
-                    }
-            )
-            .exec(http("checkBatchesQuery")
-                    .post(session -> {
-                                return session.getString("peer") + URL_QUERY;
-                            }
-                    )
-                    .body(ByteArrayBody(session -> {
-                                         return SignedQuery.Companion.encode(queryFindAllAsset.getQuery());
-                                    }
-                            )
-                    //сохранил тело ответа как байт массив
-                    ).check(bodyBytes().saveAs("fullResponse")) // save id
-            )
-            .exec(session -> {
-                //реализовать работу с результатом предыдущего запроса
-                //ты знаешь какой будет курсор, а что если пропустить шаг с получением курсора и сразу имплементировать получение батчей
-                        return session;
-                    }
-            )
-            .exec(http("findAllAssets")
-                            .post(session -> {
-                                        return session.getString("peer") + URL_QUERY;
-                                    }
-                            )
-                            .body(ByteArrayBody(session -> {
-                                                ForwardCursor cursor = null;
-                                                QueryAndExtractor queryFindAllAsset = QueryBuilder
-                                                        .findAllAssets()
-                                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                        .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                session.getString("publicKeySender"),
-                                                                session.getString("privateKeySender")));
-
-
-
-                                                var responseDecoded = sendQueryRequest(queryFindAllAsset, cursor);
-                                                BatchedResponse.V1 decodedCursor = null;
-                                                decodedCursor = (BatchedResponse.V1) responseDecoded.;
-                                                if (decodedCursor.getBatchedResponseV1().getCursor() == null) {
-                                                    var finalResult = queryFindAllAsset.getResultExtractor().extract((responseDecoded);
-                                                    return finalResult;
-                                                } else {
-                                                    List<QueryOutputBox> resultList = getQueryResultWithCursor(queryFindAllAsset, decodedCursor.getBatchedResponseV1().getCursor());
-                                                    resultList.add(responseDecoded.getBatch());
-                                                    var finalResult = queryFindAllAsset.getResultExtractor().extract(new BatchedResponse.V1(
-                                                            new BatchedResponseV1(new QueryOutputBox.Vec(resultList), new ForwardCursor())));
-                                                    return finalResult;
-                                                }
-                                            }
-                                    )
-                            )
-            );
-
-    private static BatchedResponse<QueryOutputBox> sendQueryRequest(QueryAndExtractor queryAndExtractor, ForwardCursor cursor) {
-        if (cursor == null) {
-            return client.post(getApiUrl() + QUERY_ENDPOINT,
-                    request -> request.setBody(SignedQuery.encode(queryAndExtractor.getQuery()))
-            ).thenApply(response -> {
-                byte[] responseBody = response;
-                return BatchedResponse.Companion.decode(responseBody);
-            });
-        } else {
-            return client.post(getApiUrl() + QUERY_ENDPOINT,
-                    request -> {
-                        request.parameter("query", cursor.getQuery());
-                        request.parameter("cursor", cursor.getCursor() != null ? cursor.getCursor().getU64() : null);
-                    }
-            ).thenApply(response -> {
-                byte[] responseBody = response.body();
-                return BatchedResponseV1.Companion.decode(responseBody);
-            });
-        }
-    }
-
-    private static List<QueryOutputBox> getQueryResultWithCursor(QueryAndExtractor queryAndExtractor, ForwardCursor queryCursor) {
-        if (queryCursor == null) {
-            queryCursor = new ForwardCursor();
-        }
-        List<QueryOutputBox> resultList = new ArrayList<>();
-        BatchedResponseV1<QueryOutputBox> responseDecoded = sendQueryRequest(queryAndExtractor, queryCursor);
-        resultList.add(responseDecoded.getBatch());
-        var cursor = responseDecoded.getCursor();
-        if (cursor.getCursor() == null) {
-            return resultList;
-        } else {
-            resultList.addAll(getQueryResultWithCursor(queryAndExtractor, cursor));
-            return resultList;
-        }
-    }*/
-
     public static ChainBuilder queryPostFindAllAccounts = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAllAccounts")
@@ -318,7 +210,6 @@ public class Queries extends Constants {
                                         .getQuery());
                             }))
             );
-
     public static ChainBuilder queryPostFindAllTransactions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("findAllTransactions")
@@ -336,4 +227,75 @@ public class Queries extends Constants {
                                         .getQuery());
                             }))
             );
+
+    public static ChainBuilder paginatedQueryPostFindAllAssets = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+            .exec(session -> {
+                        queryFindAllAsset = QueryBuilder
+                                .findAllAssets()
+                                .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                                .buildSigned(CryptoUtils.keyPairFromHex(
+                                        session.getString("publicKeySender"),
+                                        session.getString("privateKeySender")));
+                        return session;
+                    }
+            )
+            .exec(http("checkBatchesQuery")
+                    .post(session -> {
+                                return session.getString("peer") + URL_QUERY;
+                            }
+                    )
+                    .body(ByteArrayBody(session -> {
+                                        var response = SignedQuery.Companion.encode(queryFindAllAsset.getQuery());
+                                        BatchedResponse rawResponse = BatchedResponse.Companion.decode(response);
+                                        if (rawResponse instanceof BatchedResponse) {
+                                            batchedResponse = (BatchedResponse<QueryOutputBox>) rawResponse;
+                                        }
+                                        cursor = ((BatchedResponse.V1) batchedResponse).getBatchedResponseV1().getCursor();
+                                        session.set("conditionCursor", ((BatchedResponse.V1) batchedResponse).getBatchedResponseV1().getCursor().toString());
+                                        return null;
+                                    }
+                            )
+                    )
+            )
+            .doWhile(session -> session.get("conditionCursor"))
+            .on(http("additionQuery")
+                            .post("")
+                            .queryParam("query", cursor.getQuery())
+                            .queryParam("cursor", cursor.getCursor().getU64())
+                            .body(ByteArrayBody(session -> {
+                                                var response = SignedQuery.Companion.encode(queryFindAllAsset.getQuery());
+                                                BatchedResponse rawResponse = BatchedResponse.Companion.decode(response);
+                                                if (rawResponse instanceof BatchedResponse) {
+                                                    batchedResponse = (BatchedResponse<QueryOutputBox>) rawResponse;
+                                                }
+                                                batchedResponseV1 = (BatchedResponse.V1) batchedResponse;
+                                                resultList.addAll(
+                                                        (List<QueryOutputBox>) batchedResponseV1.component1().getBatch()
+                                                );
+                                                cursor = ((BatchedResponse.V1) batchedResponse).getBatchedResponseV1().getCursor();
+                                                session.set("conditionCursor", ((BatchedResponse.V1) batchedResponse).getBatchedResponseV1().getCursor().toString());
+                                                return null;
+                                            }
+                                    )
+                            )
+            )
+            /*.exec(session -> {
+                        byte[] responseBodyByte = session.get("fullResponse");
+                        try {
+                            BatchedResponse rawResponse = BatchedResponse.Companion.decode(responseBodyByte);
+                            if (rawResponse instanceof BatchedResponse) {
+                                batchedResponse = (BatchedResponse<QueryOutputBox>) rawResponse;
+                            }
+                        } catch (ClassCastException ex) {
+                            ex.getMessage();
+                        }
+                        batchedResponseV1 = (BatchedResponse.V1) batchedResponse;
+                        resultList.addAll(
+                                (List<QueryOutputBox>) batchedResponseV1.component1().getBatch()
+                        );
+                        var batch = new BatchedResponse.V1(new BatchedResponseV1(new QueryOutputBox.Vec(resultList), new ForwardCursor()));
+                        queryFindAllAsset.getResultExtractor().extract(batch);
+                        return session;
+                    }
+            )*/;
 }
