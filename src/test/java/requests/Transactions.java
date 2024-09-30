@@ -39,6 +39,11 @@ public class Transactions extends Constants {
                             )
             ).exec(http("tx_register_definition_id_status").get(Constants.URL_STATUS).check(status().is(200)));
 
+    /*
+        for CBDC
+        SCN 1. кидаю 1 транзакцию на изменение метадаты по всем зарегистрированным пользователям
+        SCN 2. кидаю несколько транзакций на изменение метадаты на 10 условных пользователей
+    */
     public static ChainBuilder postMultiInstructions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
             .exec(
                     http("tx_multi_instruction")
