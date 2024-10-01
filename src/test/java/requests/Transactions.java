@@ -6,7 +6,7 @@ import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.generated.*;
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder;
 
-import java.math.BigInteger;
+import java.util.Collections;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
@@ -25,14 +25,15 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                                .chainId(Constants.CHAIN_ID)
                                                                 .registerAssetDefinition(
                                                                         ExtensionsKt.asAssetDefinitionId("performance_token_#" + session.getString("domainIdSender")),
-                                                                        new AssetType.Numeric(new NumericSpec())
+                                                                        new AssetValueType.Quantity()
                                                                 )
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender")))
+                                                                        /*session.getString("publicKeySender"),
+                                                                        session.getString("privateKeySender")*/
+                                                                        ALICE_KEYPAIR.getPublic().toString(),
+                                                                        ALICE_KEYPAIR.getPrivate().toString()))
                                                 );
                                             }
                                     )
@@ -55,26 +56,17 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                                .chainId(Constants.CHAIN_ID)
+                                                                //.chainId(Constants.CHAIN_ID)
                                                                 .registerDomain(ExtensionsKt.asDomainId(session.getString("domainId_0")))
                                                                 .registerDomain(ExtensionsKt.asDomainId(session.getString("domainId_1")))
                                                                 .registerDomain(ExtensionsKt.asDomainId(session.getString("domainId_2")))
 
-                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_0")), new AssetType.Numeric(new NumericSpec()))
-                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_1")), new AssetType.Numeric(new NumericSpec()))
-                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_0")), new AssetType.Numeric(new NumericSpec()))
-                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_1")), new AssetType.Numeric(new NumericSpec()))
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_0")), new AssetValueType.Quantity())
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_1")), new AssetValueType.Quantity())
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_0")), new AssetValueType.Quantity())
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_1")), new AssetValueType.Quantity())
 
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_0")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_1")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_2")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_3")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_4")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_5")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_6")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_7")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_8")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_0")))
+                                                                /*.registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_0")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_1")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_2")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_3")))
@@ -82,9 +74,18 @@ public class Transactions extends Constants {
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_5")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_6")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_7")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_8")))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_8")))*/
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_0")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_1")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_2")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_3")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_4")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_5")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_6")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_7")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_8")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
 
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
+                                                                /*.registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_2")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_3")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
@@ -92,7 +93,16 @@ public class Transactions extends Constants {
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_5")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_6")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_7")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))*/
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_2")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_3")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_4")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_5")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_6")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_7")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), new AssetValue.Quantity(1))
 
                                                                 .mintAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), 100)
                                                                 .mintAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), 100)
@@ -132,8 +142,8 @@ public class Transactions extends Constants {
                                                                 .burnAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), 1)
 
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender"))));
+                                                                        ALICE_KEYPAIR.getPublic().toString(),
+                                                                        ALICE_KEYPAIR.getPrivate().toString())));
                                             }
                                     )
                             )
@@ -150,15 +160,13 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                                .chainId(Constants.CHAIN_ID)
-
                                                                 .unregisterDomain(ExtensionsKt.asDomainId(session.getString("domainId_0")))
                                                                 .unregisterDomain(ExtensionsKt.asDomainId(session.getString("domainId_1")))
                                                                 .unregisterDomain(ExtensionsKt.asDomainId(session.getString("domainId_2")))
 
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender")))
+                                                                        ALICE_KEYPAIR.getPublic().toString(),
+                                                                        ALICE_KEYPAIR.getPrivate().toString()))
                                                 );
                                             }
                                     )
@@ -178,11 +186,10 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                                .chainId(Constants.CHAIN_ID)
-                                                                .unregisterAssetDefinition(ExtensionsKt.asAssetDefinitionId("performance_token_#" + session.getString("domainIdSender")))
+                                                                //.unregisterAssetDefinition(ExtensionsKt.asAssetDefinitionId("performance_token_#" + session.getString("domainIdSender")))
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender")))
+                                                                        ALICE_KEYPAIR.getPublic().toString(),
+                                                                        ALICE_KEYPAIR.getPrivate().toString()))
                                                 );
                                             }
                                     )
@@ -200,11 +207,10 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                                .chainId(Constants.CHAIN_ID)
                                                                 .registerDomain(Constants.NEW_DOMAIN_ID)
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender")))
+                                                                        ALICE_KEYPAIR.getPublic().toString(),
+                                                                        ALICE_KEYPAIR.getPrivate().toString()))
                                                 );
                                             }
                                     )
@@ -221,13 +227,12 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                                .chainId(Constants.CHAIN_ID)
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("anotherDevAssetIdSender")),
                                                                         1,
                                                                         ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdReceiver")))
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender")
+                                                                        ALICE_KEYPAIR.getPublic().toString(),
+                                                                        ALICE_KEYPAIR.getPrivate().toString()
                                                                 ))
                                                 );
                                             }
@@ -245,7 +250,6 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId("b24ff6ab1e5923f125d7f4eb0c62528eb6b8e84139e17fb377e2bd5fc1498b19@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"))
-                                                                .chainId(Constants.CHAIN_ID)
                                                                 .transferAsset(ExtensionsKt.asAssetId("xora08da796-bca3-475f-bf94-30cc918ef69b_c687b817-3a68-4848-81bc-d4915801cee1##b24ff6ab1e5923f125d7f4eb0c62528eb6b8e84139e17fb377e2bd5fc1498b19@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"),
                                                                         1,
                                                                         /*drop ed0120*/ExtensionsKt.asAccountId("7d5ad42de2c9c7f4b1faa7e12a9fc58d831189a59ad60daa6a3a88af9dc2a2e2@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"))
