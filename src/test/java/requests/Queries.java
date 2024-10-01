@@ -260,7 +260,7 @@ public class Queries extends Constants {
             .doWhile(session -> session.get("conditionCursor"))
             .on(http("additionQuery")
                             .post("")
-                            .queryParam("query", cursor.getQuery())
+                            //.queryParam("query", cursor.getQuery())
                             .queryParam("cursor", cursor.getCursor().getU64())
                             .body(ByteArrayBody(session -> {
                                                 var response = SignedQuery.Companion.encode(queryFindAllAsset.getQuery());

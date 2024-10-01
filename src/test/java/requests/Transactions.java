@@ -14,7 +14,7 @@ import static io.gatling.javaapi.http.HttpDsl.status;
 
 public class Transactions extends Constants {
 
-    public static ChainBuilder postRegisterDefinitionId = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+    /*public static ChainBuilder postRegisterDefinitionId = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
                     http("tx_register_definition_id")
                             .post(session -> {
@@ -30,15 +30,15 @@ public class Transactions extends Constants {
                                                                         new AssetValueType.Quantity()
                                                                 )
                                                                 .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        /*session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender")*/
+                                                                        *//*session.getString("publicKeySender"),
+                                                                        session.getString("privateKeySender")*//*
                                                                         ALICE_KEYPAIR.getPublic().toString(),
                                                                         ALICE_KEYPAIR.getPrivate().toString()))
                                                 );
                                             }
                                     )
                             )
-            ).exec(http("tx_register_definition_id_status").get(Constants.URL_STATUS).check(status().is(200)));
+            ).exec(http("tx_register_definition_id_status").get(Constants.URL_STATUS).check(status().is(200)));*/
 
     /*
         for CBDC
@@ -61,10 +61,10 @@ public class Transactions extends Constants {
                                                                 .registerDomain(ExtensionsKt.asDomainId(session.getString("domainId_1")))
                                                                 .registerDomain(ExtensionsKt.asDomainId(session.getString("domainId_2")))
 
-                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_0")), new AssetValueType.Quantity())
+                                                                /*.registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_0")), new AssetValueType.Quantity())
                                                                 .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_1")), new AssetValueType.Quantity())
                                                                 .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_0")), new AssetValueType.Quantity())
-                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_1")), new AssetValueType.Quantity())
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_1")), new AssetValueType.Quantity())*/
 
                                                                 /*.registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_0")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_1")))
@@ -93,7 +93,7 @@ public class Transactions extends Constants {
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_5")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_6")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_7")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))*/
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), new AssetValue.Quantity(1))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), new AssetValue.Quantity(1))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_2")), new AssetValue.Quantity(1))
@@ -102,7 +102,7 @@ public class Transactions extends Constants {
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_5")), new AssetValue.Quantity(1))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_6")), new AssetValue.Quantity(1))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_7")), new AssetValue.Quantity(1))
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), new AssetValue.Quantity(1))*/
 
                                                                 .mintAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), 100)
                                                                 .mintAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), 100)
@@ -230,10 +230,7 @@ public class Transactions extends Constants {
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("anotherDevAssetIdSender")),
                                                                         1,
                                                                         ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdReceiver")))
-                                                                .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        ALICE_KEYPAIR.getPublic().toString(),
-                                                                        ALICE_KEYPAIR.getPrivate().toString()
-                                                                ))
+                                                                .buildSigned(ALICE_KEYPAIR)
                                                 );
                                             }
                                     )
