@@ -32,11 +32,11 @@ public class Queries extends Constants {
     FindDomainById
     */
 
-    private static QueryAndExtractor queryFindAllAsset;
+    /*private static QueryAndExtractor queryFindAllAsset;
     private static BatchedResponse<QueryOutputBox> batchedResponse;
     private static BatchedResponse.V1 batchedResponseV1;
     private static List<QueryOutputBox> resultList = new ArrayList<>();
-    private static ForwardCursor cursor;
+    private static ForwardCursor cursor;*/
 
     public static ChainBuilder healthCheck = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(http("health check")
@@ -228,7 +228,7 @@ public class Queries extends Constants {
                             }))
             );
 
-    public static ChainBuilder paginatedQueryPostFindAllAssets = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+    /*public static ChainBuilder paginatedQueryPostFindAllAssets = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(session -> {
                         queryFindAllAsset = QueryBuilder
                                 .findAllAssets()
@@ -260,7 +260,7 @@ public class Queries extends Constants {
             .doWhile(session -> session.get("conditionCursor"))
             .on(http("additionQuery")
                             .post("")
-                            //.queryParam("query", cursor.getQuery())
+                            .queryParam("query", cursor.getQuery())
                             .queryParam("cursor", cursor.getCursor().getU64())
                             .body(ByteArrayBody(session -> {
                                                 var response = SignedQuery.Companion.encode(queryFindAllAsset.getQuery());
@@ -279,7 +279,7 @@ public class Queries extends Constants {
                                     )
                             )
             )
-            /*.exec(session -> {
+            .exec(session -> {
                         byte[] responseBodyByte = session.get("fullResponse");
                         try {
                             BatchedResponse rawResponse = BatchedResponse.Companion.decode(responseBodyByte);
@@ -297,5 +297,5 @@ public class Queries extends Constants {
                         queryFindAllAsset.getResultExtractor().extract(batch);
                         return session;
                     }
-            )*/;
+            );*/
 }
