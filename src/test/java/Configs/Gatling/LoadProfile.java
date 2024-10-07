@@ -1,4 +1,4 @@
-package Configs;
+package Configs.Gatling;
 
 import io.gatling.javaapi.core.OpenInjectionStep;
 

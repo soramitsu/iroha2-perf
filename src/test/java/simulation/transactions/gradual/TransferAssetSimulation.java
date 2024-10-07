@@ -1,9 +1,9 @@
 package simulation.transactions.gradual;
 
-import Configs.LoadProfile;
+import Configs.Gatling.LoadProfile;
 import io.gatling.javaapi.core.Simulation;
 
-import static Configs.Protocol.httpProtocol;
+import static Configs.Gatling.Protocol.httpProtocol;
 import static scenarious.GeneralTransaction.*;
 
 public class TransferAssetSimulation extends Simulation {

@@ -16,8 +16,10 @@
 		<maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
 		<maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
 		<maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+		<hermes_sdk_version>1.1.39</hermes_sdk_version>
 		<!--iroha-java.version>9aba55183e</iroha-java.version-->
-		<iroha-java.version>558784f</iroha-java.version>
+		<!--iroha-java.version>558784f</iroha-java.version-->
+		<iroha-java.version>57d5068</iroha-java.version>
 		<jackson.versaion>2.14.1</jackson.versaion>
 		<commons-codec.version>1.15</commons-codec.version>
 		<lombok.version>1.18.24</lombok.version>
@@ -38,6 +40,10 @@
 			<id>soramitsu</id>
 			<url>https://nexus.iroha.tech/repository/maven-soramitsu/</url>
 		</repository>
+		<repository>
+			<id>SoramitsuNexus</id>
+			<url>https://nexus.iroha.tech/repository/maven-soramitsu-private</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
@@ -46,6 +52,27 @@
 			<artifactId>testng</artifactId>
 			<version>7.10.0</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<version>3.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>jp.co.soramitsu.hermes</groupId>
+			<artifactId>core</artifactId>
+			<version>${hermes_sdk_version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jp.co.soramitsu.hermes</groupId>
+			<artifactId>commons</artifactId>
+			<version>${hermes_sdk_version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.gatling</groupId>
@@ -59,37 +86,37 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.hyperledger.iroha-java</groupId>
-			<artifactId>block</artifactId>
-			<version>${iroha-java.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.hyperledger.iroha-java</groupId>
-			<artifactId>codegen</artifactId>
-			<version>${iroha-java.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.hyperledger.iroha-java</groupId>
+			<groupId>jp.co.soramitsu.iroha2-java</groupId>
 			<artifactId>client</artifactId>
 			<version>${iroha-java.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.hyperledger.iroha-java</groupId>
+			<groupId>jp.co.soramitsu.iroha2-java</groupId>
 			<artifactId>admin-client</artifactId>
 			<version>${iroha-java.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.hyperledger.iroha-java</groupId>
+			<groupId>jp.co.soramitsu.iroha2-java</groupId>
+			<artifactId>block</artifactId>
+			<version>${iroha-java.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jp.co.soramitsu.iroha2-java</groupId>
+			<artifactId>codegen</artifactId>
+			<version>${iroha-java.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>jp.co.soramitsu.iroha2-java</groupId>
 			<artifactId>tutorial</artifactId>
 			<version>${iroha-java.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.hyperledger.iroha-java</groupId>
+			<groupId>jp.co.soramitsu.iroha2-java</groupId>
 			<artifactId>model</artifactId>
 			<version>${iroha-java.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>com.github.hyperledger.iroha-java</groupId>
+			<groupId>jp.co.soramitsu.iroha2-java</groupId>
 			<artifactId>test-tools</artifactId>
 			<version>${iroha-java.version}</version>
 		</dependency>
@@ -108,6 +135,22 @@
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>${maven-jar-plugin.version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<source>16</source>
+					<target>16</target>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>io.gatling</groupId>
