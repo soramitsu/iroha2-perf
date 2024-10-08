@@ -7,14 +7,14 @@ import static configs.gatling.Protocol.httpProtocol;
 import static io.gatling.javaapi.core.OpenInjectionStep.atOnceUsers;
 import static scenarious.triggers.BuyBonds.buyBonds;
 import static scenarious.triggers.RedeemBonds.redeemBonds;
-import static scenarious.triggers.SmartContractsRegister.smartContractsRegister;
+import static scenarious.triggers.RegisterSmartContracts.registerSmartContracts;
 
-public class SmartContractsRegisterSimulation extends Simulation {
+public class SmartContractsRegisterSimulation extends Simulation{
     {
         setUp(
-                smartContractsRegister.injectOpen(atOnceUsers(1))
-                        .andThen(buyBonds.injectOpen(LoadProfile.getMaxPerformanceOpenProfile()))
-                        .andThen(redeemBonds.injectOpen(atOnceUsers(1)))
+                /*registerSmartContracts.injectOpen(atOnceUsers(1))*/
+                        /*.andThen(*/buyBonds.injectOpen(atOnceUsers(1))/*)
+                        .andThen(redeemBonds.injectOpen(atOnceUsers(1)))*/
         ).protocols(httpProtocol);
     }
 }

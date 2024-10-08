@@ -1,8 +1,6 @@
 package healper.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import configs.tests.PalauProperties;
-import healper.BuildInfo;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.generated.*;
 import jp.co.soramitsu.iroha2.transaction.EntityFilters;
@@ -11,44 +9,23 @@ import jp.co.soramitsu.iroha2.transaction.TransactionBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import objects.SmartContractService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import requests.Constants;
 
 import java.util.Map;
 import java.util.Objects;
 
 @Slf4j
-@Service
 public class SmartContractImpl extends Constants implements SmartContractService {
 
     private final PalauProperties palauProperties;
 
-    private final PasswordEncoder passwordEncoder;
-
-    private final BuildInfo buildInfo;
-
     @SneakyThrows
-    public SmartContractImpl (PasswordEncoder passwordEncoder, ObjectMapper objectMapper, PalauProperties palauProperties) {
-        this.passwordEncoder = passwordEncoder;
+    public SmartContractImpl (PalauProperties palauProperties) {
         this.palauProperties = palauProperties;
-
-        this.buildInfo = objectMapper.readValue(
-                this.getClass().getClassLoader()
-                        .getResource(palauProperties.getTrigger().getBuildInfoPath())
-                        .openConnection()
-                        .getInputStream()
-                        .readAllBytes(), BuildInfo.class);
-
-        log.info("Palau smart contracts' build info: {}", buildInfo);
     }
 
     @Override
     public SignedTransaction deployRegisterRegisterBondTrigger(String activationCode) {
-        if (!passwordEncoder.matches(activationCode, buildInfo.activationCode())) {
-            throw new RuntimeException("Invalid activation code");
-        }
-
         log.info("""
                 Deploying smart contracts:
                 {}
@@ -62,10 +39,6 @@ public class SmartContractImpl extends Constants implements SmartContractService
 
     @Override
     public SignedTransaction deployRegisterBuyBondsTrigger(String activationCode) {
-        if (!passwordEncoder.matches(activationCode, buildInfo.activationCode())) {
-            throw new RuntimeException("Invalid activation code");
-        }
-
         log.info("""
                 Deploying smart contracts:
                 {}
@@ -79,10 +52,6 @@ public class SmartContractImpl extends Constants implements SmartContractService
 
     @Override
     public SignedTransaction deployRegisterRedeemBondsTrigger(String activationCode) {
-        if (!passwordEncoder.matches(activationCode, buildInfo.activationCode())) {
-            throw new RuntimeException("Invalid activation code");
-        }
-
         log.info("""
                 Deploying smart contracts:
                 {}
