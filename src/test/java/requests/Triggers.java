@@ -1,6 +1,8 @@
 package requests;
 
+import healper.ServiceMethod;
 import io.gatling.javaapi.core.ChainBuilder;
+import jakarta.annotation.PostConstruct;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.generated.AssetDefinitionId;
 import jp.co.soramitsu.iroha2.generated.SignedTransaction;
@@ -8,6 +10,10 @@ import objects.BondService;
 import objects.CreateBond;
 import objects.SmartContractService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -15,13 +21,21 @@ import java.time.Duration;
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
 
+@Component
+@SpringBootTest
 public class Triggers extends Constants {
 
     @Autowired
-    private static SmartContractService smartContractService;
+    private ApplicationContext context;
 
     @Autowired
     private static BondService bondService;
+
+    private static SmartContractService smartContractService;
+
+    public Triggers() {
+        this.smartContractService = context.getBean(SmartContractService.class);
+    }
 
     public static ChainBuilder bondAssetRegister = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
             // it must use onlyOne() controller

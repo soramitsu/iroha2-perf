@@ -1,9 +1,9 @@
 package simulation.transactions.gradual;
 
-import Configs.Gatling.LoadProfile;
+import configs.gatling.LoadProfile;
 import io.gatling.javaapi.core.Simulation;
 
-import static Configs.Gatling.Protocol.httpProtocol;
+import static configs.gatling.Protocol.httpProtocol;
 import static scenarious.GeneralTransaction.txsMultiInstructions;
 
 public class MultiInstructionsSimulation extends Simulation {

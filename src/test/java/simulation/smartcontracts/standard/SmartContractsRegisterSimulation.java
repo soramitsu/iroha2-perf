@@ -1,16 +1,13 @@
 package simulation.smartcontracts.standard;
 
-import Configs.Gatling.LoadProfile;
-import io.gatling.javaapi.core.PopulationBuilder;
+import configs.gatling.LoadProfile;
 import io.gatling.javaapi.core.Simulation;
 
-import java.util.List;
-
-import static Configs.Gatling.Protocol.httpProtocol;
+import static configs.gatling.Protocol.httpProtocol;
 import static io.gatling.javaapi.core.OpenInjectionStep.atOnceUsers;
-import static scenarious.Triggers.BuyBonds.buyBonds;
-import static scenarious.Triggers.RedeemBonds.redeemBonds;
-import static scenarious.Triggers.SmartContractsRegister.smartContractsRegister;
+import static scenarious.triggers.BuyBonds.buyBonds;
+import static scenarious.triggers.RedeemBonds.redeemBonds;
+import static scenarious.triggers.SmartContractsRegister.smartContractsRegister;
 
 public class SmartContractsRegisterSimulation extends Simulation {
     {

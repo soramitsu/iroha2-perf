@@ -1,10 +1,10 @@
 package simulation.smartcontracts.standard;
 
-import Configs.Gatling.LoadProfile;
+import configs.gatling.LoadProfile;
 import io.gatling.javaapi.core.Simulation;
 
-import static Configs.Gatling.Protocol.httpProtocol;
-import static scenarious.Triggers.RedeemBonds.redeemBonds;
+import static configs.gatling.Protocol.httpProtocol;
+import static scenarious.triggers.RedeemBonds.redeemBonds;
 
 public class RedeemBondsSimulation extends Simulation {
     {

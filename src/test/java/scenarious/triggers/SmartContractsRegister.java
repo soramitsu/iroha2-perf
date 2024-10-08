@@ -1,4 +1,4 @@
-package scenarious.Triggers;
+package scenarious.triggers;
 
 import io.gatling.javaapi.core.ScenarioBuilder;
 import requests.Triggers;

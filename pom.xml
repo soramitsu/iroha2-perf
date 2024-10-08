@@ -25,6 +25,7 @@
 		<jackson.versaion>2.14.1</jackson.versaion>
 		<commons-codec.version>1.15</commons-codec.version>
 		<lombok.version>1.18.24</lombok.version>
+		<springframework>3.1.2</springframework>
 		<kotlin.version>1.8.22</kotlin.version>
 		<project.basedir>.</project.basedir>
 	</properties>
@@ -64,7 +65,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
-			<version>3.1.2</version>
+			<version>${springframework}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${springframework}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>jp.co.soramitsu.hermes</groupId>

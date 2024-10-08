@@ -1,4 +1,4 @@
-package Configs.Tests;
+package configs.tests;
 
 import lombok.Getter;
 import lombok.Setter;

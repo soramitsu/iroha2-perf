@@ -1,16 +1,15 @@
 package healper;
 
-import Configs.Tests.PalauProperties;
+import configs.tests.PalauProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jp.co.soramitsu.domain.transfer.enums.TransactionType;
 import jp.co.soramitsu.exceptions.ClientErrorException;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
-import jp.co.soramitsu.iroha2.ModelEnum;
 import jp.co.soramitsu.iroha2.generated.*;
 import jp.co.soramitsu.iroha2.transaction.EntityFilters;
 import jp.co.soramitsu.iroha2.transaction.Filters;
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder;
 
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import objects.BondService;
@@ -29,7 +28,6 @@ import static jp.co.soramitsu.core.iroha2.util.TransactionUtil.TRANSACTION_TYPE_
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class ServiceMethod extends Constants implements BondService, SmartContractService  {
 
     private final PalauProperties palauProperties;
@@ -37,6 +35,21 @@ public class ServiceMethod extends Constants implements BondService, SmartContra
     private final PasswordEncoder passwordEncoder;
 
     private final BuildInfo buildInfo;
+
+    @SneakyThrows
+    public ServiceMethod(PasswordEncoder passwordEncoder, ObjectMapper objectMapper, PalauProperties palauProperties) {
+        this.passwordEncoder = passwordEncoder;
+        this.palauProperties = palauProperties;
+
+        this.buildInfo = objectMapper.readValue(
+                this.getClass().getClassLoader()
+                        .getResource(palauProperties.getTrigger().getBuildInfoPath())
+                        .openConnection()
+                        .getInputStream()
+                        .readAllBytes(), BuildInfo.class);
+
+        log.info("Palau smart contracts' build info: {}", buildInfo);
+    }
 
     @Override
     public SignedTransaction deployRegisterRegisterBondTrigger(String activationCode) {
