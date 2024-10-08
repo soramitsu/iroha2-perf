@@ -1,6 +1,6 @@
 package requests;
 
-import healper.ServiceMethod;
+import healper.impl.SmartContractImpl;
 import io.gatling.javaapi.core.ChainBuilder;
 import jakarta.annotation.PostConstruct;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -31,10 +30,11 @@ public class Triggers extends Constants {
     @Autowired
     private static BondService bondService;
 
-    private static SmartContractService smartContractService;
+    private static SmartContractImpl smartContractImpl;
 
-    public Triggers() {
-        this.smartContractService = context.getBean(SmartContractService.class);
+    @PostConstruct
+    public void init() {
+        this.smartContractImpl = context.getBean(SmartContractImpl.class);
     }
 
     public static ChainBuilder bondAssetRegister = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
@@ -78,7 +78,7 @@ public class Triggers extends Constants {
                             }
                     )
                     .body(ByteArrayBody(session -> {
-                                        return SignedTransaction.Companion.encode(smartContractService.deployRegisterBuyBondsTrigger("019153fc-8d19-7faa-854a-57657ba0ed20"));
+                                        return SignedTransaction.Companion.encode(smartContractImpl.deployRegisterBuyBondsTrigger("019153fc-8d19-7faa-854a-57657ba0ed20"));
                                     }
                             )
                     )
@@ -92,7 +92,7 @@ public class Triggers extends Constants {
                             }
                     )
                     .body(ByteArrayBody(session -> {
-                                        return SignedTransaction.Companion.encode(smartContractService.deployRegisterRedeemBondsTrigger("019153fc-8d19-7faa-854a-57657ba0ed20"));
+                                        return SignedTransaction.Companion.encode(smartContractImpl.deployRegisterRedeemBondsTrigger("019153fc-8d19-7faa-854a-57657ba0ed20"));
                                     }
                             )
                     )
@@ -106,7 +106,7 @@ public class Triggers extends Constants {
                             }
                     )
                     .body(ByteArrayBody(session -> {
-                                        return SignedTransaction.Companion.encode(smartContractService.deployRegisterRegisterBondTrigger("019153fc-8d19-7faa-854a-57657ba0ed20"));
+                                        return SignedTransaction.Companion.encode(smartContractImpl.deployRegisterRegisterBondTrigger("019153fc-8d19-7faa-854a-57657ba0ed20"));
                                     }
                             )
                     )

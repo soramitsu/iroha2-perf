@@ -1,34 +1,26 @@
-package healper;
+package healper.impl;
 
-import configs.tests.PalauProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jp.co.soramitsu.domain.transfer.enums.TransactionType;
-import jp.co.soramitsu.exceptions.ClientErrorException;
+import configs.tests.PalauProperties;
+import healper.BuildInfo;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.generated.*;
 import jp.co.soramitsu.iroha2.transaction.EntityFilters;
 import jp.co.soramitsu.iroha2.transaction.Filters;
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder;
-
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import objects.BondService;
-import objects.CreateBond;
 import objects.SmartContractService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import io.gatling.javaapi.core.Session;
 import requests.Constants;
 
 import java.util.Map;
 import java.util.Objects;
 
-import static jp.co.soramitsu.core.iroha2.util.MetadataUtil.enrichMetadata;
-import static jp.co.soramitsu.core.iroha2.util.TransactionUtil.TRANSACTION_TYPE_METADATA_KEY;
-
 @Slf4j
 @Service
-public class ServiceMethod extends Constants implements BondService, SmartContractService  {
+public class SmartContractImpl extends Constants implements SmartContractService {
 
     private final PalauProperties palauProperties;
 
@@ -37,7 +29,7 @@ public class ServiceMethod extends Constants implements BondService, SmartContra
     private final BuildInfo buildInfo;
 
     @SneakyThrows
-    public ServiceMethod(PasswordEncoder passwordEncoder, ObjectMapper objectMapper, PalauProperties palauProperties) {
+    public SmartContractImpl (PasswordEncoder passwordEncoder, ObjectMapper objectMapper, PalauProperties palauProperties) {
         this.passwordEncoder = passwordEncoder;
         this.palauProperties = palauProperties;
 
@@ -181,46 +173,5 @@ public class ServiceMethod extends Constants implements BondService, SmartContra
         final var bySomeFilter = new FilterOptOfDataEntityFilter.BySome(filter);
 
         return new TriggeringFilterBox.Data(bySomeFilter);
-    }
-
-    @Override
-    public SignedTransaction getSignedRegisterBondAssetTx(CreateBond createBond, Session session) throws ClientErrorException {
-        final var bondMetadata = buildBondMetadata(createBond);
-        final var newAssetDefinition = new NewAssetDefinition(
-                createBond.bondId(),
-                new AssetValueType.Quantity(),
-                new Mintable.Infinitely(),
-                null,
-                bondMetadata.getMetadata());
-
-        final var triggerId = new TriggerId(
-                null, // Triggers with `null` domain are considered as "global" triggers
-                ExtensionsKt.asName(palauProperties.getTrigger().getRegisterBondId()));
-
-        final var registerBond = TransactionBuilder.Companion.builder()
-                .setKeyValue(
-                        triggerId,
-                        ExtensionsKt.asName(palauProperties.getTrigger().getRegisterBondTriggerKey()),
-                        ExtensionsKt.asValue(newAssetDefinition))
-                .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")));
-
-        enrichMetadata(registerBond, TRANSACTION_TYPE_METADATA_KEY,
-                TransactionType.BOND_ASSET_ISSUE.name());
-
-        return registerBond.buildSigned(ALICE_KEYPAIR);
-    }
-
-    private Value.LimitedMetadata buildBondMetadata(CreateBond createBond) {
-        return LimitedMetadataBuilder.builder()
-                .withCurrency(createBond.currency())
-                .withNominalValue(createBond.nominalValue())
-                .withCouponRate(createBond.couponRate())
-                .withPaymentFrequencySeconds(createBond.paymentFrequencySeconds())
-                .withFixedFee(createBond.feeAmount())
-                .withFeeRecipientAccountId(createBond.feeRecipient())
-                .withMaturityDateMs(createBond.maturityDateMs())
-                .withRegistrationDateMs(createBond.registrationDateMs())
-                .withQuantity(createBond.quantity())
-                .build();
     }
 }
