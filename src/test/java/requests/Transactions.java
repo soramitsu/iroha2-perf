@@ -73,7 +73,7 @@ public class Transactions extends Constants {
                                                         Permissions.CanTransferUserAssetsToken,
                                                         ExtensionsKt.asJsonString(ExtensionsKt.asAssetId(session.getString("anotherDevAssetIdSender"))),
                                                         ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID))
-                                                .account(ExtensionsKt.asAccountId(session.getString("anotherDevAssetIdSender")))
+                                                .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
                                                 .buildSigned(ALICE_KEYPAIR);
 
                                         return SignedTransaction.Companion.encode(grantPermissionsForSmartContractsTrx);
@@ -142,7 +142,7 @@ public class Transactions extends Constants {
     public static ChainBuilder redeemBondsBondAssetTrigger =  exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
             //TODO: It must keep running in a loop after each call buySomeBondsBondAssetTrigger transaction
             // EXECUTION DELAY after called the scn 10 sec
-            .exec(http("tx_buy_bonds")
+            .exec(http("tx_redeem_bond")
                     .post(session -> {
                                 return session.getString("peer") + Constants.URL_TRANSACTION;
                             }
@@ -150,7 +150,7 @@ public class Transactions extends Constants {
                     .body(ByteArrayBody(session -> {
                                         final var map = new HashMap<Name, Value>();
                                         map.put(ExtensionsKt.asName("bond"),
-                                                ExtensionsKt.asValue(ExtensionsKt.asAssetDefinitionId("bondAsset#palau")));
+                                                ExtensionsKt.asValue(ExtensionsKt.asAssetDefinitionId("xor_for_perf#bulb_f642e79d-fa2c-429f-8a9a-4b5ceb65dc8c_9563a8dc-d0e0-413a-870b-a3921f956834")));
 
                                         map.put(ExtensionsKt.asName("quantity"),
                                                 ExtensionsKt.asValue(2));

@@ -18,7 +18,4 @@ public class BuyBonds {
             .pace(Duration.ofSeconds(5))
             .exec(Transactions.triggeringBondAssetSmartContract)
             .pace(Duration.ofSeconds(5));
-            //смотри L460 iroha2-adapter proj
-            //нужны квери до buySomeBondsBondAssetTrigger -> получение баланса по текущему пользователю
-            //и после triggeringBondAssetSmartContract для верификации
 }

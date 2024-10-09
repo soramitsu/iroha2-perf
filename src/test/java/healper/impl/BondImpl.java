@@ -47,7 +47,7 @@ public class BondImpl extends Constants implements BondService  {
                 .setKeyValue(
                         triggerId,
                         ExtensionsKt.asName(palauProperties.getTrigger().getRegisterBondTriggerKey()),
-                        ExtensionsKt.asValue(newAssetDefinition))
+                        ExtensionsKt.asValue(newAssetDefinition.component1()))
                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")));
 
         enrichMetadata(registerBond, TRANSACTION_TYPE_METADATA_KEY,
