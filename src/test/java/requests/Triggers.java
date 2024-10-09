@@ -30,6 +30,9 @@ public class Triggers extends Constants {
                     )
                     .body(ByteArrayBody(session -> {
                                         final var currentTime = System.currentTimeMillis();
+                                        //новый ассет id
+
+                                        //
                                         final var currencyId = new AssetDefinitionId(ExtensionsKt.asName(session.getString("assetDefinitionIdSender")),
                                                 ExtensionsKt.asDomainId(session.getString("domainIdSender")));
                                         final var feeRecipientAccountId = ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender"));
@@ -37,7 +40,9 @@ public class Triggers extends Constants {
                                         return SignedTransaction.Companion.encode(
                                                 bondService.getSignedRegisterBondAssetTx(CreateBond.builder()
                                                                 .currency(currencyId)
-                                                                .bondId(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionIdSender")))
+                                                                //уникальный ассет дефинишен в дальнейшем будем использовать в покупке бонда или его удалении - не используй session.getString("assetDefinitionIdSender"))
+                                                                //xor52ebff34-4715-4c1b-b41c-e8ab347e1dbb_4956d877-0133-4004-84f3-de4d08697dde#bulb_f642e79d-fa2c-429f-8a9a-4b5ceb65dc8c_9563a8dc-d0e0-413a-870b-a3921f956834
+                                                                .bondId(ExtensionsKt.asAssetDefinitionId("xor_for_perf#bulb_f642e79d-fa2c-429f-8a9a-4b5ceb65dc8c_9563a8dc-d0e0-413a-870b-a3921f956834"))
                                                                 .quantity(999999999)
                                                                 .nominalValue(new BigDecimal("100000.00"))
                                                                 .couponRate(new BigDecimal("0.1"))
