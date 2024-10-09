@@ -12,8 +12,8 @@ import static scenarious.triggers.RegisterSmartContracts.registerSmartContracts;
 public class SmartContractsRegisterSimulation extends Simulation{
     {
         setUp(
-                /*registerSmartContracts.injectOpen(atOnceUsers(1))*/
-                        /*.andThen(*/buyBonds.injectOpen(atOnceUsers(1))/*)
+                registerSmartContracts.injectOpen(atOnceUsers(1))
+                        /*.andThen(buyBonds.injectOpen(atOnceUsers(1)))
                         .andThen(redeemBonds.injectOpen(atOnceUsers(1)))*/
         ).protocols(httpProtocol);
     }

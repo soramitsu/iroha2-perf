@@ -37,8 +37,7 @@ public class Triggers extends Constants {
                                         return SignedTransaction.Companion.encode(
                                                 bondService.getSignedRegisterBondAssetTx(CreateBond.builder()
                                                                 .currency(currencyId)
-                                                        //change AssetDefinition to session.getString...
-                                                                .bondId(ExtensionsKt.asAssetDefinitionId("bondAsset#palau"))
+                                                                .bondId(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionIdSender")))
                                                                 .quantity(999999999)
                                                                 .nominalValue(new BigDecimal("100000.00"))
                                                                 .couponRate(new BigDecimal("0.1"))
