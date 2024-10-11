@@ -8,8 +8,8 @@ import jp.co.soramitsu.iroha2.transaction.Filters;
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import objects.SmartContractService;
-import requests.Constants;
+import healper.SmartContractService;
+import healper.Constants;
 
 import java.util.Map;
 import java.util.Objects;

@@ -10,10 +10,10 @@ import jp.co.soramitsu.iroha2.generated.*;
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import objects.BondService;
-import objects.CreateBond;
+import healper.BondService;
+import objects.Bond;
 import org.springframework.stereotype.Service;
-import requests.Constants;
+import healper.Constants;
 
 import static jp.co.soramitsu.core.iroha2.util.MetadataUtil.enrichMetadata;
 import static jp.co.soramitsu.core.iroha2.util.TransactionUtil.TRANSACTION_TYPE_METADATA_KEY;
@@ -30,10 +30,10 @@ public class BondImpl extends Constants implements BondService  {
     }
 
     @Override
-    public SignedTransaction getSignedRegisterBondAssetTx(CreateBond createBond, Session session) throws ClientErrorException {
-        final var bondMetadata = buildBondMetadata(createBond);
+    public SignedTransaction getSignedRegisterBondAssetTx(Bond bond, Session session) throws ClientErrorException {
+        final var bondMetadata = buildBondMetadata(bond);
         final var newAssetDefinition = new NewAssetDefinition(
-                createBond.bondId(),
+                bond.bondId(),
                 new AssetValueType.Quantity(),
                 new Mintable.Infinitely(),
                 null,
@@ -56,17 +56,17 @@ public class BondImpl extends Constants implements BondService  {
         return registerBond.buildSigned(ALICE_KEYPAIR);
     }
 
-    private Value.LimitedMetadata buildBondMetadata(CreateBond createBond) {
+    private Value.LimitedMetadata buildBondMetadata(Bond bond) {
         return LimitedMetadataBuilder.builder()
-                .withCurrency(createBond.currency())
-                .withNominalValue(createBond.nominalValue())
-                .withCouponRate(createBond.couponRate())
-                .withPaymentFrequencySeconds(createBond.paymentFrequencySeconds())
-                .withFixedFee(createBond.feeAmount())
-                .withFeeRecipientAccountId(createBond.feeRecipient())
-                .withMaturityDateMs(createBond.maturityDateMs())
-                .withRegistrationDateMs(createBond.registrationDateMs())
-                .withQuantity(createBond.quantity())
+                .withCurrency(bond.currency())
+                .withNominalValue(bond.nominalValue())
+                .withCouponRate(bond.couponRate())
+                .withPaymentFrequencySeconds(bond.paymentFrequencySeconds())
+                .withFixedFee(bond.feeAmount())
+                .withFeeRecipientAccountId(bond.feeRecipient())
+                .withMaturityDateMs(bond.maturityDateMs())
+                .withRegistrationDateMs(bond.registrationDateMs())
+                .withQuantity(bond.quantity())
                 .build();
     }
 }

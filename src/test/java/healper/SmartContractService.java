@@ -1,4 +1,4 @@
-package objects;
+package healper;
 
 import jp.co.soramitsu.iroha2.generated.SignedTransaction;
 

@@ -1,14 +1,11 @@
 package requests;
 
+import healper.Constants;
 import io.gatling.javaapi.core.ChainBuilder;
 import jp.co.soramitsu.iroha2.CryptoUtils;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.generated.*;
-import jp.co.soramitsu.iroha2.query.QueryAndExtractor;
 import jp.co.soramitsu.iroha2.query.QueryBuilder;
-
-import java.util.List;
-import java.util.ArrayList;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;

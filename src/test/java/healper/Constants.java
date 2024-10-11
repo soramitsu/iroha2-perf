@@ -1,4 +1,4 @@
-package requests;
+package healper;
 
 import io.gatling.javaapi.core.FeederBuilder;
 import jp.co.soramitsu.iroha2.CryptoUtils;
@@ -32,6 +32,8 @@ public class Constants {
 
     public static final String ALICE_ACCOUNT_RC20_ID = "alice@wonderland";
 
+    public static final String PATH_TO_GENESIS_RC20 = "iroha2_config/stable/5d44d59/genesis.json";
+
     public static final AccountId ALICE_ACCOUNT_ID = ExtensionsKt.asAccountId(ALICE_ACCOUNT_ID_VALUE);
 
     public static final DomainId WONDERLAND_DOMAIN_ID = ExtensionsKt.asDomainId(DEFAULT_DOMAIN);
@@ -49,5 +51,7 @@ public class Constants {
     public static FeederBuilder<String> PEERS_FEEDER = csv("peers.csv").circular();
 
     public static FeederBuilder<String> MULTI_TXS_FEEDER = csv("preconditionListMultiTxs.csv").circular();
+
+    public static FeederBuilder<String> ACCOUNT_IDS_RC_20_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/accountIds.csv").circular();
 
 }

@@ -1,5 +1,6 @@
 package requests;
 
+import healper.Constants;
 import io.gatling.javaapi.core.ChainBuilder;
 import jp.co.soramitsu.domain.transfer.enums.TransactionType;
 import jp.co.soramitsu.iroha2.CryptoUtils;
