@@ -15,10 +15,10 @@ public class JsonParser {
 
     protected ArrayList<String> accountIds = new ArrayList<>();
 
-    public JsonParser(String pathToGenesis) throws IOException {
+    public JsonParser(String pathToGenesis, int usersOnDomain) throws IOException {
         this.transactionNode = getTransactions(pathToGenesis);
         this.domainIds = getDomainIds(transactionNode);
-        this.accountIds = getAccountIds(transactionNode, domainIds);
+        this.accountIds = getAccountIds(transactionNode, domainIds, usersOnDomain);
     }
 
     private JsonNode getTransactions(String pathToGenesis) throws IOException {
@@ -43,7 +43,7 @@ public class JsonParser {
         return domainIds;
     }
 
-    private ArrayList<String> getAccountIds(JsonNode transactionNode, ArrayList<String> domainIds) {
+    private ArrayList<String> getAccountIds(JsonNode transactionNode, ArrayList<String> domainIds, int usersOnDomain) {
         int count = 0;
 
         for (JsonNode transactionArray : transactionNode) {
@@ -52,7 +52,7 @@ public class JsonParser {
                     JsonNode newAccountNode = transaction.path("Register").path("NewAccount");
                     if (!newAccountNode.isMissingNode()) {
                         String domain = newAccountNode.path("id").asText().split("@")[1];
-                        if (domain.equals(domainIds.get(i)) && count < 15) {
+                        if (domain.equals(domainIds.get(i)) && count < usersOnDomain) {
                             accountIds.add(newAccountNode.path("id").asText());
                             count++;
                         }

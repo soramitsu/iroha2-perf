@@ -42,15 +42,11 @@ public class Constants {
 
     public static final UUID CHAIN_ID = UUID.fromString("00000000-0000-0000-0000-000000000000");
 
-    //public static FeederBuilder<String> CSV_FEEDER = csv("iroha2_config/stable/5d44d59/preconditionList.csv").circular();
-
     public static FeederBuilder<String> CSV_FEEDER = csv("preconditionList.csv").circular();
 
     public static FeederBuilder<String> PEERS_FEEDER = csv("peers.csv").circular();
 
     public static FeederBuilder<String> MULTI_TXS_FEEDER = csv("preconditionListMultiTxs.csv").circular();
-
-    //public static FeederBuilder<String> ACCOUNT_IDS_RC_20_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/accountIds.csv").circular();
 
     public static FeederBuilder<String> ACCOUNT_IDS_RC_20_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/accountIds.csv").queue();
 

@@ -49,8 +49,8 @@ public class PalauPrecondition  {
     };
 
     public PalauPrecondition() throws IOException {
-        JsonParser parser = new JsonParser(path + "genesis.json");
-        AssetDefinitionIdGenerator assetDefinitionIdGenerator = new AssetDefinitionIdGenerator(15);
+        JsonParser parser = new JsonParser(path + "genesis.json", 3);
+        AssetDefinitionIdGenerator assetDefinitionIdGenerator = new AssetDefinitionIdGenerator(1, 3);
 
         this.assetDefinitionIds = assetDefinitionIdGenerator.listAssetDefinitionId;
         this.domainIds = parser.domainIds;
