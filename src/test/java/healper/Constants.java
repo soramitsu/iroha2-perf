@@ -56,7 +56,9 @@ public class Constants {
 
     public static FeederBuilder<String> DOMAIN_IDS_RC_20_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/accountIds.csv").circular();
 
-    public static FeederBuilder<String> ASSET_DEFINITION_IDS_RC_20_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/assetDefinitionIds.csv").queue();
+    public static FeederBuilder<String> ASSET_DEFINITION_IDS_RC_20_REGISTER_BOND_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/assetDefinitionIds.csv").queue();
+
+    public static FeederBuilder<String> ASSET_DEFINITION_IDS_RC_20_BUY_BOND_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/assetDefinitionIds.csv").circular();
 
     public static final String ALICE_ACCOUNT_RC20_ID = "alice@wonderland";
 

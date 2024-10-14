@@ -28,8 +28,7 @@ public class Triggers extends PalauProperties {
             exec(feed(PEERS_FEEDER))
             .exec(feed(ACCOUNT_IDS_RC_20_TRIGGERS_TEST))
             .exec(feed(DOMAIN_IDS_RC_20_TRIGGERS_TEST))
-            .exec(feed(ASSET_DEFINITION_IDS_RC_20_TRIGGERS_TEST))
-
+            .exec(feed(ASSET_DEFINITION_IDS_RC_20_REGISTER_BOND_TRIGGERS_TEST))
             .exec(http("register bond asset")
                     .post(session -> {
                                 return session.getString("peer") + Constants.URL_TRANSACTION;
