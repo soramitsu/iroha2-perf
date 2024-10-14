@@ -1,8 +1,6 @@
 package configs.tests;
 
 import com.opencsv.CSVWriter;
-import healper.Constants;
-import jp.co.soramitsu.iroha2.generated.AssetDefinitionId;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedWriter;
@@ -10,15 +8,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class PalauPrecondition extends Constants {
+public class PalauPrecondition  {
 
-    public static ArrayList<AssetDefinitionId> assetDefinitionIds;
+    public static ArrayList<String> assetDefinitionIds;
 
     public static ArrayList<String> domainIds;
 
     public static ArrayList<String> accountIds;
 
-    private final String path = "iroha2_config/stable/5d44d59/";
+    private final String path = "/Users/michaeltimofeev/Documents/projects/iroha2-perf/src/test/resources/iroha2_config/stable/5d44d59/";
 
     private final String accountOutputCSV = path + "accountIds.csv";
 
@@ -32,11 +30,11 @@ public class PalauPrecondition extends Constants {
 
     private final BufferedWriter assetDefinitionCsvWriter = new BufferedWriter(new FileWriter(assetDefinitionOutputCSV));
 
-    private final CSVWriter accountWriter = new CSVWriter(accountCsvWriter, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, "\n");
+    private final CSVWriter accountWriter = new CSVWriter(accountCsvWriter, '\n', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, "\n");
 
-    private final CSVWriter domainWriter = new CSVWriter(domainCsvWriter, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, "\n");
+    private final CSVWriter domainWriter = new CSVWriter(domainCsvWriter, '\n', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, "\n");
 
-    private final CSVWriter assetDefinitionWriter = new CSVWriter(assetDefinitionCsvWriter, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, "\n");
+    private final CSVWriter assetDefinitionWriter = new CSVWriter(assetDefinitionCsvWriter, '\n', CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, "\n");
 
     private final String[] accountIdHeader = {
             "accountIdForTrigger"
@@ -51,7 +49,7 @@ public class PalauPrecondition extends Constants {
     };
 
     public PalauPrecondition() throws IOException {
-        JsonParser parser = new JsonParser(PATH_TO_GENESIS_RC20);
+        JsonParser parser = new JsonParser(path + "genesis.json");
         AssetDefinitionIdGenerator assetDefinitionIdGenerator = new AssetDefinitionIdGenerator(15);
 
         this.assetDefinitionIds = assetDefinitionIdGenerator.listAssetDefinitionId;
@@ -61,10 +59,10 @@ public class PalauPrecondition extends Constants {
         scvGenerator(accountWriter, accountIdHeader, accountIds);
         csvWriterClose(accountWriter);
 
-        scvGenerator(domainWriter, headerDomainId, accountIds);
+        scvGenerator(domainWriter, headerDomainId, domainIds);
         csvWriterClose(domainWriter);
 
-        scvGenerator(domainWriter, headerAssetDefinitionId, accountIds);
+        scvGenerator(assetDefinitionWriter, headerAssetDefinitionId, assetDefinitionIds);
         csvWriterClose(assetDefinitionWriter);
     }
 
@@ -77,12 +75,17 @@ public class PalauPrecondition extends Constants {
     }
 
     private void scvGenerator(CSVWriter writer, String[] header, @NotNull ArrayList<String> list) {
+        String[] arr = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            arr[i] = list.get(i);
+        }
+
         csvWriter(writer, header);
-        csvWriter(writer, (String[]) list.toArray());
+        csvWriter(writer, arr);
     }
 
     public static void main(String[] args) throws IOException {
-        new PalauPrecondition();
+        PalauPrecondition palauPrecondition = new PalauPrecondition();
     }
 
 }

@@ -6,16 +6,14 @@ import io.gatling.javaapi.core.Session;
 import jp.co.soramitsu.iroha2.CryptoUtils;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.client.Iroha2AsyncClient;
-import jp.co.soramitsu.iroha2.generated.*;
+import jp.co.soramitsu.iroha2.generated.Asset;
 import jp.co.soramitsu.iroha2.model.IrohaUrls;
 import jp.co.soramitsu.iroha2.query.QueryAndExtractor;
 import jp.co.soramitsu.iroha2.query.QueryBuilder;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import static io.gatling.javaapi.core.CoreDsl.csv;
 import static io.gatling.javaapi.core.CoreDsl.scenario;

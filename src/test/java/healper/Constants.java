@@ -30,10 +30,6 @@ public class Constants {
 
     public static final String ALICE_ACCOUNT_ID_VALUE = "7233bfc89dcbd68c19fde6ce6158225298ec1131b6a130d1aeb454c1ab5183c0@wonderland";
 
-    public static final String ALICE_ACCOUNT_RC20_ID = "alice@wonderland";
-
-    public static final String PATH_TO_GENESIS_RC20 = "iroha2_config/stable/5d44d59/genesis.json";
-
     public static final AccountId ALICE_ACCOUNT_ID = ExtensionsKt.asAccountId(ALICE_ACCOUNT_ID_VALUE);
 
     public static final DomainId WONDERLAND_DOMAIN_ID = ExtensionsKt.asDomainId(DEFAULT_DOMAIN);
@@ -46,12 +42,23 @@ public class Constants {
 
     public static final UUID CHAIN_ID = UUID.fromString("00000000-0000-0000-0000-000000000000");
 
-    public static FeederBuilder<String> CSV_FEEDER = csv("iroha2_config/stable/5d44d59/preconditionList.csv").circular();
+    //public static FeederBuilder<String> CSV_FEEDER = csv("iroha2_config/stable/5d44d59/preconditionList.csv").circular();
+
+    public static FeederBuilder<String> CSV_FEEDER = csv("preconditionList.csv").circular();
 
     public static FeederBuilder<String> PEERS_FEEDER = csv("peers.csv").circular();
 
     public static FeederBuilder<String> MULTI_TXS_FEEDER = csv("preconditionListMultiTxs.csv").circular();
 
-    public static FeederBuilder<String> ACCOUNT_IDS_RC_20_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/accountIds.csv").circular();
+    //public static FeederBuilder<String> ACCOUNT_IDS_RC_20_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/accountIds.csv").circular();
 
+    public static FeederBuilder<String> ACCOUNT_IDS_RC_20_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/accountIds.csv").queue();
+
+    public static FeederBuilder<String> DOMAIN_IDS_RC_20_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/accountIds.csv").circular();
+
+    public static FeederBuilder<String> ASSET_DEFINITION_IDS_RC_20_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/assetDefinitionIds.csv").queue();
+
+    public static final String ALICE_ACCOUNT_RC20_ID = "alice@wonderland";
+
+    public static final String PATH_TO_GENESIS_RC20 = "iroha2_config/stable/5d44d59/genesis.json";
 }

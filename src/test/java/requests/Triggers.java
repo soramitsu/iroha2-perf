@@ -1,8 +1,6 @@
 package requests;
 
-import com.beust.ah.A;
 import configs.tests.PalauProperties;
-import configs.tests.AssetDefinitionIdGenerator;
 import healper.Constants;
 import healper.impl.BondImpl;
 import healper.impl.SmartContractImpl;
@@ -12,10 +10,8 @@ import jp.co.soramitsu.iroha2.generated.AssetDefinitionId;
 import jp.co.soramitsu.iroha2.generated.SignedTransaction;
 import objects.Bond;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.Duration;
-import java.util.ArrayList;
 
 import static healper.Constants.*;
 import static io.gatling.javaapi.core.CoreDsl.*;
@@ -27,11 +23,13 @@ public class Triggers extends PalauProperties {
 
     private static SmartContractImpl smartContract = new SmartContractImpl(new PalauProperties());
 
+    // it must be used onceOnly() controller
     public static ChainBuilder registerBondAsset =
-            exec(feed(CSV_FEEDER))
-            .exec(feed(PEERS_FEEDER))
+            exec(feed(PEERS_FEEDER))
             .exec(feed(ACCOUNT_IDS_RC_20_TRIGGERS_TEST))
-            // it must use onlyOne() controller
+            .exec(feed(DOMAIN_IDS_RC_20_TRIGGERS_TEST))
+            .exec(feed(ASSET_DEFINITION_IDS_RC_20_TRIGGERS_TEST))
+
             .exec(http("register bond asset")
                     .post(session -> {
                                 return session.getString("peer") + Constants.URL_TRANSACTION;
@@ -39,28 +37,16 @@ public class Triggers extends PalauProperties {
                     )
                     .body(ByteArrayBody(session -> {
                                         final var currentTime = System.currentTimeMillis();
-                                        final var currencyId = new AssetDefinitionId(ExtensionsKt.asName(session.getString("assetDefinitionIdSender")),
-                                                ExtensionsKt.asDomainId(session.getString("domainIdSender")));
+                                        final var currencyId = new AssetDefinitionId(
+                                                ExtensionsKt.asName(session.getString("assetDefinitionIdForTrigger").split("#")[0]),
+                                                ExtensionsKt.asDomainId(session.getString("assetDefinitionIdForTrigger").split("#")[1])
+                                        );
                                         final var feeRecipientAccountId = ExtensionsKt.asAccountId(session.getString("accountIdForTrigger"));
-                                        //как передавать во всем тесте полученные домены?
-                                        /*try {
-                                            assetDefinitionIdList = new AssetDefinitionIdGenerator().getAssetDefinitionList(5);
-                                            session.set("assetDefinitionIdList", assetDefinitionIdList);
-
-                                        } catch (IOException e) {
-                                            throw new RuntimeException(e);
-                                        }*/
-
-
-
-
-                                        AssetDefinitionId newAssetDefinition = new AssetDefinitionId(ExtensionsKt.asName("perf_xor" + session.getString("domainIdSender").split("-")[0]),
-                                                ExtensionsKt.asDomainId(session.getString("domainIdSender")));
 
                                         return SignedTransaction.Companion.encode(
                                                 bond.getSignedRegisterBondAssetTx(Bond.builder()
                                                                 .currency(currencyId)
-                                                                .bondId(newAssetDefinition)
+                                                                .bondId(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionIdForTrigger")))
                                                                 .quantity(999999999)
                                                                 .nominalValue(new BigDecimal("100000.00"))
                                                                 .couponRate(new BigDecimal("0.1"))
@@ -70,7 +56,7 @@ public class Triggers extends PalauProperties {
                                                                 .maturityDateMs(currentTime + Duration.ofSeconds(180).toMillis())
                                                                 .registrationDateMs(currentTime)
                                                                 .build()
-                                                        , session)
+                                                        , session.getString("accountIdForTrigger"))
                                         );
                                     }
                             )

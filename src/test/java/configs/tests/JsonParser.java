@@ -11,9 +11,9 @@ public class JsonParser {
 
     private JsonNode transactionNode;
 
-    protected ArrayList<String> domainIds;
+    protected ArrayList<String> domainIds = new ArrayList<>();
 
-    protected ArrayList<String> accountIds;
+    protected ArrayList<String> accountIds = new ArrayList<>();
 
     public JsonParser(String pathToGenesis) throws IOException {
         this.transactionNode = getTransactions(pathToGenesis);
@@ -23,7 +23,7 @@ public class JsonParser {
 
     private JsonNode getTransactions(String pathToGenesis) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(JsonParser.class.getClassLoader().getResource(pathToGenesis).getFile());
+        File file = new File(JsonParser.class.getClassLoader().getResource("iroha2_config/stable/5d44d59/genesis.json").getFile());
         JsonNode rootNode = objectMapper.readTree(file);
         return rootNode.path("transactions");
     }
@@ -52,11 +52,11 @@ public class JsonParser {
                     JsonNode newAccountNode = transaction.path("Register").path("NewAccount");
                     if (!newAccountNode.isMissingNode()) {
                         String domain = newAccountNode.path("id").asText().split("@")[1];
-                        if (domain.equals(domainIds.get(i)) && count < 5) {
+                        if (domain.equals(domainIds.get(i)) && count < 15) {
                             accountIds.add(newAccountNode.path("id").asText());
                             count++;
                         }
-                        if (count == 5) {
+                        if (count == 15) {
                             if (!domain.equals(domainIds.get(i))) {
                                 count = 0;
                             }

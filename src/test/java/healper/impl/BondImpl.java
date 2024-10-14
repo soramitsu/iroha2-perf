@@ -1,6 +1,8 @@
 package healper.impl;
 
 import configs.tests.PalauProperties;
+import healper.BondService;
+import healper.Constants;
 import healper.LimitedMetadataBuilder;
 import io.gatling.javaapi.core.Session;
 import jp.co.soramitsu.domain.transfer.enums.TransactionType;
@@ -10,10 +12,8 @@ import jp.co.soramitsu.iroha2.generated.*;
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import healper.BondService;
 import objects.Bond;
 import org.springframework.stereotype.Service;
-import healper.Constants;
 
 import static jp.co.soramitsu.core.iroha2.util.MetadataUtil.enrichMetadata;
 import static jp.co.soramitsu.core.iroha2.util.TransactionUtil.TRANSACTION_TYPE_METADATA_KEY;
@@ -30,7 +30,7 @@ public class BondImpl extends Constants implements BondService  {
     }
 
     @Override
-    public SignedTransaction getSignedRegisterBondAssetTx(Bond bond, Session session) throws ClientErrorException {
+    public SignedTransaction getSignedRegisterBondAssetTx(Bond bond, String accountId) throws ClientErrorException {
         final var bondMetadata = buildBondMetadata(bond);
         final var newAssetDefinition = new NewAssetDefinition(
                 bond.bondId(),
@@ -48,7 +48,7 @@ public class BondImpl extends Constants implements BondService  {
                         triggerId,
                         ExtensionsKt.asName(palauProperties.getTrigger().getRegisterBondTriggerKey()),
                         ExtensionsKt.asValue(newAssetDefinition.component1()))
-                .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")));
+                .account(ExtensionsKt.asAccountId(accountId));
 
         enrichMetadata(registerBond, TRANSACTION_TYPE_METADATA_KEY,
                 TransactionType.BOND_ASSET_ISSUE.name());

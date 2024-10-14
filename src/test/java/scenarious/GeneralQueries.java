@@ -1,9 +1,11 @@
 package scenarious;
 
-import static io.gatling.javaapi.core.CoreDsl.*;
-
-import io.gatling.javaapi.core.*;
+import io.gatling.javaapi.core.CoreDsl;
+import io.gatling.javaapi.core.ScenarioBuilder;
 import requests.Queries;
+
+import static io.gatling.javaapi.core.CoreDsl.csv;
+import static io.gatling.javaapi.core.CoreDsl.scenario;
 
 
 public class GeneralQueries {
