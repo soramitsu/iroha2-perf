@@ -50,10 +50,11 @@ public class Transactions extends Constants {
         SCN 1. кидаю 1 транзакцию на изменение метадаты по всем зарегистрированным пользователям
         SCN 2. кидаю несколько транзакций на изменение метадаты на 10 условных пользователей
     */
-
-    public static ChainBuilder grantPermissionForTriggers = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
-            //TODO: it must grant permission for users on special .CSV (it must be created)
-            //EXECUTION DELAY after called the scn 10 sec
+    //TODO: it must grant permission for users on special .CSV (it must be created)
+    //EXECUTION DELAY after called the scn 10 sec
+    public static ChainBuilder grantPermissionForTriggers =
+            exec(feed(CSV_FEEDER))
+            .exec(feed(PEERS_FEEDER))
             .exec(http("tx_grand_permission")
                     .post(session -> {
                                 return session.getString("peer") + Constants.URL_TRANSACTION;
