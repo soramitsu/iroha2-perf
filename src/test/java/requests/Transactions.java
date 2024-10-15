@@ -146,7 +146,7 @@ public class Transactions extends Constants {
             //TODO: It must keep running in a loop after each call buySomeBondsBondAssetTrigger transaction
             // EXECUTION DELAY after called the scn 10 sec
             .exec(feed(PEERS_FEEDER))
-            .exec(feed(ASSET_DEFINITION_IDS_RC_20_REGISTER_BOND_TRIGGERS_TEST))
+            .exec(feed(ASSET_DEFINITION_IDS_RC_20_BUY_BOND_TRIGGERS_TEST))
             .exec(http("tx_redeem_bond")
                     .post(session -> {
                                 return session.getString("peer") + Constants.URL_TRANSACTION;
