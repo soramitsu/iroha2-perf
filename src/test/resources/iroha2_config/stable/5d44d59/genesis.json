@@ -39802,19 +39802,6 @@
         }
       },
       {
-        "Grant": {
-          "object": {
-            "PermissionToken": {
-              "definition_id": "CanSetParameters",
-              "payload": null
-            }
-          },
-          "destination_id": {
-            "AccountId": "alice@wonderland"
-          }
-        }
-      },
-      {
         "Mint": {
           "object": "100000_u32",
           "destination_id": {
