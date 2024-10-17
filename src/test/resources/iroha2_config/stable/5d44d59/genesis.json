@@ -49517,19 +49517,6 @@
             "AccountId": "alice@wonderland"
           }
         }
-      },
-      {
-        "Grant": {
-          "object": {
-            "PermissionToken": {
-              "definition_id": "CanSetParameters",
-              "payload": null
-            }
-          },
-          "destination_id": {
-            "AccountId": "alice@wonderland"
-          }
-        }
       }
     ]
   ],
