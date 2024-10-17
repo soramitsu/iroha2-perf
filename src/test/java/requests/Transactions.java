@@ -105,6 +105,7 @@ public class Transactions extends Constants {
             exec(feed(CSV_FEEDER))
                     .exec(feed(PEERS_FEEDER))
                     .exec(feed(ASSET_DEFINITION_IDS_RC_20_BUY_BOND_TRIGGERS_TEST))
+                    .exec(feed(NEW_BOND_IDS_RC_20_BUY_BOND_TRIGGERS_TEST))
                     .exec(http("tx_buy_bonds")
                             .post(session -> {
                                         return session.getString("peer") + Constants.URL_TRANSACTION;
@@ -113,7 +114,7 @@ public class Transactions extends Constants {
                             .body(ByteArrayBody(session -> {
                                                 final var map = new HashMap<Name, Value>();
                                                 map.put(ExtensionsKt.asName("bond"),
-                                                        ExtensionsKt.asValue(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionIdForTrigger"))));
+                                                        ExtensionsKt.asValue(ExtensionsKt.asAssetDefinitionId(session.getString("bondId"))));
 
                                                 map.put(ExtensionsKt.asName("quantity"),
                                                         ExtensionsKt.asValue(2));
@@ -138,27 +139,28 @@ public class Transactions extends Constants {
                             )
                     );
 
-
-    public static ChainBuilder triggeringBondAssetSmartContract = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
-            //TODO: EXECUTION DELAY after called the scn 10 sec
-            .exec(http("tx_triggering_bond_asset_smart_contract")
-                    .post(session -> {
-                                return session.getString("peer") + Constants.URL_TRANSACTION;
-                            }
-                    )
-                    .body(ByteArrayBody(session -> {
-                                        // что бы увидеть исполнение триггера нужна дамми транзакция
-                                        final var dummyTransaction = TransactionBuilder.Companion.builder()
-                                                .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                .setKeyValue(
-                                                        ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")),
-                                                        ExtensionsKt.asName("dummy"), ExtensionsKt.asValue(1))
-                                                .buildSigned(ALICE_KEYPAIR);
-                                        return SignedTransaction.Companion.encode(dummyTransaction);
+    //TODO: EXECUTION DELAY after called the scn 10 sec
+    public static ChainBuilder triggeringBondAssetSmartContract =
+            exec(feed(CSV_FEEDER))
+                    .exec(feed(PEERS_FEEDER))
+                    .exec(http("tx_triggering_bond_asset_smart_contract")
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
                                     }
                             )
-                    )
-            );
+                            .body(ByteArrayBody(session -> {
+                                                // что бы увидеть исполнение триггера нужна дамми транзакция
+                                                final var dummyTransaction = TransactionBuilder.Companion.builder()
+                                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                                                        .setKeyValue(
+                                                                ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")),
+                                                                ExtensionsKt.asName("dummy"), ExtensionsKt.asValue(1))
+                                                        .buildSigned(ALICE_KEYPAIR);
+                                                return SignedTransaction.Companion.encode(dummyTransaction);
+                                            }
+                                    )
+                            )
+                    );
 
 
     /*

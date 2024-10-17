@@ -102,7 +102,7 @@ public class Triggers extends PalauProperties {
                                                                 .maturityDateMs(currentTime + Duration.ofSeconds(180).toMillis())
                                                                 .registrationDateMs(currentTime)
                                                                 .build()
-                                                        , session.getString("accountIdForTrigger"))
+                                                        , ALICE_ACCOUNT + "@" + DEFAULT_DOMAIN)
                                         );
                                     }
                             )
