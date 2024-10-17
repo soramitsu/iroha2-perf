@@ -49540,23 +49540,25 @@
         }
       },
       {
-        "Register": {
-          "NewRole": {
-            "id": "ALICE_METADATA_ACCESS",
-            "permissions": [
-              {
-                "definition_id": "CanRemoveKeyValueInUserAccount",
-                "payload": {
-                  "account_id": "alice@wonderland"
-                }
-              },
-              {
-                "definition_id": "CanSetKeyValueInUserAccount",
-                "payload": {
-                  "account_id": "alice@wonderland"
-                }
-              }
-            ]
+        "Grant": {
+          "object": {
+            "RoleId": "MINT_ASSETS_WITH_DEFINITIONS"
+          },
+          "destination_id": {
+            "AccountId": "alice@wonderland"
+          }
+        }
+      },
+      {
+        "Grant": {
+          "object": {
+            "PermissionToken": {
+              "definition_id": "CanSetParameters",
+              "payload": null
+            }
+          },
+          "destination_id": {
+            "AccountId": "alice@wonderland"
           }
         }
       }
