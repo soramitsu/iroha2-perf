@@ -56,6 +56,8 @@ public class Constants {
 
     public static FeederBuilder<String> ASSET_DEFINITION_IDS_RC_20_BUY_BOND_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/assetDefinitionIds.csv").circular();
 
+    public static FeederBuilder<String> NEW_BOND_IDS_RC_20_BUY_BOND_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/bondIds.csv").circular();
+
     public static final String ALICE_ACCOUNT_RC20_ID = "alice@wonderland";
 
     public static final String PATH_TO_GENESIS_RC20 = "iroha2_config/stable/5d44d59/genesis.json";

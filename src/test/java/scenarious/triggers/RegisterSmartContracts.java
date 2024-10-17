@@ -2,6 +2,7 @@ package scenarious.triggers;
 
 import configs.tests.PalauPrecondition;
 import io.gatling.javaapi.core.ScenarioBuilder;
+import requests.Transactions;
 import requests.Triggers;
 
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class RegisterSmartContracts {
             .feed(csv("peers.csv").circular())
             .feed(csv("iroha2_config/stable/5d44d59/accountIds.csv").queue())
             .exec(
-                    Triggers.registerBondAsset
+                    Triggers.registerBondAsset,
+                    Transactions.postTransferAsset
             );
 }
