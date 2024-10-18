@@ -5,10 +5,12 @@ import healper.BondService;
 import healper.Constants;
 import healper.LimitedMetadataBuilder;
 import io.gatling.javaapi.core.Session;
+
 import jp.co.soramitsu.domain.transfer.enums.TransactionType;
 import jp.co.soramitsu.exceptions.ClientErrorException;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.generated.*;
+
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +49,10 @@ public class BondImpl extends Constants implements BondService  {
                 .setKeyValue(
                         triggerId,
                         ExtensionsKt.asName(palauProperties.getTrigger().getRegisterBondTriggerKey()),
-                        ExtensionsKt.asValue(newAssetDefinition.component1()))
+                        //ExtensionsKt.asValue(newAssetDefinition.component1());
+                        ExtensionsKt.asValue(newAssetDefinition)
+
+                )
                 .account(ExtensionsKt.asAccountId(accountId));
 
         enrichMetadata(registerBond, TRANSACTION_TYPE_METADATA_KEY,
