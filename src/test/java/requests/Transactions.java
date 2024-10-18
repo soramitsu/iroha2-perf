@@ -76,6 +76,7 @@ public class Transactions extends Constants {
                                     }
                             )
                             .body(ByteArrayBody(session -> {
+                                        System.out.println(session.getString("anotherDevAccountIdSender"));
                                                 final var grantPermissionsForSmartContractsTrx = TransactionBuilder.Companion.builder()
                                                         .grantPermissionToken(
                                                                 Permissions.CanRemoveKeyValueInUserAccount,
