@@ -49450,12 +49450,12 @@
           },
           {
             "NewParameter": {
-              "Parameter": "?WASMFuelLimit=23000000"
+              "Parameter": "?WASMFuelLimit=524288000000"
             }
           },
           {
             "NewParameter": {
-              "Parameter": "?WASMMaxMemory=524288000"
+              "Parameter": "?WASMMaxMemory=4294967295"
             }
           }
         ]
