@@ -23,8 +23,6 @@ public class RegisterSmartContracts {
 
     // must be used onceOnly() controller
     public static ScenarioBuilder registerBondAsset = scenario("register bond asset on each domain")
-            .feed(csv("peers.csv").circular())
-            .feed(csv("iroha2_config/stable/5d44d59/accountIds.csv").queue())
             .exec(
                     Triggers.registerBondAsset
             );

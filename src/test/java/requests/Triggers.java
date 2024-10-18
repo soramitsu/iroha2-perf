@@ -28,9 +28,9 @@ public class Triggers extends PalauProperties {
     // наминтить ассет
     // после стартавать смартконтракты
 
-    public static ChainBuilder registerBondAssetTrigger = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
+    public static ChainBuilder registerBondAssetTrigger =
             // it must use onlyOne() controller
-            .exec(http("register bond_asset trigger")
+            exec(http("register bond_asset trigger")
                     .post(session -> {
                                 return "/peer-0/" + Constants.URL_TRANSACTION;
                             }
@@ -42,9 +42,9 @@ public class Triggers extends PalauProperties {
                     )
             );
 
-    public static ChainBuilder registerBuyBondsTrigger = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
+    public static ChainBuilder registerBuyBondsTrigger =
             // it must use onlyOne() controller
-            .exec(http("register buy_bonds trigger")
+            exec(http("register buy_bonds trigger")
                     .post(session -> {
                                 return "/peer-0/" + Constants.URL_TRANSACTION;
                             }
@@ -56,9 +56,9 @@ public class Triggers extends PalauProperties {
                     )
             );
 
-    public static ChainBuilder registerRedeemBondsTrigger = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
+    public static ChainBuilder registerRedeemBondsTrigger =
             // it must use onlyOne() controller
-            .exec(http("register redeem_bonds trigger")
+            exec(http("register redeem_bonds trigger")
                     .post(session -> {
                                 return "/peer-0/" + Constants.URL_TRANSACTION;
                             }
@@ -73,9 +73,9 @@ public class Triggers extends PalauProperties {
     public static ChainBuilder registerBondAsset =
             exec(feed(PEERS_FEEDER))
             .exec(feed(ACCOUNT_IDS_RC_20_TRIGGERS_TEST))
-            .exec(feed(DOMAIN_IDS_RC_20_TRIGGERS_TEST))
-            .exec(feed(ASSET_DEFINITION_IDS_RC_20_REGISTER_BOND_TRIGGERS_TEST))
-            .exec(feed(NEW_BOND_IDS_RC_20_BUY_BOND_TRIGGERS_TEST))
+            /*.exec(feed(DOMAIN_IDS_RC_20_TRIGGERS_TEST))*/
+            .exec(feed(ASSET_DEFINITION_IDS_RC_20_REGISTER_BOND_TRIGGERS_TEST))//*
+            .exec(feed(NEW_BOND_IDS_RC_20_BUY_BOND_TRIGGERS_TEST_QUEUE))//*
             .exec(http("register bond asset")
                     .post(session -> {
                                 return session.getString("peer") + Constants.URL_TRANSACTION;

@@ -10,7 +10,7 @@ import static io.gatling.javaapi.core.CoreDsl.scenario;
 
 public class RedeemBonds {
     public static ScenarioBuilder redeemBonds = scenario("redeem bonds")
-            .feed(csv("preconditionList.csv").circular())
+            /*.feed(csv("preconditionList.csv").circular())*/
             .exec(Transactions.redeemBondsBondAssetTrigger)
             .pace(Duration.ofSeconds(5));
 }

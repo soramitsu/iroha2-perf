@@ -8,9 +8,7 @@ import jp.co.soramitsu.iroha2.ExtensionsKt;
 import jp.co.soramitsu.iroha2.Permissions;
 import jp.co.soramitsu.iroha2.generated.*;
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,7 +42,6 @@ public class Transactions extends Constants {
             ).exec(http("tx_register_definition_id_status").get(Constants.URL_STATUS).check(status().is(200)));
 
     public static ChainBuilder postMintAsset =
-            //TODO: set a correct file.csv, CSV_FEEDER - it's mock file
             exec(feed(CSV_FEEDER))
                     .exec(feed(ACCOUNT_IDS_RC_20_TRIGGERS_TEST))
                     .exec(http("mint asset")
@@ -104,8 +101,7 @@ public class Transactions extends Constants {
     public static ChainBuilder buySomeBondsBondAssetTrigger =
             exec(feed(CSV_FEEDER))
                     .exec(feed(PEERS_FEEDER))
-                    .exec(feed(ASSET_DEFINITION_IDS_RC_20_BUY_BOND_TRIGGERS_TEST))
-                    .exec(feed(NEW_BOND_IDS_RC_20_BUY_BOND_TRIGGERS_TEST))
+                    .exec(feed(NEW_BOND_IDS_RC_20_BUY_BOND_TRIGGERS_TEST_CIRCULAR))
                     .exec(http("tx_buy_bonds")
                             .post(session -> {
                                         return session.getString("peer") + Constants.URL_TRANSACTION;
@@ -139,7 +135,6 @@ public class Transactions extends Constants {
                             )
                     );
 
-    //TODO: EXECUTION DELAY after called the scn 10 sec
     public static ChainBuilder triggeringBondAssetSmartContract =
             exec(feed(CSV_FEEDER))
                     .exec(feed(PEERS_FEEDER))
@@ -149,7 +144,6 @@ public class Transactions extends Constants {
                                     }
                             )
                             .body(ByteArrayBody(session -> {
-                                                // что бы увидеть исполнение триггера нужна дамми транзакция
                                                 final var dummyTransaction = TransactionBuilder.Companion.builder()
                                                         .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
                                                         .setKeyValue(
@@ -169,43 +163,43 @@ public class Transactions extends Constants {
         SCN 2. кидаю несколько транзакций на изменение метадаты на 10 условных пользователей
     */
 
-    public static ChainBuilder redeemBondsBondAssetTrigger = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
-            //TODO: It must keep running in a loop after each call buySomeBondsBondAssetTrigger transaction
-            // EXECUTION DELAY after called the scn 10 sec
-            .exec(feed(PEERS_FEEDER))
-            .exec(feed(ASSET_DEFINITION_IDS_RC_20_BUY_BOND_TRIGGERS_TEST))
-            .exec(http("tx_redeem_bond")
-                    .post(session -> {
-                                return session.getString("peer") + Constants.URL_TRANSACTION;
-                            }
-                    )
-                    .body(ByteArrayBody(session -> {
-                                        final var map = new HashMap<Name, Value>();
-                                        map.put(ExtensionsKt.asName("bond"),
-                                                ExtensionsKt.asValue(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionIdForTrigger"))));
-
-                                        map.put(ExtensionsKt.asName("quantity"),
-                                                ExtensionsKt.asValue(2));
-
-                                        final var metadata = new Metadata(map);
-                                        final var limitedMetadata = new Value.LimitedMetadata(metadata);
-
-                                        final var redeemBonds = TransactionBuilder.Companion.builder()
-                                                .account(ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID))
-                                                .setKeyValue(
-                                                        ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")),
-                                                        ExtensionsKt.asName("redeem_bonds"),
-                                                        limitedMetadata);
-
-                                        redeemBonds.getMetadata().getValue().put(
-                                                ExtensionsKt.asName("transaction_type"),
-                                                ExtensionsKt.asValue(TransactionType.BOND_REDEMPTION_PAYMENT.name()));
-
-                                        return SignedTransaction.Companion.encode(redeemBonds.buildSigned(ALICE_KEYPAIR));
+    //уточнить сколько раз должна пролетать транзакция  должна ли она пролетать для пользователя или для ассет дефинишена или для триггера
+    public static ChainBuilder redeemBondsBondAssetTrigger =
+            exec(feed(CSV_FEEDER))
+                    .exec(feed(PEERS_FEEDER))
+                    .exec(feed(ASSET_DEFINITION_IDS_RC_20_BUY_BOND_TRIGGERS_TEST))
+                    .exec(http("tx_redeem_bond")
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
                                     }
                             )
-                    )
-            );
+                            .body(ByteArrayBody(session -> {
+                                                final var map = new HashMap<Name, Value>();
+                                                map.put(ExtensionsKt.asName("bond"),
+                                                        ExtensionsKt.asValue(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionIdForTrigger"))));
+
+                                                map.put(ExtensionsKt.asName("quantity"),
+                                                        ExtensionsKt.asValue(2));
+
+                                                final var metadata = new Metadata(map);
+                                                final var limitedMetadata = new Value.LimitedMetadata(metadata);
+
+                                                final var redeemBonds = TransactionBuilder.Companion.builder()
+                                                        .account(ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID))
+                                                        .setKeyValue(
+                                                                ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")),
+                                                                ExtensionsKt.asName("redeem_bonds"),
+                                                                limitedMetadata);
+
+                                                redeemBonds.getMetadata().getValue().put(
+                                                        ExtensionsKt.asName("transaction_type"),
+                                                        ExtensionsKt.asValue(TransactionType.BOND_REDEMPTION_PAYMENT.name()));
+
+                                                return SignedTransaction.Companion.encode(redeemBonds.buildSigned(ALICE_KEYPAIR));
+                                            }
+                                    )
+                            )
+                    );
 
     public static ChainBuilder postMultiInstructions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
             .exec(
