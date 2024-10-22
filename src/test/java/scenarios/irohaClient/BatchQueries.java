@@ -1,4 +1,4 @@
-package scenarious.irohaClient;
+package scenarios.irohaClient;
 
 import io.gatling.javaapi.core.CoreDsl;
 import io.gatling.javaapi.core.ScenarioBuilder;

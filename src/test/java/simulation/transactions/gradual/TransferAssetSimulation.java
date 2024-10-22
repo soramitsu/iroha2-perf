@@ -4,7 +4,7 @@ import configs.gatling.LoadProfile;
 import io.gatling.javaapi.core.Simulation;
 
 import static configs.gatling.Protocol.httpProtocol;
-import static scenarious.GeneralTransaction.txsTransferAsset;
+import static scenarios.GeneralTransaction.txsTransferAsset;
 
 public class TransferAssetSimulation extends Simulation {
     {

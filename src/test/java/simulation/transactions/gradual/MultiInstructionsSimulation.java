@@ -4,7 +4,7 @@ import configs.gatling.LoadProfile;
 import io.gatling.javaapi.core.Simulation;
 
 import static configs.gatling.Protocol.httpProtocol;
-import static scenarious.GeneralTransaction.txsMultiInstructions;
+import static scenarios.GeneralTransaction.txsMultiInstructions;
 
 public class MultiInstructionsSimulation extends Simulation {
     {

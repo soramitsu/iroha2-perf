@@ -1,4 +1,4 @@
-package scenarious;
+package scenarios;
 
 public class DefinitionId {
     /*public static ScenarioBuilder definitionId = scenario("register definition id")

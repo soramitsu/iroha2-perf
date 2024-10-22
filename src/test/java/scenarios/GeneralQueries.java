@@ -1,4 +1,4 @@
-package scenarious;
+package scenarios;
 
 import io.gatling.javaapi.core.CoreDsl;
 import io.gatling.javaapi.core.ScenarioBuilder;

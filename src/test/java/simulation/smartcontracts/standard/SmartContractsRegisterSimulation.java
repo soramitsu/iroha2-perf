@@ -5,10 +5,10 @@ import io.gatling.javaapi.core.Simulation;
 
 import static configs.gatling.Protocol.httpProtocol;
 import static io.gatling.javaapi.core.OpenInjectionStep.atOnceUsers;
-import static scenarious.triggers.BuyBonds.buyBonds;
-import static scenarious.triggers.RedeemBonds.redeemBonds;
-import static scenarious.triggers.RegisterSmartContracts.registerBondAsset;
-import static scenarious.triggers.RegisterSmartContracts.registerSmartContracts;
+import static scenarios.triggers.BuyBonds.buyBonds;
+import static scenarios.triggers.RedeemBonds.redeemBonds;
+import static scenarios.triggers.RegisterSmartContracts.registerBondAsset;
+import static scenarios.triggers.RegisterSmartContracts.registerSmartContracts;
 
 public class SmartContractsRegisterSimulation extends Simulation{
     {

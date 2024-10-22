@@ -4,7 +4,7 @@ import configs.gatling.LoadProfile;
 import io.gatling.javaapi.core.Simulation;
 
 import static configs.gatling.Protocol.httpProtocol;
-import static scenarious.GeneralQueries.findAssetById;
+import static scenarios.GeneralQueries.findAssetById;
 
 public class FindAssetByIdSimulation extends Simulation {
     {

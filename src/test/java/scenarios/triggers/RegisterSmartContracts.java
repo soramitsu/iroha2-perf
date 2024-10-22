@@ -1,11 +1,8 @@
-package scenarious.triggers;
+package scenarios.triggers;
 
-import configs.tests.PalauPrecondition;
 import io.gatling.javaapi.core.ScenarioBuilder;
-import requests.Transactions;
 import requests.Triggers;
 
-import java.io.IOException;
 import java.time.Duration;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
