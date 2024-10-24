@@ -1,12 +1,17 @@
 package requests;
 
+import healper.Constants;
 import io.gatling.javaapi.core.ChainBuilder;
+import jp.co.soramitsu.domain.transfer.enums.TransactionType;
 import jp.co.soramitsu.iroha2.CryptoUtils;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
+import jp.co.soramitsu.iroha2.Permissions;
 import jp.co.soramitsu.iroha2.generated.*;
 import jp.co.soramitsu.iroha2.transaction.TransactionBuilder;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.HashMap;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
@@ -25,19 +30,176 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                                .chainId(Constants.CHAIN_ID)
                                                                 .registerAssetDefinition(
                                                                         ExtensionsKt.asAssetDefinitionId("performance_token_#" + session.getString("domainIdSender")),
-                                                                        new AssetType.Numeric(new NumericSpec())
+                                                                        new AssetValueType.Quantity()
                                                                 )
-                                                                .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender")))
+                                                                .buildSigned(ALICE_KEYPAIR)
                                                 );
                                             }
                                     )
                             )
             ).exec(http("tx_register_definition_id_status").get(Constants.URL_STATUS).check(status().is(200)));
+
+    public static ChainBuilder postMintAsset =
+            exec(feed(CSV_FEEDER))
+                    .exec(feed(ACCOUNT_IDS_RC_20_TRIGGERS_TEST))
+                    .exec(http("mint asset")
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
+                                    }
+                            )
+                            .body(ByteArrayBody(session -> {
+                                                return SignedTransaction.Companion.encode(
+                                                        TransactionBuilder.Companion.builder()
+                                                        .account(ExtensionsKt.asAccountId(session.getString("accountIdForTrigger")))
+                                                        .mintAsset(new AssetId(
+                                                                        ExtensionsKt.asAssetDefinitionId(session.getString("")),
+                                                                        ExtensionsKt.asAccountId(session.getString("accountIdForTrigger"))
+                                                                ),
+                                                                new BigDecimal(10_000_000))
+                                                        .buildSigned(ALICE_KEYPAIR)
+                                                );
+                                            }
+                                    )
+                            )
+                    );
+
+    //TODO: It must keep running in a loop
+    // EXECUTION DELAY after called the scn 10,5 sec
+    public static ChainBuilder grantPermissionForTriggers =
+            exec(feed(CSV_FEEDER))
+                    .exec(feed(PEERS_FEEDER))
+                    .exec(http("tx_grand_permission")
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
+                                    }
+                            )
+                            .body(ByteArrayBody(session -> {
+                                                final var grantPermissionsForSmartContractsTrx = TransactionBuilder.Companion.builder()
+                                                        .grantPermissionToken(
+                                                                Permissions.CanRemoveKeyValueInUserAccount,
+                                                                ExtensionsKt.asJsonString(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender"))),
+                                                                ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID))
+                                                        .grantPermissionToken(
+                                                                Permissions.CanSetKeyValueInUserAccount,
+                                                                ExtensionsKt.asJsonString(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender"))),
+                                                                ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID))
+                                                        .grantPermissionToken(
+                                                                Permissions.CanTransferUserAssetsToken,
+                                                                ExtensionsKt.asJsonString(ExtensionsKt.asAssetId(session.getString("anotherDevAssetIdSender"))),
+                                                                ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID))
+                                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                                                        .buildSigned(ALICE_KEYPAIR);
+
+                                                return SignedTransaction.Companion.encode(grantPermissionsForSmartContractsTrx);
+                                            }
+                                    )
+                            )
+                    );
+
+    public static ChainBuilder buySomeBondsBondAssetTrigger =
+            exec(feed(CSV_FEEDER))
+                    .exec(feed(PEERS_FEEDER))
+                    .exec(feed(NEW_BOND_IDS_RC_20_BUY_BOND_TRIGGERS_TEST_CIRCULAR))
+                    .exec(http("tx_buy_bonds")
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
+                                    }
+                            )
+                            .body(ByteArrayBody(session -> {
+                                                final var map = new HashMap<Name, Value>();
+                                                map.put(ExtensionsKt.asName("bond"),
+                                                        ExtensionsKt.asValue(ExtensionsKt.asAssetDefinitionId(session.getString("bondId"))));
+
+                                                map.put(ExtensionsKt.asName("quantity"),
+                                                        ExtensionsKt.asValue(2));
+
+                                                final var metadata = new Metadata(map);
+                                                final var limitedMetadata = new Value.LimitedMetadata(metadata);
+
+                                                final var buyBonds = TransactionBuilder.Companion.builder()
+                                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                                                        .setKeyValue(
+                                                                ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")),
+                                                                ExtensionsKt.asName("buy_bonds"),
+                                                                limitedMetadata);
+
+                                                buyBonds.getMetadata().getValue().put(
+                                                        ExtensionsKt.asName("transaction_type"),
+                                                        ExtensionsKt.asValue(TransactionType.BOND_ASSET_PURCHASE.name()));
+
+                                                return SignedTransaction.Companion.encode(buyBonds.buildSigned(ALICE_KEYPAIR));
+                                            }
+                                    )
+                            )
+                    );
+
+    public static ChainBuilder triggeringBondAssetSmartContract =
+            exec(feed(CSV_FEEDER))
+                    .exec(feed(PEERS_FEEDER))
+                    .exec(http("tx_triggering_bond_asset_smart_contract")
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
+                                    }
+                            )
+                            .body(ByteArrayBody(session -> {
+                                                final var dummyTransaction = TransactionBuilder.Companion.builder()
+                                                        .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
+                                                        .setKeyValue(
+                                                                ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")),
+                                                                ExtensionsKt.asName("dummy"), ExtensionsKt.asValue(1))
+                                                        .buildSigned(ALICE_KEYPAIR);
+                                                return SignedTransaction.Companion.encode(dummyTransaction);
+                                            }
+                                    )
+                            )
+                    );
+
+
+    /*
+        for CBDC
+        SCN 1. кидаю 1 транзакцию на изменение метадаты по всем зарегистрированным пользователям
+        SCN 2. кидаю несколько транзакций на изменение метадаты на 10 условных пользователей
+    */
+
+    //уточнить сколько раз должна пролетать транзакция  должна ли она пролетать для пользователя или для ассет дефинишена или для триггера
+    public static ChainBuilder redeemBondsBondAssetTrigger =
+            exec(feed(CSV_FEEDER))
+                    .exec(feed(PEERS_FEEDER))
+                    .exec(feed(ASSET_DEFINITION_IDS_RC_20_BUY_BOND_TRIGGERS_TEST))
+                    .exec(http("tx_redeem_bond")
+                            .post(session -> {
+                                        return session.getString("peer") + Constants.URL_TRANSACTION;
+                                    }
+                            )
+                            .body(ByteArrayBody(session -> {
+                                                final var map = new HashMap<Name, Value>();
+                                                map.put(ExtensionsKt.asName("bond"),
+                                                        ExtensionsKt.asValue(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionIdForTrigger"))));
+
+                                                map.put(ExtensionsKt.asName("quantity"),
+                                                        ExtensionsKt.asValue(2));
+
+                                                final var metadata = new Metadata(map);
+                                                final var limitedMetadata = new Value.LimitedMetadata(metadata);
+
+                                                final var redeemBonds = TransactionBuilder.Companion.builder()
+                                                        .account(ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID))
+                                                        .setKeyValue(
+                                                                ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")),
+                                                                ExtensionsKt.asName("redeem_bonds"),
+                                                                limitedMetadata);
+
+                                                redeemBonds.getMetadata().getValue().put(
+                                                        ExtensionsKt.asName("transaction_type"),
+                                                        ExtensionsKt.asValue(TransactionType.BOND_REDEMPTION_PAYMENT.name()));
+
+                                                return SignedTransaction.Companion.encode(redeemBonds.buildSigned(ALICE_KEYPAIR));
+                                            }
+                                    )
+                            )
+                    );
 
     public static ChainBuilder postMultiInstructions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER)).exec(feed(MULTI_TXS_FEEDER))
             .exec(
@@ -50,26 +212,17 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                                .chainId(Constants.CHAIN_ID)
+                                                                //.chainId(Constants.CHAIN_ID)
                                                                 .registerDomain(ExtensionsKt.asDomainId(session.getString("domainId_0")))
                                                                 .registerDomain(ExtensionsKt.asDomainId(session.getString("domainId_1")))
                                                                 .registerDomain(ExtensionsKt.asDomainId(session.getString("domainId_2")))
 
-                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_0")), new AssetType.Numeric(new NumericSpec()))
-                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_1")), new AssetType.Numeric(new NumericSpec()))
-                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_0")), new AssetType.Numeric(new NumericSpec()))
-                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_1")), new AssetType.Numeric(new NumericSpec()))
+                                                                /*.registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_0")), new AssetValueType.Quantity())
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_1")), new AssetValueType.Quantity())
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_0")), new AssetValueType.Quantity())
+                                                                .registerAssetDefinition(ExtensionsKt.asAssetDefinitionId(session.getString("assetDefinitionId_2_1")), new AssetValueType.Quantity())*/
 
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_0")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_1")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_2")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_3")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_4")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_5")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_6")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_7")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_8")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_0")))
+                                                                /*.registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_0")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_1")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_2")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_3")))
@@ -77,9 +230,18 @@ public class Transactions extends Constants {
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_5")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_6")))
                                                                 .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_7")))
-                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_8")))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdReceiver_8")))*/
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_0")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_1")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_2")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_3")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_4")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_5")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_6")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_7")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
+                                                                .registerAccount(ExtensionsKt.asAccountId(session.getString("accountIdSender_8")), Collections.singletonList(ExtensionsKt.toIrohaPublicKey(ALICE_KEYPAIR.getPublic())))
 
-                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
+                                                                /*.registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_2")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_3")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
@@ -88,6 +250,15 @@ public class Transactions extends Constants {
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_6")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_7")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
                                                                 .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), new AssetValue.Numeric(new Numeric(BigInteger.TEN, Long.parseLong("1"))))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_2")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_3")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_4")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_5")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_6")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_7")), new AssetValue.Quantity(1))
+                                                                .registerAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), new AssetValue.Quantity(1))*/
 
                                                                 .mintAsset(ExtensionsKt.asAssetId(session.getString("assetId_0")), 100)
                                                                 .mintAsset(ExtensionsKt.asAssetId(session.getString("assetId_1")), 100)
@@ -126,9 +297,7 @@ public class Transactions extends Constants {
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), 1, ExtensionsKt.asAccountId(session.getString("accountIdReceiver_8")))
                                                                 .burnAsset(ExtensionsKt.asAssetId(session.getString("assetId_8")), 1)
 
-                                                                .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender"))));
+                                                                .buildSigned(ALICE_KEYPAIR));
                                             }
                                     )
                             )
@@ -145,21 +314,16 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                                .chainId(Constants.CHAIN_ID)
-
                                                                 .unregisterDomain(ExtensionsKt.asDomainId(session.getString("domainId_0")))
                                                                 .unregisterDomain(ExtensionsKt.asDomainId(session.getString("domainId_1")))
                                                                 .unregisterDomain(ExtensionsKt.asDomainId(session.getString("domainId_2")))
 
-                                                                .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender")))
+                                                                .buildSigned(ALICE_KEYPAIR)
                                                 );
                                             }
                                     )
                             )
             ).exec(http("tx_unregister_domain_status").get(Constants.URL_STATUS).check(status().is(200)));
-
 
     //TODO: special genesis with 500000 definitionId include 10 assets, object 50000
     public static ChainBuilder postUnregisterDefinitionId = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
@@ -173,11 +337,8 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                                .chainId(Constants.CHAIN_ID)
-                                                                .unregisterAssetDefinition(ExtensionsKt.asAssetDefinitionId("performance_token_#" + session.getString("domainIdSender")))
-                                                                .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender")))
+                                                                //.unregisterAssetDefinition(ExtensionsKt.asAssetDefinitionId("performance_token_#" + session.getString("domainIdSender")))
+                                                                .buildSigned(ALICE_KEYPAIR)
                                                 );
                                             }
                                     )
@@ -195,11 +356,8 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                                .chainId(Constants.CHAIN_ID)
                                                                 .registerDomain(Constants.NEW_DOMAIN_ID)
-                                                                .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender")))
+                                                                .buildSigned(ALICE_KEYPAIR)
                                                 );
                                             }
                                     )
@@ -216,19 +374,15 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdSender")))
-                                                                .chainId(Constants.CHAIN_ID)
                                                                 .transferAsset(ExtensionsKt.asAssetId(session.getString("anotherDevAssetIdSender")),
                                                                         1,
                                                                         ExtensionsKt.asAccountId(session.getString("anotherDevAccountIdReceiver")))
-                                                                .buildSigned(CryptoUtils.keyPairFromHex(
-                                                                        session.getString("publicKeySender"),
-                                                                        session.getString("privateKeySender")
-                                                                ))
+                                                                .buildSigned(ALICE_KEYPAIR)
                                                 );
                                             }
                                     )
                             )
-            ).exec(http("tx_transfer_asset_status").get( session -> {return session.getString("peer") + Constants.URL_STATUS;}).check(status().is(200)));
+            ).exec(http("tx_transfer_asset_status").get(session -> {return session.getString("peer") + Constants.URL_STATUS;}).check(status().is(200)));
 
     public static ChainBuilder debuggingPostTransferAsset = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(
@@ -240,7 +394,6 @@ public class Transactions extends Constants {
                                                 return SignedTransaction.Companion.encode(
                                                         TransactionBuilder.Companion.builder()
                                                                 .account(ExtensionsKt.asAccountId("b24ff6ab1e5923f125d7f4eb0c62528eb6b8e84139e17fb377e2bd5fc1498b19@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"))
-                                                                .chainId(Constants.CHAIN_ID)
                                                                 .transferAsset(ExtensionsKt.asAssetId("xora08da796-bca3-475f-bf94-30cc918ef69b_c687b817-3a68-4848-81bc-d4915801cee1##b24ff6ab1e5923f125d7f4eb0c62528eb6b8e84139e17fb377e2bd5fc1498b19@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"),
                                                                         1,
                                                                         /*drop ed0120*/ExtensionsKt.asAccountId("7d5ad42de2c9c7f4b1faa7e12a9fc58d831189a59ad60daa6a3a88af9dc2a2e2@bulb_7405035c-e673-4a46-8f7f-1cca0a0687fa_6138d709-b7e0-44e6-b5dd-1f26f848f464"))
@@ -261,5 +414,3 @@ public class Transactions extends Constants {
                 return session;
             });
 }
-
-

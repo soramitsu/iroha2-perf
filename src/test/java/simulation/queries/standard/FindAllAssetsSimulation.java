@@ -1,10 +1,10 @@
 package simulation.queries.standard;
 
-import Configs.LoadProfile;
+import configs.gatling.LoadProfile;
 import io.gatling.javaapi.core.Simulation;
 
-import static Configs.Protocol.httpProtocol;
-import static scenarious.GeneralQueries.findAllAssets;
+import static configs.gatling.Protocol.httpProtocol;
+import static scenarios.GeneralQueries.findAllAssets;
 
 public class FindAllAssetsSimulation extends Simulation {
     {

@@ -1,10 +1,10 @@
 package simulation.queries.gradual;
 
-import Configs.LoadProfile;
+import configs.gatling.LoadProfile;
 import io.gatling.javaapi.core.Simulation;
 
-import static Configs.Protocol.httpProtocol;
-import static scenarious.GeneralQueries.findAssetById;
+import static configs.gatling.Protocol.httpProtocol;
+import static scenarios.GeneralQueries.findAssetById;
 
 public class FindAssetByIdSimulation extends Simulation {
     {

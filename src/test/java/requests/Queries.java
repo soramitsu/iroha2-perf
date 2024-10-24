@@ -1,14 +1,11 @@
 package requests;
 
+import healper.Constants;
 import io.gatling.javaapi.core.ChainBuilder;
 import jp.co.soramitsu.iroha2.CryptoUtils;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
-import jp.co.soramitsu.iroha2.generated.*;
-import jp.co.soramitsu.iroha2.query.QueryAndExtractor;
+import jp.co.soramitsu.iroha2.generated.SignedQuery;
 import jp.co.soramitsu.iroha2.query.QueryBuilder;
-
-import java.util.List;
-import java.util.ArrayList;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
 import static io.gatling.javaapi.http.HttpDsl.http;
@@ -32,11 +29,11 @@ public class Queries extends Constants {
     FindDomainById
     */
 
-    private static QueryAndExtractor queryFindAllAsset;
+    /*private static QueryAndExtractor queryFindAllAsset;
     private static BatchedResponse<QueryOutputBox> batchedResponse;
     private static BatchedResponse.V1 batchedResponseV1;
     private static List<QueryOutputBox> resultList = new ArrayList<>();
-    private static ForwardCursor cursor;
+    private static ForwardCursor cursor;*/
 
     public static ChainBuilder healthCheck = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(http("health check")
@@ -228,7 +225,7 @@ public class Queries extends Constants {
                             }))
             );
 
-    public static ChainBuilder paginatedQueryPostFindAllAssets = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+    /*public static ChainBuilder paginatedQueryPostFindAllAssets = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(session -> {
                         queryFindAllAsset = QueryBuilder
                                 .findAllAssets()
@@ -279,7 +276,7 @@ public class Queries extends Constants {
                                     )
                             )
             )
-            /*.exec(session -> {
+            .exec(session -> {
                         byte[] responseBodyByte = session.get("fullResponse");
                         try {
                             BatchedResponse rawResponse = BatchedResponse.Companion.decode(responseBodyByte);
@@ -297,5 +294,5 @@ public class Queries extends Constants {
                         queryFindAllAsset.getResultExtractor().extract(batch);
                         return session;
                     }
-            )*/;
+            );*/
 }

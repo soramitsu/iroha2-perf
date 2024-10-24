@@ -1,10 +1,10 @@
 package simulation.transactions.standard;
 
-import Configs.LoadProfile;
+import configs.gatling.LoadProfile;
 import io.gatling.javaapi.core.Simulation;
 
-import static Configs.Protocol.httpProtocol;
-import static scenarious.GeneralTransaction.txsMultiInstructions;
+import static configs.gatling.Protocol.httpProtocol;
+import static scenarios.GeneralTransaction.txsMultiInstructions;
 
 public class MultiInstructionsSimulation extends Simulation {
     {
