@@ -8,6 +8,6 @@ import static scenarios.GeneralTransaction.txsMultiInstructions;
 
 public class MultiInstructionsSimulation extends Simulation {
     {
-        setUp(txsMultiInstructions.injectOpen(LoadProfile.getMaxPerformanceOpenProfile()).protocols(httpProtocol)).maxDuration(Long.parseLong(System.getProperty("maxDuration")));
+        setUp(txsMultiInstructions.injectOpen(LoadProfile.getMaxPerformance()).protocols(httpProtocol)).maxDuration(Long.parseLong(System.getProperty("maxDuration")));
     }
 }

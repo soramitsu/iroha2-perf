@@ -5,7 +5,7 @@ import io.gatling.javaapi.core.OpenInjectionStep;
 import static io.gatling.javaapi.core.CoreDsl.*;
 
 public class LoadProfile {
-    public static OpenInjectionStep getMaxPerformanceOpenProfile() {
+    public static OpenInjectionStep getMaxPerformanceGradualLoadOpenProfile() {
         return incrementUsersPerSec(Double.parseDouble(System.getProperty("concurrentUsers")))//20
                 .times(Integer.parseInt(System.getProperty("times")))//5
                 .eachLevelLasting(Integer.parseInt(System.getProperty("stageDuration")))//5

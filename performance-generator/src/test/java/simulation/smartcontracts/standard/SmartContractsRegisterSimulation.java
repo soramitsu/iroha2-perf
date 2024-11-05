@@ -15,7 +15,7 @@ public class SmartContractsRegisterSimulation extends Simulation {
         setUp(
                 registerSmartContracts.injectOpen(atOnceUsers(1))
                         .andThen(registerBondAsset.injectOpen(atOnceUsers(1))) // 1 bonds on each domain
-                        .andThen(buyBonds.injectOpen(LoadProfile.getMaxPerformanceOpenProfile()))
+                        .andThen(buyBonds.injectOpen(LoadProfile.getMaxPerformance()))
                         .andThen(redeemBonds.injectOpen(atOnceUsers(1)))
         ).protocols(httpProtocol);
     }

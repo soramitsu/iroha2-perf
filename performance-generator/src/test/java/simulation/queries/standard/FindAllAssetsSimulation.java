@@ -8,6 +8,6 @@ import static scenarios.GeneralQueries.findAllAssets;
 
 public class FindAllAssetsSimulation extends Simulation {
     {
-        setUp(findAllAssets.injectOpen(LoadProfile.getMaxPerformanceOpenProfile()).protocols(httpProtocol)).maxDuration(Long.parseLong(System.getProperty("maxDuration")));
+        setUp(findAllAssets.injectOpen(LoadProfile.getMaxPerformance()).protocols(httpProtocol)).maxDuration(Long.parseLong(System.getProperty("maxDuration")));
     }
 }
