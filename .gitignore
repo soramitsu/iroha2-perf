@@ -5,3 +5,9 @@
 /iroha2-per.iml
 /src/mint_asset_for_created_user_trigger/target/
 /iroha2-perf.iml
+.DS_Store
+/.settings/
+/performance-generator/target/
+/util/target/
+/performance-generator/.idea/
+/performance-generator/.mvn/
