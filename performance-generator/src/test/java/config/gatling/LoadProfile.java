@@ -12,10 +12,11 @@ public class LoadProfile {
                 .startingFrom(Integer.parseInt(System.getProperty("startingFrom")));//20
     }
 
-    public static OpenInjectionStep[] getMaxPerformanceOpenProfile() {
+    public static OpenInjectionStep[] getMaxPerformance() {
         return new OpenInjectionStep[]{
                 rampUsers(Integer.parseInt(System.getProperty("intensity"))).during(Long.parseLong(System.getProperty("rampDuration")))
                 , constantUsersPerSec(Integer.parseInt(System.getProperty("intensity"))).during(Long.parseLong(System.getProperty("maxDuration")) - Long.parseLong(System.getProperty("rampDuration")))
         };
     }
 }
+
