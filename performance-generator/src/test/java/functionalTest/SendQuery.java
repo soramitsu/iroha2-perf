@@ -38,6 +38,10 @@ public class SendQuery {
 
     private Iroha2AsyncClient builderAsyncClient(String targetPeer) throws MalformedURLException {
         List<IrohaUrls> irohaUrls = new ArrayList<>();
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
         irohaUrls.add(new IrohaUrls(new URL("https://iroha2.test.tachi.soramitsu.co.jp" + targetPeer),
                 new URL("https://iroha2.test.tachi.soramitsu.co.jp"),
                 new URL("https://iroha2.test.tachi.soramitsu.co.jp" + targetPeer)
