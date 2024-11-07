@@ -39,7 +39,7 @@ public class Constants {
 
     public static FeederBuilder<String> PEERS_FEEDER = csv("peers.csv").circular();
 
-    public static FeederBuilder<String> MULTI_TXS_FEEDER = csv("preconditionListMultiTxs.csv").circular();
+    public static FeederBuilder<String> MULTI_TXS_FEEDER = csv("iroha2_config/main/995da4ec/preconditionListMultiTxs.csv").circular();
 
     public static FeederBuilder<String> ACCOUNT_IDS_RC_20_TRIGGERS_TEST = csv("iroha2_config/stable/5d44d59/accountIds.csv").queue();
 
