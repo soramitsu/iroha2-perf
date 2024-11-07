@@ -1,5 +1,12 @@
 ### Iroha2-performance
 
+If you need help and my manual didn’t assist you, you can reach out to
+
+**Michael Timofeev - Performance engineer**\
+**Ramil Mustafin - DevOps engineer**
+
+But let’s respect each other's work time. Please read all the README.md files carefully. I’ve tried to describe everything as thoroughly as possible.
+
 This project is designed to perform load testing using Gatling and includes utilities for generating essential test data.
 Java 17, Maven, and the Maven Wrapper for consistent environment setup and execution.
 
@@ -11,6 +18,8 @@ The project is divided into two modules:
 ## Table of Contents
 - [Getting Started](#getting-started)
 - [Modules](#modules)
+  - [Performance-Generator](#performance-generator)
+  - [Util](./util/README.md)
 - [Running Load Tests](#running-load-tests)
   1. [Standard Load Model](#standard-load-model)
   2. [Gradual Load Model](#gradual-load-model)
@@ -32,6 +41,32 @@ The performance-generator module contains load testing scenarios and simulations
 **Simulation Execution**: Defines load testing strategies.\
 **Scenario Management**: Manages and structures requests, intensity, and duration of load.
 
+**Versioning of Configuration Files in iroha2_config**
+
+The `iroha2_config` directory contains all the necessary configuration files for deploying Iroha2 on the longevity testing environment, including:
+
+`executor.wasm`\
+`genesis.json`\
+`docker-compose.yml`\
+`client.toml`
+
+Additionally, it includes corresponding **files with preconditions for load testing**.
+
+For Transaction and Query Load Tests:
+* pronditionist.csv
+* preconditionListMultiTxs.csv
+
+For Smart Contract Load Tests:
+* accountIds.csv
+* assetDefinitionIds.csv
+* bondIds.csv
+* domainIds.csv
+
+The configuration files are located at: `iroha2_config/${Path_To_Iroha_Commit_Number}/docker-compose/`
+
+The smart contracts are located at: `iroha2_config/${Path_To_Iroha_Commit_Number}/smartContracts/`
+
+
 #### 2. util
 The util module provides data generation utilities for creating necessary prerequisites for load tests, including:
 
@@ -48,7 +83,7 @@ For further parameter options and configuration, refer to the [Gatling Load Mode
 
 ``` bash
 ./mvnw gatling:test
--Dgatling.simulationClass=<Simulation_Class_Name>
+-Dgatling.simulationClass=${Path_To_Simulation_Class}
 -DtargetURL=${Target_Host_URL}
 -DremoteLogin=${Remote_Login}
 -DremotePassword=${Remote_Password}
@@ -73,7 +108,7 @@ Parameter Explanation:
 The Gradual Load Model is optimal for determining the maximum performance thresholds of the system under test.
 ``` bash
 ./mvnw gatling:test
--Dgatling.simulationClass=${Simulation_Class_Name}
+-Dgatling.simulationClass=${Path_To_Simulation_Class}
 -DtargetURL=${Target_Host_URL}
 -DremoteLogin=${Remote_Login}
 -DremotePassword=${Remote_Password}
