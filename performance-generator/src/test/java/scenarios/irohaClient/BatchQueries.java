@@ -12,6 +12,7 @@ import jp.co.soramitsu.iroha2.query.QueryAndExtractor;
 import jp.co.soramitsu.iroha2.query.QueryBuilder;
 
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,15 +91,14 @@ public class BatchQueries {
 
     private static Iroha2AsyncClient builderAsyncClient(String targetPeer) throws MalformedURLException {
         List<IrohaUrls> irohaUrls = new ArrayList<>();
-        irohaUrls.add(new IrohaUrls("https://iroha2.test.tachi.soramitsu.co.jp", targetPeer));
-        irohaUrls.add(new IrohaUrls("https://iroha2.test.tachi.soramitsu.co.jp", ""));
-        irohaUrls.add(new IrohaUrls("https://iroha2.test.tachi.soramitsu.co.jp", targetPeer));
+        irohaUrls.add(new IrohaUrls(new URL("https://iroha2.test.tachi.soramitsu.co.jp" + targetPeer),
+                new URL("https://iroha2.test.tachi.soramitsu.co.jp"),
+                new URL("https://iroha2.test.tachi.soramitsu.co.jp" + targetPeer)));
 
         Iroha2AsyncClient client1 = new Iroha2AsyncClient(
                 irohaUrls,
                 true,
                 null,
-                /*System.getProperty("remoteLogin") + ":" + System.getProperty("remotePassword"),*/
                 1000);
 
         return client1;
