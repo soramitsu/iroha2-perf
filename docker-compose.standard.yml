@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  perf-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app/performance-generator
+    command: >
+      ./mvnw gatling:test
+      -Dgatling.simulationClass=
+      -DtargetURL=
+      -DremoteLogin=
+      -DremotePassword=
+      -Dintensity=
+      -DrampDuration=
+      -DmaxDuration=
+    volumes:
+      - /opt/iroha2_perf_deploy/gatling/logs:/app/performance-generator/logs
+      - /opt/iroha2_perf_deploy/gatling/target:/app/performance-generator/target/gatling
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 12400M
