@@ -15,8 +15,8 @@
     </modules>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21.0.5</maven.compiler.source>
+        <maven.compiler.target>21.0.5</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <gatling-maven-plugin.version>4.9.4</gatling-maven-plugin.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
@@ -25,10 +25,10 @@
         <hermes_sdk_version>1.1.39</hermes_sdk_version>
         <!--iroha-java.version>9aba55183e</iroha-java.version-->
         <!--iroha-java.version>558784f</iroha-java.version-->
-        <iroha-java.version>bf6e8a219b</iroha-java.version>
+        <iroha-java.version>e50bd2f661</iroha-java.version>
         <jackson.versaion>2.17.2</jackson.versaion>
         <commons-codec.version>1.15</commons-codec.version>
-        <lombok.version>1.18.24</lombok.version>
+        <lombok.version>1.18.30</lombok.version>
         <project.basedir>.</project.basedir>
     </properties>
 
@@ -130,10 +130,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>16</source>
-                    <target>16</target>
+                    <release>21</release>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>

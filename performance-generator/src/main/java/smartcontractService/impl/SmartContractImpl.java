@@ -93,11 +93,6 @@ public class SmartContractImpl extends Constants implements SmartContractService
                 .getInputStream()
                 .readAllBytes();
 
-        /*final var filter = Filters.INSTANCE.data(
-                EntityFilters.INSTANCE.byAccount(
-                        null,
-                        new AccountEventFilter.ByMetadataInserted()));*/
-
         final var filter = Filters.INSTANCE.data(
                 EntityFilters.INSTANCE.byAccount(
                         1L,
@@ -124,32 +119,23 @@ public class SmartContractImpl extends Constants implements SmartContractService
     }
 
     private SignedTransaction buildAndSubmitRegisterTriggerTransaction(TriggerId triggerId, byte[] wasm, EventFilterBox filter) {
-        final var wasmTrigger = TransactionBuilder.Companion.builder()
-                .registerWasmTrigger(
-                        triggerId,
-                        wasm,
-                        new Repeats.Indefinitely(),
-                        ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID),
-                        new Metadata(Map.of()),
-                        filter)
-                .account(ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID))
-                .buildSigned(ALICE_KEYPAIR);
+        final var wasmTrigger = new TransactionBuilder(CHAIN_ID).addInstruction(
+                        new RegisterOfTrigger(
+                                new Trigger(
+                                        triggerId,
+                                        new Action(
+                                                new Executable.Wasm(new WasmSmartContract(wasm)),
+                                                new Repeats.Indefinitely(),
+                                                ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID),
+                                                filter,
+                                                new Metadata(Map.of())
+                                        )
+                                ))
+                ).signAs(ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID), ALICE_KEYPAIR);
         return wasmTrigger;
     }
 
-    private TriggeringFilterBox.Data buildFilterByTriggerMetadataInserted(TriggerId id) {
-        final var orot = new OriginFilterOfTriggerEvent(id);
-        final var byMetadataInserted = new TriggerEventFilter.ByMetadataInserted();
-
-        final var orotWrapper = new FilterOptOfOriginFilterOfTriggerEvent.BySome(orot);
-        final var byMetadataWrapper = new FilterOptOfTriggerEventFilter.BySome(byMetadataInserted);
-
-        final var triggerFilter = new TriggerFilter(orotWrapper, byMetadataWrapper);
-        final var triggerFilterWrapper = new FilterOptOfTriggerFilter.BySome(triggerFilter);
-
-        final var filter = new DataEntityFilter.ByTrigger(triggerFilterWrapper);
-        final var bySomeFilter = new FilterOptOfDataEntityFilter.BySome(filter);
-
-        return new TriggeringFilterBox.Data(bySomeFilter);
+    private EventFilterBox.Data buildFilterByTriggerMetadataInserted(TriggerId id) {
+        return new EventFilterBox.Data(new DataEventFilter.Trigger(new TriggerEventFilter(id, 16)));
     }
 }

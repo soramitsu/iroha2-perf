@@ -41,19 +41,20 @@ public class BondImpl extends Constants implements BondService {
                 ExtensionsKt.asName(palauProperties.getTrigger().getRegisterBondId())
         );
 
-        final var registerBond = TransactionBuilder.Companion.builder()
-                .setKeyValue(
+        final var registerBond = new TransactionBuilder(CHAIN_ID).addInstructions(
+                new SetKeyValueOfTrigger(
                         triggerId,
                         ExtensionsKt.asName(palauProperties.getTrigger().getRegisterBondTriggerKey()),
-                        //ExtensionsKt.asValue(newAssetDefinition.component1());
-                        ExtensionsKt.asString(newAssetDefinition.component1())
-                )
-                .account(ExtensionsKt.asAccountId(accountId)) ;
+                        ExtensionsKt.writeValue(Json.Companion, newAssetDefinition.component1()))
+        );
 
-        enrichMetadata(registerBond, TRANSACTION_TYPE_METADATA_KEY,
-                TransactionType.BOND_ASSET_ISSUE.name());
+        enrichMetadata(
+                registerBond,
+                TRANSACTION_TYPE_METADATA_KEY,
+                TransactionType.BOND_ASSET_ISSUE.name()
+        );
 
-        return registerBond.buildSigned(ALICE_KEYPAIR);
+        return registerBond.signAs(ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID), ALICE_KEYPAIR);
     }
 
     private Metadata buildBondMetadata(Bond bond) {
