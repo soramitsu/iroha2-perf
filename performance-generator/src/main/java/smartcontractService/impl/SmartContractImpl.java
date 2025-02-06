@@ -65,7 +65,7 @@ public class SmartContractImpl extends Constants implements SmartContractService
 
     @SneakyThrows
     private SignedTransaction registerBuyBondsTrigger(String buyBondId, String buyBondWasm) {
-        final var triggerId = new TriggerId(null, ExtensionsKt.asName(buyBondId));
+        final var triggerId = new TriggerId(ExtensionsKt.asName(buyBondId));
 
         final var wasm = Objects
                 .requireNonNull(getClass().getClassLoader().getResource(buyBondWasm))
@@ -75,15 +75,17 @@ public class SmartContractImpl extends Constants implements SmartContractService
 
         final var filter = Filters.INSTANCE.data(
                 EntityFilters.INSTANCE.byAccount(
-                        null,
-                        new AccountEventFilter.ByMetadataInserted()));
+                        1L,
+                        ExtensionsKt.asAccountId("ed0120CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland")
+                )
+        );
 
         return buildAndSubmitRegisterTriggerTransaction(triggerId, wasm, filter);
     }
 
     @SneakyThrows
     private SignedTransaction registerRedeemBondsTrigger(String redeemBondId, String redeemBondWasm) {
-        final var triggerId = new TriggerId(null, ExtensionsKt.asName(redeemBondId));
+        final var triggerId = new TriggerId(ExtensionsKt.asName(redeemBondId));
 
         final var wasm = Objects
                 .requireNonNull(getClass().getClassLoader().getResource(redeemBondWasm))
@@ -93,15 +95,17 @@ public class SmartContractImpl extends Constants implements SmartContractService
 
         final var filter = Filters.INSTANCE.data(
                 EntityFilters.INSTANCE.byAccount(
-                        null,
-                        new AccountEventFilter.ByMetadataInserted()));
+                        1L,
+                        ExtensionsKt.asAccountId("ed0120CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland")
+                )
+        );
 
         return buildAndSubmitRegisterTriggerTransaction(triggerId, wasm, filter);
     }
 
     @SneakyThrows
     private SignedTransaction registerRegisterBondTrigger(String registerBondId, String registerBondWasm) {
-        final var triggerId = new TriggerId(null, ExtensionsKt.asName(registerBondId));
+        final var triggerId = new TriggerId(ExtensionsKt.asName(registerBondId));
 
         final var filter = buildFilterByTriggerMetadataInserted(triggerId);
 
@@ -114,33 +118,24 @@ public class SmartContractImpl extends Constants implements SmartContractService
         return buildAndSubmitRegisterTriggerTransaction(triggerId, wasm, filter);
     }
 
-    private SignedTransaction buildAndSubmitRegisterTriggerTransaction(TriggerId triggerId, byte[] wasm, TriggeringFilterBox.Data filter) {
-        final var wasmTrigger = TransactionBuilder.Companion.builder()
-                .registerWasmTrigger(
-                        triggerId,
-                        wasm,
-                        new Repeats.Indefinitely(),
-                        ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID),
-                        new Metadata(Map.of()),
-                        filter)
-                .account(ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID))
-                .buildSigned(ALICE_KEYPAIR);
+    private SignedTransaction buildAndSubmitRegisterTriggerTransaction(TriggerId triggerId, byte[] wasm, EventFilterBox filter) {
+        final var wasmTrigger = new TransactionBuilder(CHAIN_ID).addInstruction(
+                        new RegisterOfTrigger(
+                                new Trigger(
+                                        triggerId,
+                                        new Action(
+                                                new Executable.Wasm(new WasmSmartContract(wasm)),
+                                                new Repeats.Indefinitely(),
+                                                ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID),
+                                                filter,
+                                                new Metadata(Map.of())
+                                        )
+                                ))
+                ).signAs(ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID), ALICE_KEYPAIR);
         return wasmTrigger;
     }
 
-    private TriggeringFilterBox.Data buildFilterByTriggerMetadataInserted(TriggerId id) {
-        final var orot = new OriginFilterOfTriggerEvent(id);
-        final var byMetadataInserted = new TriggerEventFilter.ByMetadataInserted();
-
-        final var orotWrapper = new FilterOptOfOriginFilterOfTriggerEvent.BySome(orot);
-        final var byMetadataWrapper = new FilterOptOfTriggerEventFilter.BySome(byMetadataInserted);
-
-        final var triggerFilter = new TriggerFilter(orotWrapper, byMetadataWrapper);
-        final var triggerFilterWrapper = new FilterOptOfTriggerFilter.BySome(triggerFilter);
-
-        final var filter = new DataEntityFilter.ByTrigger(triggerFilterWrapper);
-        final var bySomeFilter = new FilterOptOfDataEntityFilter.BySome(filter);
-
-        return new TriggeringFilterBox.Data(bySomeFilter);
+    private EventFilterBox.Data buildFilterByTriggerMetadataInserted(TriggerId id) {
+        return new EventFilterBox.Data(new DataEventFilter.Trigger(new TriggerEventFilter(id, 16)));
     }
 }

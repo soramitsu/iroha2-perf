@@ -31,32 +31,34 @@ public class BondImpl extends Constants implements BondService {
         final var bondMetadata = buildBondMetadata(bond);
         final var newAssetDefinition = new NewAssetDefinition(
                 bond.bondId(),
-                new AssetValueType.Quantity(),
+                new AssetType.Numeric(new NumericSpec()),
                 new Mintable.Infinitely(),
                 null,
-                bondMetadata.getMetadata());
+                bondMetadata);
 
         final var triggerId = new TriggerId(
-                null, // Triggers with `null` domain are considered as "global" triggers
-                ExtensionsKt.asName(palauProperties.getTrigger().getRegisterBondId()));
+                // Triggers with `null` domain are considered as "global" triggers
+                ExtensionsKt.asName(palauProperties.getTrigger().getRegisterBondId())
+        );
 
-        final var registerBond = TransactionBuilder.Companion.builder()
-                .setKeyValue(
+        final var registerBond = new TransactionBuilder(CHAIN_ID).addInstructions(
+                new SetKeyValueOfTrigger(
                         triggerId,
                         ExtensionsKt.asName(palauProperties.getTrigger().getRegisterBondTriggerKey()),
-                        //ExtensionsKt.asValue(newAssetDefinition.component1());
-                        ExtensionsKt.asValue(newAssetDefinition)
+                        ExtensionsKt.writeValue(Json.Companion, newAssetDefinition.component1()))
+        );
 
-                )
-                .account(ExtensionsKt.asAccountId(accountId));
+        enrichMetadata(
+                registerBond,
+                TRANSACTION_TYPE_METADATA_KEY,
+                TransactionType.BOND_ASSET_ISSUE.name()
+        );
 
-        enrichMetadata(registerBond, TRANSACTION_TYPE_METADATA_KEY,
-                TransactionType.BOND_ASSET_ISSUE.name());
-
-        return registerBond.buildSigned(ALICE_KEYPAIR);
+        return registerBond.signAs(ExtensionsKt.asAccountId(ALICE_ACCOUNT_RC20_ID), ALICE_KEYPAIR);
     }
 
-    private Value.LimitedMetadata buildBondMetadata(Bond bond) {
+    private Metadata buildBondMetadata(Bond bond) {
+
         return LimitedMetadataBuilder.builder()
                 .withCurrency(bond.currency())
                 .withNominalValue(bond.nominalValue())
