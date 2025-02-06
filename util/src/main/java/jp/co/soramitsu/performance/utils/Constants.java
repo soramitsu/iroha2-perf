@@ -17,11 +17,11 @@ public class Constants {
 
     protected static ArrayList<Account> accountIds = new ArrayList();
 
-    protected String outputCSV = config.getProperty("outputCSV");
+    protected String outputCSV;
 
-    protected BufferedWriter csvWriter = new BufferedWriter(new FileWriter(outputCSV));
+    protected BufferedWriter csvWriter;
 
-    protected CSVWriter writer = new CSVWriter(csvWriter, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, "\n");
+    protected CSVWriter writer;
 
     protected String[] standardUserSetHeaders = {
             "anotherDevAccountIdSender"
@@ -75,5 +75,8 @@ public class Constants {
 
     public Constants() throws IOException {
         this.config = new ConfigLoader();
+        this.outputCSV = config.getProperty("outputCSV");
+        this.csvWriter = new BufferedWriter(new FileWriter(outputCSV));
+        this.writer = new CSVWriter(csvWriter, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, "\n");
     }
 }
