@@ -124,6 +124,17 @@
             <artifactId>test-tools</artifactId>
             <version>${iroha-java.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.multiformats</groupId>
+            <artifactId>java-multihash</artifactId>
+            <version>v1.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk18on</artifactId>
+            <version>1.79</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>

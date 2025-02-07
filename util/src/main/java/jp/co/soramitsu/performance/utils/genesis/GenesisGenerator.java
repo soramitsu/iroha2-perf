@@ -41,7 +41,7 @@ public class GenesisGenerator extends Constants {
         addAccount(instructionsNode,Credentials.CARPENTER.getValue() + "@" + Credentials.GARDEN_OF_LIVE_FLOWERS.getValue());
         addAssetDefinition(instructionsNode, Credentials.ASSET_DEFINITION_CABBAGE.getValue() + "#" + Credentials.GARDEN_OF_LIVE_FLOWERS.getValue());
         addAsset(instructionsNode, Credentials.ASSET_DEFINITION_ROSE.getValue() + "##" + Credentials.ALICE.getValue() + "@" + Credentials.WONDERLAND.getValue());
-        addAsset(instructionsNode, Credentials.ASSET_DEFINITION_CABBAGE.getValue() + "#" + Credentials.GARDEN_OF_LIVE_FLOWERS.getValue() + Credentials.ALICE.getValue() + "@" + Credentials.WONDERLAND.getValue());
+        addAsset(instructionsNode, Credentials.ASSET_DEFINITION_CABBAGE.getValue() + "#" + Credentials.GARDEN_OF_LIVE_FLOWERS.getValue() + "#" + Credentials.ALICE.getValue() + "@" + Credentials.WONDERLAND.getValue());
 
 
         for (int i = 0; i < domainIds.size(); i++) {
