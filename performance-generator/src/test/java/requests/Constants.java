@@ -35,7 +35,7 @@ public class Constants {
 
     public static final String SMART_CONTRACT_ACTIVATION_CODE = "019153fc-8d19-7faa-854a-57657ba0ed20";
 
-    public static FeederBuilder<String> CSV_FEEDER = csv("iroha2_config/main/1c7160aa/preconditionList.csv").circular();
+    public static FeederBuilder<String> CSV_FEEDER = csv("iroha2_config/2_0_0-rc_1/f348b9a8/preconditionList.csv").circular();
 
     public static FeederBuilder<String> PEERS_FEEDER = csv("peers.csv").circular();
 

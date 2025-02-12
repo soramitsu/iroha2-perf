@@ -6,6 +6,7 @@ import jp.co.soramitsu.iroha2.DigestFunction;
 import jp.co.soramitsu.performance.utils.Constants;
 import jp.co.soramitsu.performance.models.Account;
 import jp.co.soramitsu.performance.models.Domain;
+import net.i2p.crypto.eddsa.EdDSAPrivateKey;
 import org.bouncycastle.util.encoders.Hex;
 
 import java.io.ByteArrayOutputStream;
@@ -52,8 +53,8 @@ public class CsvGenerator extends Constants {
                 String accountIdReceiver = keyPairForCsvReceiver.get("publicKey") + "@" + domainIds.get(i).getId();
 
                 //public key for genesis
-                String genesisAccountIdSender = accountPublicKeyForGenesis(keyPairSender);
-                String genesisAccountIdReceiver = accountPublicKeyForGenesis(keyPairReceiver);
+                String genesisAccountIdSender = keyPairForCsv(keyPairSender).get("publicKey");
+                String genesisAccountIdReceiver = keyPairForCsv(keyPairReceiver).get("publicKey");
 
                 String assetDefinitionId = UUID.randomUUID().toString().split("-")[0] + "_" + System.currentTimeMillis();
 
@@ -120,7 +121,6 @@ public class CsvGenerator extends Constants {
 
         //output: ed01209d687da7e90e3160574cab4dc88dfd7dbfd052df51531cadcc80dceafea06082
         hexPublicKey = Hex.toHexString(publicKey.toByteArray());
-
         return hexPublicKey;
     }
 
@@ -132,14 +132,18 @@ public class CsvGenerator extends Constants {
 
         Multihash.putUvarint(publicKey, Long.valueOf(DigestFunction.Ed25519.getIndex()));
         Multihash.putUvarint(publicKey, Long.valueOf(toIrohaPublicKey(keyPair.getPublic()).getPayload().length));
-
         publicKey.write(toIrohaPublicKey(keyPair.getPublic()).getPayload());
-        privateKey.write(CryptoUtils.bytes(keyPair.getPrivate()));
 
-        //output 9d687da7e90e3160574cab4dc88dfd7dbfd052df51531cadcc80dceafea06082
-        keyPairMap.put("publicKey", Hex.toHexString(CryptoUtils.bytes(keyPair.getPublic())));
-        //output 4b52c56e4a254ebcb124d62a1c034e26d35560114793c1c768e7202be34c52b3
-        keyPairMap.put("privateKey", Hex.toHexString(CryptoUtils.bytes(keyPair.getPrivate())));
+        EdDSAPrivateKey edPrivateKey = (EdDSAPrivateKey) keyPair.getPrivate();
+        byte[] privateKeyBytes = edPrivateKey.getSeed();
+        Multihash.putUvarint(privateKey, 0x1300);
+        Multihash.putUvarint(privateKey, Long.valueOf(CryptoUtils.bytes(keyPair.getPrivate()).length));
+        privateKey.write(privateKeyBytes);
+
+        //output ed012080F8277B59D67D0C5BD00220DF1E2FC7979B886E4AAA945B077251222CE47D4A
+        keyPairMap.put("publicKey", Hex.toHexString(publicKey.toByteArray()));
+        //output 802620B71D5971B408099C7053E9296189172CC806153736E0B936835A4B1766893593
+        keyPairMap.put("privateKey", Hex.toHexString(privateKey.toByteArray()));
 
         return keyPairMap;
     }
