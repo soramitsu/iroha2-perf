@@ -48944,7 +48944,7 @@
             "name": "CanSetParameters",
             "payload": null
           },
-          "destination": "ed0120CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland"
+          "destination": "ed0120FC126A7272403803751DFFC2A40B7E1A6860D6FDE5637E36E783E0032488ACCF@wonderland"
         }
       }
     },
@@ -48955,12 +48955,90 @@
             "name": "CanRegisterDomain",
             "payload": null
           },
-          "destination": "ed0120CE7FA46C9DCE7EA4B125E2E36BDB63EA33073E7590AC92816AE1E861B7048B03@wonderland"
+          "destination": "ed0120FC126A7272403803751DFFC2A40B7E1A6860D6FDE5637E36E783E0032488ACCF@wonderland"
+        }
+      }
+    },
+    {
+      "Grant": {
+        "Permission": {
+          "object": {
+            "name": "CanMintAssetWithDefinition",
+            "payload": {
+              "asset_definition": "rose#wonderland"
+            }
+          },
+          "destination": "ed0120FC126A7272403803751DFFC2A40B7E1A6860D6FDE5637E36E783E0032488ACCF@wonderland"
+        }
+      }
+    },
+    {
+      "Grant": {
+        "Permission": {
+          "object": {
+            "name": "CanManagePeers",
+            "payload": null
+          },
+          "destination": "ed0120FC126A7272403803751DFFC2A40B7E1A6860D6FDE5637E36E783E0032488ACCF@wonderland"
+        }
+      }
+    },
+    {
+      "Grant": {
+        "Permission": {
+          "object": {
+            "name": "CanManageRoles",
+            "payload": null
+          },
+          "destination": "ed0120FC126A7272403803751DFFC2A40B7E1A6860D6FDE5637E36E783E0032488ACCF@wonderland"
+        }
+      }
+    },
+    {
+      "Grant": {
+        "Permission": {
+          "object": {
+            "name": "CanUnregisterDomain",
+            "payload": {
+              "domain": "wonderland"
+            }
+          },
+          "destination": "ed0120FC126A7272403803751DFFC2A40B7E1A6860D6FDE5637E36E783E0032488ACCF@wonderland"
+        }
+      }
+    },
+    {
+      "Grant": {
+        "Permission": {
+          "object": {
+            "name": "CanUpgradeExecutor",
+            "payload": null
+          },
+          "destination": "ed0120FC126A7272403803751DFFC2A40B7E1A6860D6FDE5637E36E783E0032488ACCF@wonderland"
         }
       }
     }
   ],
   "wasm_dir": "libs",
-  "wasm_triggers": [],
+  "wasm_triggers": [
+    {
+      "id": "airdrop",
+      "action": {
+        "executable": "trigger_airdrop.wasm",
+        "repeats": "Indefinitely",
+        "authority": "ed0120FC126A7272403803751DFFC2A40B7E1A6860D6FDE5637E36E783E0032488ACCF@wonderland",
+        "filter": {
+          "Data": {
+            "Account": {
+              "id_matcher": null,
+              "event_set": [
+                "Created"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
   "topology": []
 }
