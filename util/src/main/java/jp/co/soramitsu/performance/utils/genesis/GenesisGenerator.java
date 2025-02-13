@@ -77,7 +77,29 @@ public class GenesisGenerator extends Constants {
                 Credentials.CAN_REGISTER_DOMAIN.getValue(),
                 Credentials.ALICE.getValue() + "@" + Credentials.WONDERLAND.getValue()
         );
+        addPermission(instructionsNode,
+                Credentials.CAN_MINT_ASSET_WITH_DEFINITION.getValue(),
+                Credentials.ALICE.getValue() + "@" + Credentials.WONDERLAND.getValue()
+        );
+        addPermission(instructionsNode,
+                Credentials.CAN_MANAGE_PEERS.getValue(),
+                Credentials.ALICE.getValue() + "@" + Credentials.WONDERLAND.getValue()
+        );
+        addPermission(instructionsNode,
+                Credentials.CAN_MANAGE_ROLES.getValue(),
+                Credentials.ALICE.getValue() + "@" + Credentials.WONDERLAND.getValue()
+        );
+        addPermission(instructionsNode,
+                Credentials.CAN_UNREGISTER_DOMAIN.getValue(),
+                Credentials.ALICE.getValue() + "@" + Credentials.WONDERLAND.getValue()
+        );
+        addPermission(instructionsNode,
+                Credentials.CAN_UPGRADE_EXECUTOR.getValue(),
+                Credentials.ALICE.getValue() + "@" + Credentials.WONDERLAND.getValue()
+        );
 
+        addWasmDir(rootNode);
+        addWasmTriggers(rootNode);
         addTopology(rootNode);
         objectMapper.writeValue(outgoingGenesis, rootNode);
     }
@@ -110,6 +132,27 @@ public class GenesisGenerator extends Constants {
 
     private static void addTopology(@NotNull ObjectNode rootNode) {
         rootNode.putArray("topology");
+    }
+
+    private static void addWasmDir(@NotNull ObjectNode rootNode) {
+        rootNode.put("wasm_dir", "libs");
+    }
+
+    private static void addWasmTriggers(@NotNull ObjectNode rootNode) {
+        ArrayNode wasmTrigger = rootNode.putArray("wasm_triggers");
+        ObjectNode includeObject = wasmTrigger.addObject();
+        includeObject.put("id", "airdrop");
+        ObjectNode actionObject = includeObject.putObject("action");
+        actionObject.put("executable", "trigger_airdrop.wasm");
+        actionObject.put("repeats", "Indefinitely");
+        actionObject.put("authority", Credentials.ALICE.getValue() + "@" + Credentials.WONDERLAND.getValue());
+        ObjectNode filterObject = actionObject.putObject("filter");
+        ObjectNode dataObject = filterObject.putObject("Data");
+        ObjectNode accountObject = dataObject.putObject("Account");
+        accountObject.putNull("id_matcher");
+        ArrayNode eventSetArray = accountObject.putArray("event_set");
+        eventSetArray.add("Created");
+
     }
 
     private static void addParametrs(@NotNull ObjectNode rootNode) {

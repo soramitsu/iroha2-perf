@@ -67,8 +67,10 @@ public class CsvGenerator extends Constants {
 
                 Account accountSenderCSV = new Account(accountIdSender,
                         "value",
-                        keyPairForCsvSender.get("publicKey"),
-                        keyPairForCsvSender.get("privateKey"),
+                        keyPairForCsvSender.get("publicKey_without_prefix"),
+                        keyPairForCsvSender.get("privateKey_without_prefix"),
+                        //keyPairSender.getPublic().toString(),
+                        //keyPairForCsvSender.get("privateKey"),
                         keyPairSender,
                         genesisAccountIdSender,
                         domainIds.get(i).getId(),
@@ -128,22 +130,31 @@ public class CsvGenerator extends Constants {
         Map<String, String> keyPairMap = new HashMap<>();
 
         ByteArrayOutputStream publicKey = new ByteArrayOutputStream();
+        ByteArrayOutputStream publicKey1 = new ByteArrayOutputStream();
         ByteArrayOutputStream privateKey = new ByteArrayOutputStream();
+        ByteArrayOutputStream privateKey1 = new ByteArrayOutputStream();
 
         Multihash.putUvarint(publicKey, Long.valueOf(DigestFunction.Ed25519.getIndex()));
         Multihash.putUvarint(publicKey, Long.valueOf(toIrohaPublicKey(keyPair.getPublic()).getPayload().length));
         publicKey.write(toIrohaPublicKey(keyPair.getPublic()).getPayload());
+        publicKey1.write(toIrohaPublicKey(keyPair.getPublic()).getPayload());
 
         EdDSAPrivateKey edPrivateKey = (EdDSAPrivateKey) keyPair.getPrivate();
+        EdDSAPrivateKey edPrivateKey1 = (EdDSAPrivateKey) keyPair.getPrivate();
         byte[] privateKeyBytes = edPrivateKey.getSeed();
+        byte[] privateKeyBytes1 = edPrivateKey1.getSeed();
         Multihash.putUvarint(privateKey, 0x1300);
         Multihash.putUvarint(privateKey, Long.valueOf(CryptoUtils.bytes(keyPair.getPrivate()).length));
         privateKey.write(privateKeyBytes);
+        privateKey1.write(privateKeyBytes1);
+
 
         //output ed012080F8277B59D67D0C5BD00220DF1E2FC7979B886E4AAA945B077251222CE47D4A
         keyPairMap.put("publicKey", Hex.toHexString(publicKey.toByteArray()));
+        keyPairMap.put("publicKey_without_prefix", Hex.toHexString(publicKey1.toByteArray()));
         //output 802620B71D5971B408099C7053E9296189172CC806153736E0B936835A4B1766893593
         keyPairMap.put("privateKey", Hex.toHexString(privateKey.toByteArray()));
+        keyPairMap.put("privateKey_without_prefix", Hex.toHexString(privateKey1.toByteArray()));
 
         return keyPairMap;
     }
