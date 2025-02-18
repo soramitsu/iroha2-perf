@@ -110,7 +110,15 @@ public class GenesisGenerator extends Constants {
         ObjectNode permissionNode = grantObject.putObject("Permission");
         ObjectNode objectNode = permissionNode.putObject("object");
         objectNode.put("name", name);
-        objectNode.putNull("payload");
+        if (name.equals(Credentials.CAN_MINT_ASSET_WITH_DEFINITION.getValue())){
+            ObjectNode payloadObject = objectNode.putObject("payload");
+            payloadObject.put("asset_definition", "rose#wonderland");
+        } else if (name.equals(Credentials.CAN_UNREGISTER_DOMAIN.getValue())){
+            ObjectNode payloadObject = objectNode.putObject("payload");
+            payloadObject.put("domain", "wonderland");
+        } else {
+            objectNode.putNull("payload");
+        }
         permissionNode.put("destination", destination);
     }
 
