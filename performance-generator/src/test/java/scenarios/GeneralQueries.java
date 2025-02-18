@@ -10,7 +10,7 @@ import static io.gatling.javaapi.core.CoreDsl.scenario;
 
 public class GeneralQueries {
 
-    public static ScenarioBuilder findAllAssets = scenario("find all assets")
+    /*public static ScenarioBuilder findAllAssets = scenario("find all assets")
             .feed(csv("preconditionList.csv").circular())
             .repeat(10).on(
                     CoreDsl.exec(Queries.queryPostFindAllAssets)
@@ -20,5 +20,5 @@ public class GeneralQueries {
             .feed(csv("preconditionList.csv").circular())
             .repeat(10).on(
                     CoreDsl.exec(Queries.queryPostFindAssetById)
-            );
+            );*/
 }

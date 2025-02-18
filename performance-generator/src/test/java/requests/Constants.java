@@ -7,6 +7,8 @@ import jp.co.soramitsu.iroha2.generated.DomainId;
 import jp.co.soramitsu.iroha2.generated.Name;
 
 import java.security.KeyPair;
+import java.util.Random;
+import java.util.UUID;
 
 import static io.gatling.javaapi.core.CoreDsl.csv;
 
@@ -20,7 +22,7 @@ public class Constants {
 
     public static final String DEFAULT_DOMAIN = "wonderland";
 
-    public static final String ALICE_ACCOUNT = "alice";
+    public static final String ALICE_ACCOUNT = "ed0120FC126A7272403803751DFFC2A40B7E1A6860D6FDE5637E36E783E0032488ACCF";
 
     public static final String ALICE_ACCOUNT_RC20_ID = "alice@wonderland";
 

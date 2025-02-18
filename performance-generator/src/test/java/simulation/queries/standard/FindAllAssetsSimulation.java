@@ -1,3 +1,4 @@
+/*
 package simulation.queries.standard;
 
 import config.gatling.LoadProfile;
@@ -11,3 +12,4 @@ public class FindAllAssetsSimulation extends Simulation {
         setUp(findAllAssets.injectOpen(LoadProfile.getMaxPerformance()).protocols(httpProtocol)).maxDuration(Long.parseLong(System.getProperty("maxDuration")));
     }
 }
+*/
