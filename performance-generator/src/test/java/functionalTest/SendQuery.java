@@ -20,7 +20,7 @@ public class SendQuery {
     private final String credentials = "";
 
     //@Test
-    public void findAllAssets() {
+   /* public void findAllAssets() {
         Iroha2AsyncClient client;
         try {
             client = builderAsyncClient("/peer-0");
@@ -51,5 +51,5 @@ public class SendQuery {
                 credentials,
                 1000);
 
-    }
+    }*/
 }

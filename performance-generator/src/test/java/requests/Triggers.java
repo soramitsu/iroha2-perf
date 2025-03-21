@@ -33,8 +33,8 @@ public class Triggers extends PalauProperties {
                             .body(ByteArrayBody(session -> {
                                                 final var currentTime = System.currentTimeMillis();
                                                 final var currencyId = new AssetDefinitionId(
-                                                        ExtensionsKt.asName(session.getString("assetDefinitionIdForTrigger").split("#")[0]),
-                                                        ExtensionsKt.asDomainId(session.getString("assetDefinitionIdForTrigger").split("#")[1])
+                                                        ExtensionsKt.asDomainId(session.getString("assetDefinitionIdForTrigger").split("#")[1]),
+                                                        ExtensionsKt.asName(session.getString("assetDefinitionIdForTrigger").split("#")[0])
                                                 );
                                                 final var feeRecipientAccountId = ExtensionsKt.asAccountId(session.getString("accountIdForTrigger"));
 

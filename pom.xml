@@ -75,21 +75,6 @@
             <version>${jackson.versaion}</version>
         </dependency>
         <dependency>
-            <groupId>jp.co.soramitsu.hermes</groupId>
-            <artifactId>core</artifactId>
-            <version>${hermes_sdk_version}</version>
-        </dependency>
-        <dependency>
-            <groupId>jp.co.soramitsu.hermes</groupId>
-            <artifactId>commons</artifactId>
-            <version>${hermes_sdk_version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-tcnative-boringssl-static</artifactId>
-            <version>2.0.65.Final</version>
-        </dependency>
-        <dependency>
             <groupId>${iroha-java.groupId}</groupId>
             <artifactId>client</artifactId>
             <version>${iroha-java.version}</version>
@@ -123,6 +108,21 @@
             <groupId>${iroha-java.groupId}</groupId>
             <artifactId>test-tools</artifactId>
             <version>${iroha-java.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jp.co.soramitsu.hermes</groupId>
+            <artifactId>core</artifactId>
+            <version>${hermes_sdk_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jp.co.soramitsu.hermes</groupId>
+            <artifactId>commons</artifactId>
+            <version>${hermes_sdk_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-tcnative-boringssl-static</artifactId>
+            <version>2.0.65.Final</version>
         </dependency>
         <dependency>
             <groupId>com.github.multiformats</groupId>

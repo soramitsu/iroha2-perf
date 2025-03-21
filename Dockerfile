@@ -1,5 +1,5 @@
 # change based image
-FROM maven:3.8.4-openjdk-17-slim
+FROM maven:3.9.9-eclipse-temurin-21
 
 WORKDIR /app
 

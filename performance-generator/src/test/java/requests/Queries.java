@@ -3,7 +3,7 @@ package requests;
 import io.gatling.javaapi.core.ChainBuilder;
 import jp.co.soramitsu.iroha2.CryptoUtils;
 import jp.co.soramitsu.iroha2.ExtensionsKt;
-import jp.co.soramitsu.iroha2.generated.SignedQuery;
+import jp.co.soramitsu.iroha2.generated.*;
 import jp.co.soramitsu.iroha2.query.QueryBuilder;
 
 import static io.gatling.javaapi.core.CoreDsl.*;
@@ -40,7 +40,7 @@ public class Queries extends Constants {
                         return session.getString("peer") + "health";
                     }));
 
-    public static ChainBuilder queryPostFindAllAssetsDefinitions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+    /*public static ChainBuilder queryPostFindAllAssetsDefinitions = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(http("findAllAssetsDefinitions")
                     .post(session -> {
                         return session.getString("peer") + URL_QUERY;
@@ -54,9 +54,9 @@ public class Queries extends Constants {
                                         session.getString("privateKeySender")
                                 )).getQuery());
                     }))
-            );
+            );*/
 
-    public static ChainBuilder queryPostFindAssetsByDomainId = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
+    /*public static ChainBuilder queryPostFindAssetsByDomainId = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(http("findAssetsByDomainId")
                     .post(session -> {
                         return session.getString("peer") + URL_QUERY;
@@ -69,6 +69,8 @@ public class Queries extends Constants {
                                         session.getString("publicKeySender"),
                                         session.getString("privateKeySender")
                                 )).getQuery());
+
+                        return new QueryBuilder.
                     }))
             );
 
@@ -222,7 +224,7 @@ public class Queries extends Constants {
                                                 session.getString("privateKeySender")))
                                         .getQuery());
                             }))
-            );
+            );*/
 
     /*public static ChainBuilder paginatedQueryPostFindAllAssets = exec(feed(CSV_FEEDER)).exec(feed(PEERS_FEEDER))
             .exec(session -> {

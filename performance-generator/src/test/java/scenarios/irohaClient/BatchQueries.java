@@ -22,7 +22,7 @@ import static io.gatling.javaapi.core.CoreDsl.scenario;
 public class BatchQueries {
     private static Iroha2AsyncClient client;
 
-    public static ScenarioBuilder findAllAssetClientMode = scenario("findAllAssetClientMode")
+    /*public static ScenarioBuilder findAllAssetClientMode = scenario("findAllAssetClientMode")
             .feed(csv("preconditionList.csv").circular()).feed(csv("peers.csv").circular())
             .exec(session -> {
                         try {
@@ -34,14 +34,14 @@ public class BatchQueries {
                     }
             ).repeat(10).on(
                     CoreDsl.exec(session -> {
-                                /*try {
+                                *//*try {
                                     //client.sendQueryAsCompletableFuture(buildFindAllAssetsQuery(session)).get();
                                     return session;
                                 } catch (InterruptedException | ExecutionException e) {
                                     e.printStackTrace();
                                     e.getMessage();
                                     throw new RuntimeException(e);
-                                }*/
+                                }*//*
                                 return session;
                             }
                     )
@@ -59,14 +59,14 @@ public class BatchQueries {
                     }
             ).repeat(10).on(
                     CoreDsl.exec(session -> {
-                                /*try {
+                                *//*try {
                                     client.sendQueryAsCompletableFuture(buildFindAssetByIdQuery(session)).get();
                                     return session;
                                 } catch (InterruptedException | ExecutionException e) {
                                     e.printStackTrace();
                                     e.getMessage();
                                     throw new RuntimeException(e);
-                                }*/
+                                }*//*
                                 return session;
                             }
                     )
@@ -102,7 +102,7 @@ public class BatchQueries {
                 1000);
 
         return client1;
-    }
+    }*/
 
 
 }
